@@ -1,0 +1,13 @@
+
+parameters:
+    name:  comments   
+    title: Комментарии
+    parent:
+        mainpage: ~
+        text: ~     
+    count:            25
+    count-per-parent: 25
+    modules:
+        sitetree: FireiceModuleSiteTreeNodeOtherBundle
+        frontend: ModuleCommentsBundle 
+    view: list

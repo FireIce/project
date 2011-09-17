@@ -1,0 +1,10 @@
+
+parameters:
+    name:             sitetreenodedefault   
+    title:            Модуль узла дерева default
+    parent:           
+        mainpage: ~
+        contacts: ~
+    count:            100
+    count-per-parent: 50
+    view: item

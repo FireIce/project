@@ -1,0 +1,16 @@
+
+
+{% block content %} 
+
+    <div style="font-size: 17px; font-weight: bold; border: #000000 solid 1px; padding: 4px; margin-bottom: 3px;">contacts: </div>
+
+
+        {% for plugin in data['data'] %}
+
+            {{ plugin.title }}: {{ plugin.value }}<br>  
+
+        {% endfor %}
+
+
+
+{% endblock %}

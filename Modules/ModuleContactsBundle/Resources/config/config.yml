@@ -1,0 +1,13 @@
+
+parameters:
+    name:             contacts   
+    title:            Контакты
+    parent:           
+        mainpage: ~
+        contacts: ~
+    count:            100
+    count-per-parent: 50
+    modules:
+        sitetree: FireiceModuleSiteTreeNodeOtherBundle
+        frontend: ModuleContactsBundle
+    view: item

@@ -1,0 +1,11 @@
+{% extends "FrontendBundle::layout.html.twig" %}
+
+{% block content %}
+
+    {% for module in modules %}
+
+        {{ module|raw }}<br>  
+
+    {% endfor %}
+
+{% endblock %}

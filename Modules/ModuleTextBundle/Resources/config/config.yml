@@ -1,0 +1,13 @@
+
+parameters:
+    name:  text   
+    title: Текст
+    parent:
+        mainpage: ~
+        text: ~     
+    count:            25
+    count-per-parent: 25
+    modules:
+        sitetree: FireiceModuleSiteTreeNodeOtherBundle
+        frontend: ModuleTextBundle 
+    view: item

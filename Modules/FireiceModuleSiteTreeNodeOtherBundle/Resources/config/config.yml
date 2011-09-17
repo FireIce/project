@@ -1,0 +1,10 @@
+
+parameters:
+    name:             sitetreenodeother   
+    title:            Модуль узла дерева other
+    parent:           
+        mainpage: ~
+        contacts: ~
+    count:            100
+    count-per-parent: 50
+    view: item

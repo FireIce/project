@@ -1,0 +1,14 @@
+
+parameters:
+    name:  news   
+    title: Новости
+    parent:
+        mainpage: ~
+        text: ~ 
+        news: ~
+    count:            15
+    count-per-parent: 15
+    modules:
+        sitetree: FireiceModuleSiteTreeNodeOtherBundle
+        frontend: ModuleNewsBundle 
+    view: list

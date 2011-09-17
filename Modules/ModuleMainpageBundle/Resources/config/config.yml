@@ -1,0 +1,12 @@
+
+parameters:
+    name:             mainpage   
+    title:            Главная страница
+    parent:           
+        ROOT: ~
+    count:            1
+    count-per-parent: 1
+    modules:
+        sitetree: FireiceModuleSiteTreeNodeDefaultBundle
+        frontend: ModuleMainpageBundle    
+    view: item
