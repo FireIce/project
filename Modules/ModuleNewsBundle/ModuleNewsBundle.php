@@ -1,6 +1,6 @@
 <?php
 
-namespace Fireice\Modules\ModuleNewsBundle;
+namespace example\Modules\ModuleNewsBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 

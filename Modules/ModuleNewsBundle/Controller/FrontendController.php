@@ -1,12 +1,12 @@
 <?php
 
-namespace Fireice\Modules\ModuleNewsBundle\Controller;
+namespace example\Modules\ModuleNewsBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class FrontendController extends \fireice\FireiceSiteTree\Modules\BasicBundle\Controller\FrontendController
 {
-    protected $model = '\\Fireice\\Modules\\ModuleNewsBundle\\Model\\FrontendModel';
+    protected $model = '\\example\\Modules\\ModuleNewsBundle\\Model\\FrontendModel';
     
     public function getAvailableEndOf()
     {

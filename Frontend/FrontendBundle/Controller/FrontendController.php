@@ -1,8 +1,8 @@
 <?php
 
-namespace Fireice\Frontend\FrontendBundle\Controller;                             
+namespace example\Frontend\FrontendBundle\Controller;                             
 
-use Fireice\Frontend\FrontendBundle\Model\FrontendModel;
+use example\Frontend\FrontendBundle\Model\FrontendModel;
 
 class FrontendController extends \fireice\Frontend\FrontendBasicBundle\Controller\FrontendController
 {                                                                             

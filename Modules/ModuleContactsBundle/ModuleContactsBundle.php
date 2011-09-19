@@ -1,6 +1,6 @@
 <?php
 
-namespace Fireice\Modules\ModuleContactsBundle;
+namespace example\Modules\ModuleContactsBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 

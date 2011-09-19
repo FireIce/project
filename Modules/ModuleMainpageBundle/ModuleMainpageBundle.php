@@ -1,6 +1,6 @@
 <?php
 
-namespace Fireice\Modules\ModuleMainpageBundle;
+namespace example\Modules\ModuleMainpageBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Fireice\Modules\ModuleTextBundle;
+namespace example\Modules\ModuleTextBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 

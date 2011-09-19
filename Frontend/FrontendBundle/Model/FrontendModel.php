@@ -1,6 +1,6 @@
 <?php
 
-namespace Fireice\Frontend\FrontendBundle\Model;
+namespace example\Frontend\FrontendBundle\Model;
 
 class FrontendModel extends \fireice\Frontend\FrontendBasicBundle\Model\FrontendModel
 {        

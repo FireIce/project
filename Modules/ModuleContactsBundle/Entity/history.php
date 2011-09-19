@@ -1,6 +1,6 @@
 <?php
 
-namespace Fireice\Modules\ModuleContactsBundle\Entity;
+namespace example\Modules\ModuleContactsBundle\Entity;
                                 
 use Doctrine\ORM\Mapping as ORM;
 

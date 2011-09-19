@@ -1,6 +1,6 @@
 <?php
 
-namespace Fireice\Modules\FireiceModuleSiteTreeNodeOtherBundle\Model;
+namespace example\Modules\FireiceModuleSiteTreeNodeOtherBundle\Model;
 
 class FrontendModel extends \fireice\FireiceSiteTree\Modules\BasicBundle\Model\FrontendModel
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Fireice\Modules\ModuleMainpageBundle\Entity;
+namespace example\Modules\ModuleMainpageBundle\Entity;
    
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;

@@ -1,14 +1,14 @@
 <?php
 
-namespace Fireice\Modules\ModuleContactsBundle\Controller;
+namespace example\Modules\ModuleContactsBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use Fireice\Modules\ModuleContactsBundle\Model\BackendModel;
+use example\Modules\ModuleContactsBundle\Model\BackendModel;
 
 class BackendController extends \fireice\FireiceSiteTree\Modules\BasicBundle\Controller\BackendController
 {
-	protected $model = '\\Fireice\\Modules\\ModuleContactsBundle\\Model\\BackendModel';
+	protected $model = '\\example\\Modules\\ModuleContactsBundle\\Model\\BackendModel';
 
 	public function getRights()
 	{

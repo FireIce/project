@@ -1,10 +1,10 @@
 <?php
 
-namespace Fireice\Modules\ModuleTextBundle\Controller;
+namespace example\Modules\ModuleTextBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class FrontendController extends \fireice\FireiceSiteTree\Modules\BasicBundle\Controller\FrontendController
 {
-    protected $model = '\\Fireice\\Modules\\ModuleTextBundle\\Model\\FrontendModel';
+    protected $model = '\\example\\Modules\\ModuleTextBundle\\Model\\FrontendModel';
 }

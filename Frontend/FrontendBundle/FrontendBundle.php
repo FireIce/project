@@ -1,6 +1,6 @@
 <?php
 
-namespace Fireice\Frontend\FrontendBundle; 
+namespace example\Frontend\FrontendBundle; 
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 

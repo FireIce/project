@@ -1,8 +1,8 @@
 <?php
 
-namespace Fireice\Modules\ModuleCommentsBundle\Model;                   
+namespace example\Modules\ModuleCommentsBundle\Model;                   
 
-class BackendModel extends \Fireice\Modules\ModuleNewsBundle\Model\BackendModel
+class BackendModel extends \example\Modules\ModuleNewsBundle\Model\BackendModel
 {
 	protected $bundle_name = 'ModuleCommentsBundle';
 	protected $entity_name = 'modulecomments';
@@ -191,7 +191,7 @@ class BackendModel extends \Fireice\Modules\ModuleNewsBundle\Model\BackendModel
         
         foreach ($node_types as $key=>$type)
         {
-            $module = '\\Fireice\\Modules\\'.$type['bundle'].'\\Entity\\'.$key;
+            $module = '\\example\\Modules\\'.$type['bundle'].'\\Entity\\'.$key;
             $module = new $module();
 
             foreach ($module->getConfig() as $val)

@@ -1,13 +1,13 @@
 <?php
 
-namespace Fireice\Modules\ModuleCommentsBundle\Controller;
+namespace example\Modules\ModuleCommentsBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Fireice\Modules\ModuleCommentsBundle\Model\BackendModel;
+use example\Modules\ModuleCommentsBundle\Model\BackendModel;
 
-class BackendController extends \Fireice\Modules\ModuleNewsBundle\Controller\BackendController
+class BackendController extends \example\Modules\ModuleNewsBundle\Controller\BackendController
 {
-	protected $model = '\\Fireice\\Modules\\ModuleCommentsBundle\\Model\\BackendModel';
+	protected $model = '\\example\\Modules\\ModuleCommentsBundle\\Model\\BackendModel';
 
 	public function getRights()
 	{

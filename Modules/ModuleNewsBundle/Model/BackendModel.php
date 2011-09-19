@@ -1,8 +1,8 @@
 <?php
 
-namespace Fireice\Modules\ModuleNewsBundle\Model;   
+namespace example\Modules\ModuleNewsBundle\Model;   
 
-use Fireice\Modules\ModuleContactsBundle\Entity\history; 
+use example\Modules\ModuleContactsBundle\Entity\history; 
 
 class BackendModel extends \fireice\FireiceSiteTree\Modules\BasicBundle\Model\BackendModel
 {
@@ -224,7 +224,7 @@ class BackendModel extends \fireice\FireiceSiteTree\Modules\BasicBundle\Model\Ba
                 {  
                     $plugin_id = $plugin->setDataInDb($request->get($plugin->getValue('name')));    
                 
-                    $new_module_record = '\\Fireice\\Modules\\'.$this->bundle_name.'\\Entity\\'.$this->entity_name;
+                    $new_module_record = '\\example\\Modules\\'.$this->bundle_name.'\\Entity\\'.$this->entity_name;
                     $new_module_record = new $new_module_record();
                     $new_module_record->setFinal('T');
                     $new_module_record->setRowId($curr_row_id);
@@ -269,7 +269,7 @@ class BackendModel extends \fireice\FireiceSiteTree\Modules\BasicBundle\Model\Ba
                 {             
                     $plugin_id = $plugin->setDataInDb($request->get($plugin->getValue('name')));    
                 
-                    $new_module_record = '\\Fireice\\Modules\\'.$this->bundle_name.'\\Entity\\'.$this->entity_name;
+                    $new_module_record = '\\example\\Modules\\'.$this->bundle_name.'\\Entity\\'.$this->entity_name;
                     $new_module_record = new $new_module_record();
                     $new_module_record->setFinal('T');
                     $new_module_record->setRowId($curr_row_id);
@@ -313,7 +313,7 @@ class BackendModel extends \fireice\FireiceSiteTree\Modules\BasicBundle\Model\Ba
                 // Нужно еще вставить значение order
                 $plugin_id = $plugin->setDataInDb($curr_row_id*10);    
                 
-                $new_module_record = '\\Fireice\\Modules\\'.$this->bundle_name.'\\Entity\\'.$this->entity_name;
+                $new_module_record = '\\example\\Modules\\'.$this->bundle_name.'\\Entity\\'.$this->entity_name;
                 $new_module_record = new $new_module_record();
                 $new_module_record->setFinal('Y');
                 $new_module_record->setRowId($curr_row_id);
@@ -398,7 +398,7 @@ class BackendModel extends \fireice\FireiceSiteTree\Modules\BasicBundle\Model\Ba
     	                $query = $this->em->createQuery("UPDATE ".$this->bundle_name.':'.$this->entity_name." md SET md.final='N', md.eid = ".$hid." WHERE md.idd = ".$result['idd']." AND md.final != 'N' AND md.row_id = ".$request->get('id_row'));		 
 		                $query->getResult();                  
                 
-                        $new_module_record = '\\Fireice\\Modules\\'.$this->bundle_name.'\\Entity\\'.$this->entity_name;
+                        $new_module_record = '\\example\\Modules\\'.$this->bundle_name.'\\Entity\\'.$this->entity_name;
                         $new_module_record = new $new_module_record();
                         $new_module_record->setIdd($result['idd']);
                         $new_module_record->setCid($hid);
@@ -415,7 +415,7 @@ class BackendModel extends \fireice\FireiceSiteTree\Modules\BasicBundle\Model\Ba
                     {
                         $plugin_id = $plugin->setDataInDb($request->get($plugin->getValue('name')));    
                 
-                        $new_module_record = '\\Fireice\\Modules\\'.$this->bundle_name.'\\Entity\\'.$this->entity_name;
+                        $new_module_record = '\\example\\Modules\\'.$this->bundle_name.'\\Entity\\'.$this->entity_name;
                         $new_module_record = new $new_module_record();
                         $new_module_record->setFinal('Y');
                         $new_module_record->setRowId($request->get('id_row'));
@@ -499,7 +499,7 @@ class BackendModel extends \fireice\FireiceSiteTree\Modules\BasicBundle\Model\Ba
                             $query = $this->em->createQuery("UPDATE ".$this->bundle_name.':'.$this->entity_name." md SET md.eid = ".$hid." WHERE md.idd = ".$result['idd']." AND (md.final = 'Y' OR md.final = 'W') AND md.eid IS NULL AND md.row_id = ".$request->get('id_row'));
                         $query->getResult();
                 
-                        $new_module_record = '\\Fireice\\Modules\\'.$this->bundle_name.'\\Entity\\'.$this->entity_name;
+                        $new_module_record = '\\example\\Modules\\'.$this->bundle_name.'\\Entity\\'.$this->entity_name;
                         $new_module_record = new $new_module_record();
                         $new_module_record->setIdd($result['idd']);
                         $new_module_record->setCid($hid);
@@ -516,7 +516,7 @@ class BackendModel extends \fireice\FireiceSiteTree\Modules\BasicBundle\Model\Ba
                     {
                         $plugin_id = $plugin->setDataInDb($request->get($plugin->getValue('name')));    
                 
-                        $new_module_record = '\\Fireice\\Modules\\'.$this->bundle_name.'\\Entity\\'.$this->entity_name;
+                        $new_module_record = '\\example\\Modules\\'.$this->bundle_name.'\\Entity\\'.$this->entity_name;
                         $new_module_record = new $new_module_record();
                         $new_module_record->setFinal('Y');
                         $new_module_record->setRowId($request->get('id_row'));
@@ -600,7 +600,7 @@ class BackendModel extends \fireice\FireiceSiteTree\Modules\BasicBundle\Model\Ba
     	        $query = $this->em->createQuery("UPDATE ".$this->bundle_name.':'.$this->entity_name." md SET md.final='N', md.eid = ".$hid." WHERE md.idd = ".$result['idd']." AND md.final != 'N' AND md.row_id = ".$request->get('id_row'));		 
 		        $query->getResult();                  
                 
-                $new_module_record = '\\Fireice\\Modules\\'.$this->bundle_name.'\\Entity\\'.$this->entity_name;
+                $new_module_record = '\\example\\Modules\\'.$this->bundle_name.'\\Entity\\'.$this->entity_name;
                 $new_module_record = new $new_module_record();
                 $new_module_record->setIdd($result['idd']);
                 $new_module_record->setCid($hid);
@@ -678,7 +678,7 @@ class BackendModel extends \fireice\FireiceSiteTree\Modules\BasicBundle\Model\Ba
                 
                 $query = $this->em->createQuery("UPDATE ".$this->bundle_name.':'.$this->entity_name." md SET md.eid = ".$hid." AND md.final = 'N' WHERE md.id = ".$orders_news[$key]['id']." AND md.eid IS NULL AND md.row_id = ".$key);
                 
-                $new_module_record = '\\Fireice\\Modules\\'.$this->bundle_name.'\\Entity\\'.$this->entity_name;
+                $new_module_record = '\\example\\Modules\\'.$this->bundle_name.'\\Entity\\'.$this->entity_name;
                 $new_module_record = new $new_module_record();
                 $new_module_record->setIdd($orders_news[$key]['idd']);
                 $new_module_record->setCid($hid);
@@ -696,7 +696,7 @@ class BackendModel extends \fireice\FireiceSiteTree\Modules\BasicBundle\Model\Ba
                 // Если старых записей не было    
                 $plugin_id = $plugin->setDataInDb($val);    
                 
-                $new_module_record = '\\Fireice\\Modules\\'.$this->bundle_name.'\\Entity\\'.$this->entity_name;
+                $new_module_record = '\\example\\Modules\\'.$this->bundle_name.'\\Entity\\'.$this->entity_name;
                 $new_module_record = new $new_module_record();
                 $new_module_record->setFinal('Y');
                 $new_module_record->setRowId($key);

@@ -1,6 +1,6 @@
 <?php
 
-namespace Fireice\Modules\FireiceModuleSiteTreeNodeDefaultBundle;
+namespace example\Modules\FireiceModuleSiteTreeNodeDefaultBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 

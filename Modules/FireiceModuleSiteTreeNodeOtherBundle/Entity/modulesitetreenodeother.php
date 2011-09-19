@@ -1,11 +1,11 @@
 <?php
 
-namespace Fireice\Modules\FireiceModuleSiteTreeNodeOtherBundle\Entity;
+namespace example\Modules\FireiceModuleSiteTreeNodeOtherBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
-use Fireice\Modules\FireiceModuleSiteTreeNodeOtherBundle\Entity\modulesitetreenodedefault;
+use example\Modules\FireiceModuleSiteTreeNodeOtherBundle\Entity\modulesitetreenodedefault;
 
 /**
  * @ORM\Entity

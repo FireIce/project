@@ -1,6 +1,6 @@
 <?php
 
-namespace Fireice\Modules\ModuleCommentsBundle\Entity;
+namespace example\Modules\ModuleCommentsBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;

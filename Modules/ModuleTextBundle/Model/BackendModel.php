@@ -1,6 +1,6 @@
 <?php
 
-namespace Fireice\Modules\ModuleTextBundle\Model;                   
+namespace example\Modules\ModuleTextBundle\Model;                   
 
 class BackendModel extends \fireice\FireiceSiteTree\Modules\BasicBundle\Model\BackendModel
 {
