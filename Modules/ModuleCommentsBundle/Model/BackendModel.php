@@ -251,12 +251,7 @@ class BackendModel extends \example\Modules\ModuleNewsBundle\Model\BackendModel
 
         $result = $query->getSingleResult();
 
-        $config = \Symfony\Component\Yaml\Yaml::parse(
-                $this->container->getParameter('kernel.root_dir')
-                .'//..//src//'
-                .$this->container->getParameter('project_name')
-                .'//Modules//'.$result['name']
-                .'//Resources//config//config.yml');
+        $config = \Symfony\Component\Yaml\Yaml::parse($this->container->getParameter('project_modules_directory').'//'.$result['name'].'//Resources//config//config.yml');
 
         if ($config['parameters']['type'] !== 'list') {
             return array (0 => array (
