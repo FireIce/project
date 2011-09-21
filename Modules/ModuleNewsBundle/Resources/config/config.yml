@@ -11,4 +11,4 @@ parameters:
     modules:
         sitetree: FireiceModuleSiteTreeNodeOtherBundle
         frontend: ModuleNewsBundle 
-    view: list
+    type: list

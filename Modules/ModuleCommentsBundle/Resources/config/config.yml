@@ -10,4 +10,4 @@ parameters:
     modules:
         sitetree: FireiceModuleSiteTreeNodeOtherBundle
         frontend: ModuleCommentsBundle 
-    view: list
+    type: list

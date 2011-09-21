@@ -1,11 +1,12 @@
 <?php
 
-namespace example\Frontend\FrontendBundle; 
+namespace example\Frontend\FrontendBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 class FrontendBundle extends Bundle
 {
+
     /**
      * {@inheritdoc}
      */
@@ -21,4 +22,5 @@ class FrontendBundle extends Bundle
     {
         return strtr(__DIR__, '\\', '/');
     }
-} 
+
+}

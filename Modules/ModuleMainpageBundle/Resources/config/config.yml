@@ -9,4 +9,4 @@ parameters:
     modules:
         sitetree: FireiceModuleSiteTreeNodeDefaultBundle
         frontend: ModuleMainpageBundle    
-    view: item
+    type: item

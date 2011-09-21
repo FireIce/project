@@ -7,4 +7,4 @@ parameters:
         contacts: ~
     count:            100
     count-per-parent: 50
-    view: item
+    type: item
