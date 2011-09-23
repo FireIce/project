@@ -66,9 +66,58 @@ class modulecomments
             0 => array ('type' => 'datatime', 'name' => 'date', 'title' => 'Дата'),
             1 => array ('type' => 'text', 'name' => 'title', 'title' => 'Имя'),
             2 => array ('type' => 'textarea', 'name' => 'comment', 'title' => 'Комментарий'),
-            3 => array ('type' => 'selectbox', 'name' => 'fireice_comments_node', 'title' => 'Узел'),
-            4 => array ('type' => 'selectbox', 'name' => 'fireice_comments_new', 'title' => 'Новость'),
-            5 => array ('type' => 'selectbox', 'name' => 'fireice_comments_answer', 'title' => 'Ответ'),
+            3 => array ('type' => 'selectbox', 'name' => 'node', 'title' => 'Узел', 'ajax' => array (
+                    array (
+                        'url' => '/ajax_load?plugin=new&params[id_node]=[[ node ]]',
+                        'target' => 'new',
+                    ),
+                    array (
+                        'url' => '/ajax_load?plugin=answer&params[id_node]=[[ node ]]',
+                        'target' => 'answer',
+                    )
+            )),
+            4 => array ('type' => 'selectbox', 'name' => 'new', 'title' => 'Новость', 'ajax' => array (
+                    array (
+                        'url' => '/ajax_load?plugin=answer&params[id_node]=[[ node ]]&params[id_new]=[[ new ]]',
+                        'target' => 'answer',
+                    )
+            )),
+            5 => array ('type' => 'selectbox', 'name' => 'answer', 'title' => 'Ответ'),
+        );
+    }
+
+    public function configNode()
+    {
+        return array (
+            'type' => 'ajax',
+            'data' => array (
+                'type' => 'node',
+                'modules' => array ('modulecontacts', 'modulenews', 'moduletext')
+            )
+        );
+    }
+
+    public function configNew($params=array ())
+    {
+        return array (
+            'type' => 'ajax',
+            'data' => array (
+                'type' => 'list',
+                'title' => 'title',
+                'id_node' => isset($params['id_node']) ? $params['id_node'] : 0,
+            )
+        );
+    }
+
+    public function configAnswer($params=array ())
+    {
+        return array (
+            'type' => 'ajax',
+            'data' => array (
+                'type' => 'comments',
+                'id_node' => isset($params['id_node']) ? $params['id_node'] : 0,
+                'id_new' => isset($params['id_new']) ? $params['id_new'] : 0,
+            )
         );
     }
 
@@ -76,8 +125,8 @@ class modulecomments
       public function getConfigSort()
       {
       return array(
-      'sortBy' => 2,            // Индекс плагина (по какому сортировать) в массиве getConfig()
-      'desc'   => true          // В обратном порядке или нет
+      'sortBy' => 2,          // Индекс плагина (по какому сортировать) в массиве getConfig()
+      'desc' => true          // В обратном порядке или нет
       );
       }
      */

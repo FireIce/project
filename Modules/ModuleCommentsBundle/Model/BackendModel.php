@@ -49,19 +49,25 @@ class BackendModel extends \example\Modules\ModuleNewsBundle\Model\BackendModel
         } else {
             // Отсортируем в том порядке в каком они указаны в сущности
             foreach ($data as &$value) {
-                // Добавим в value плагина fireice_comments_new названия узлов
-                $value['data']['fireice_comments_answer']['value'] = $this->getCommentsOptions(
-                    intval($value['data']['fireice_comments_node']['value']), intval($value['data']['fireice_comments_new']['value']), intval($value['data']['fireice_comments_answer']['value'])
+
+                // Добавим в value плагина answer названия узлов
+                $value['data']['answer']['value'] = $this->ajaxLoadComments(
+                    array ('id_node' => intval($value['data']['node']['value']), 'id_new' => intval($value['data']['new']['value'])), intval($value['data']['answer']['value'])
                 );
 
-                // Добавим в value плагина fireice_comments_new названия узлов
-                $value['data']['fireice_comments_new']['value'] = $this->getNewsOptions(
-                    intval($value['data']['fireice_comments_node']['value']), intval($value['data']['fireice_comments_new']['value'])
+                // Добавим в value плагина new названия узлов
+                $entity = '\\'.$this->container->getParameter('project_name').'\\Modules\\'.$this->getBundleName().'\\Entity\\'.$this->getEntityName();
+                $entity = new $entity();
+
+                $config = $entity->configNew();
+
+                $value['data']['new']['value'] = $this->ajaxLoadList(
+                    array ('id_node' => intval($value['data']['node']['value']), 'title' => $config['data']['title']), intval($value['data']['new']['value'])
                 );
 
-                // Добавим в value плагина fireice_comments_node названия узлов
-                $value['data']['fireice_comments_node']['value'] = $this->getNodesOptions(
-                    $value['data']['fireice_comments_node']['value']
+                // Добавим в value плагина node названия узлов
+                $value['data']['node']['value'] = $this->getNodesOptions(
+                    $value['data']['node']['value']
                 );
 
                 $tmp = $value['data'];
@@ -92,8 +98,6 @@ class BackendModel extends \example\Modules\ModuleNewsBundle\Model\BackendModel
 
         $data = array ();
 
-        //print_r($values);// exit;
-
         foreach ($this->getPlugins() as $plugin) {
             $type = $plugin->getValue('type');
 
@@ -111,19 +115,24 @@ class BackendModel extends \example\Modules\ModuleNewsBundle\Model\BackendModel
             }
         }
 
-        // Добавим в value плагина fireice_comments_answer начала комментариев
-        $data['fireice_comments_answer']['value'] = $this->getCommentsOptions(
-            intval($data['fireice_comments_node']['value']), intval($data['fireice_comments_new']['value']), intval($data['fireice_comments_answer']['value']), $row_id
+        // Добавим в value плагина answer начала комментариев
+        $data['answer']['value'] = $this->ajaxLoadComments(
+            array ('id_node' => intval($data['node']['value']), 'id_new' => intval($data['new']['value'])), intval($data['answer']['value']), $row_id
         );
 
-        // Добавим в value плагина fireice_comments_new названия новостей
-        $data['fireice_comments_new']['value'] = $this->getNewsOptions(
-            intval($data['fireice_comments_node']['value']), intval($data['fireice_comments_new']['value'])
+        // Добавим в value плагина new названия новостей
+        $entity = '\\'.$this->container->getParameter('project_name').'\\Modules\\'.$this->getBundleName().'\\Entity\\'.$this->getEntityName();
+        $entity = new $entity();
+
+        $config = $entity->configNew();
+
+        $data['new']['value'] = $this->ajaxLoadList(
+            array ('id_node' => intval($data['node']['value']), 'title' => $config['data']['title']), intval($data['new']['value'])
         );
 
-        // Добавим в value плагина fireice_comments_node названия узлов
-        $data['fireice_comments_node']['value'] = $this->getNodesOptions(
-            $data['fireice_comments_node']['value']
+        // Добавим в value плагина node названия узлов
+        $data['node']['value'] = $this->getNodesOptions(
+            $data['node']['value']
         );
 
         //print_r($data); exit;
@@ -135,10 +144,29 @@ class BackendModel extends \example\Modules\ModuleNewsBundle\Model\BackendModel
 
     private function getNodesOptions($id_node)
     {
+        $return = array ();
+
+        if ($id_node == '') {
+            $return[] = array (
+                'value' => '-------',
+                'checked' => '1'
+            );
+        }
+
+        $entity = '\\'.$this->container->getParameter('project_name').'\\Modules\\'.$this->getBundleName().'\\Entity\\'.$this->getEntityName();
+        $entity = new $entity();
+
+        $config = $entity->configNode();
+
+        $modules = $config['data']['modules'];
+        foreach ($modules as &$value) {
+            $value = "'".$value."'";
+        }
+
         $query = $this->em->createQuery("
             SELECT 
                 tr.idd AS node_id,
-                md.table_name AS table,
+                md.table_name AS table, 
                 md.name AS bundle,
                 md.idd AS module_id
             FROM 
@@ -151,7 +179,20 @@ class BackendModel extends \example\Modules\ModuleNewsBundle\Model\BackendModel
             AND md_l.up_module = md.idd
             AND (tr.status = 'active' OR tr.status = 'hidden')
             AND tr.final = 'Y'
-            AND md.type = 'sitetree_node'");
+            AND md.type = 'sitetree_node'
+            AND tr.idd IN (
+                SELECT 
+                    tr2.idd
+                FROM 
+                    TreeBundle:modulesitetree tr2,
+                    DialogsBundle:moduleslink md_l2, 
+                    DialogsBundle:modules md2                    
+                WHERE md2.final = 'Y'
+                AND md2.status = 'active'
+                AND md_l2.up_tree = tr2.idd
+                AND md_l2.up_module = md2.idd
+                AND md2.table_name IN (".implode(',', $modules).")
+            )");
 
         $result = $query->getResult();
 
@@ -170,6 +211,7 @@ class BackendModel extends \example\Modules\ModuleNewsBundle\Model\BackendModel
         $plugins_values = array ();
 
         foreach ($node_types as $key => $type) {
+
             $module = '\\'.$this->container->getParameter('project_name').'\\Modules\\'.$type['bundle'].'\\Entity\\'.$key;
             $module = new $module();
 
@@ -211,8 +253,6 @@ class BackendModel extends \example\Modules\ModuleNewsBundle\Model\BackendModel
 
         ksort($сhoices);
 
-        $return = array ();
-
         foreach ($сhoices as $k => $v) {
             $return[$k] = array (
                 'value' => $v,
@@ -223,107 +263,7 @@ class BackendModel extends \example\Modules\ModuleNewsBundle\Model\BackendModel
         return $return;
     }
 
-    private function getNewsOptions($id_node, $id_new)
-    {
-        $plugin_name = 'title';
-
-        if ($id_node == 0) {
-            return array (0 => array (
-                    'value' => '---',
-                    'checked' => '0'
-                ));
-        }
-
-        $query = $this->em->createQuery("
-            SELECT 
-                md.name AS name
-            FROM 
-                TreeBundle:modulesitetree tr, 
-                DialogsBundle:moduleslink md_l, 
-                DialogsBundle:modules md
-            WHERE md.final = 'Y'
-            AND md.status = 'active'
-            AND md_l.up_tree = tr.idd
-            AND md_l.up_module = md.idd
-            AND tr.final = 'Y'
-            AND tr.idd='".$id_node."'
-            AND md.type = 'user'");
-
-        $result = $query->getSingleResult();
-
-        $config = \Symfony\Component\Yaml\Yaml::parse($this->container->getParameter('project_modules_directory').'//'.$result['name'].'//Resources//config//config.yml');
-
-        if ($config['parameters']['type'] !== 'list') {
-            return array (0 => array (
-                    'value' => '---',
-                    'checked' => '0'
-                ));
-        }
-
-        $query = $this->em->createQuery("
-            SELECT 
-                md.idd as id_module,
-                md.name AS name,
-                md.table_name as entity
-            FROM 
-                TreeBundle:modulesitetree tr, 
-                DialogsBundle:moduleslink md_l, 
-                DialogsBundle:modules md
-            WHERE md.final = 'Y'
-            AND md.status = 'active'
-            AND md_l.up_tree = tr.idd
-            AND md_l.up_module = md.idd
-            AND (tr.status = 'active' OR tr.status = 'hidden')
-            AND tr.final = 'Y'
-            AND tr.idd='".$id_node."'
-            AND md.type='user'
-            ORDER BY md.type");
-
-        $node_modules = $query->getOneOrNullResult();
-
-        $query = $this->em->createQuery("
-            SELECT 
-                md.row_id,
-                plg.value AS plugin_value
-            FROM 
-                ".$node_modules['name'].':'.$node_modules['entity']." md, 
-                FireicePluginsTextBundle:plugintext plg,
-                DialogsBundle:moduleslink m_l,
-                DialogsBundle:modulespluginslink mp_l
-            WHERE (md.final = 'Y' OR md.final = 'W')
-            AND md.eid IS NULL
-
-            AND m_l.up_tree = '".$id_node."'
-            AND m_l.up_module = ".$node_modules['id_module']."
-            AND m_l.id = mp_l.up_link
-            AND mp_l.up_plugin = md.idd
-
-            AND md.plugin_id = plg.id
-            AND md.plugin_name = '".$plugin_name."'");
-
-        $сhoices = array ();
-
-        foreach ($query->getResult() as $val) {
-            $сhoices[$val['row_id']] = $val['plugin_value'];
-        }
-
-        $return = array ();
-        $return[0] = array (
-            'value' => '---',
-            'checked' => '0'
-        );
-
-        foreach ($сhoices as $k => $v) {
-            $return[$k] = array (
-                'value' => $v,
-                'checked' => ($id_new == $k) ? '1' : '0'
-            );
-        }
-
-        return $return;
-    }
-
-    private function getCommentsOptions($id_node, $id_new, $id_comment, $not_row=0)
+    public function ajaxLoadComments($data, $id_comment='', $not_row=0)
     {
         $config_plugin = 'selectbox';
 
@@ -337,42 +277,40 @@ class BackendModel extends \example\Modules\ModuleNewsBundle\Model\BackendModel
             WHERE md.status = 'active'
             AND md.final = 'Y'
             AND md.row_id != '".$not_row."'
-            AND md.plugin_name = 'fireice_comments_node'
+            AND md.plugin_name = 'node'
             AND md.plugin_id = plg_node.id
-            AND plg_node.value = '".$id_node."'");
+            AND plg_node.value = '".$data['id_node']."'");
 
         $result = $query->getResult();
 
         $res = array ();
+        $res2 = array ();
+
         foreach ($result as $val) $res[] = $val['row_id'];
 
-        if ($id_new != 0) {
-            // Новости
-            $query = $this->em->createQuery("
-                SELECT 
-                    md.row_id
-                FROM 
-                    ModuleCommentsBundle:modulecomments md, 
-                    FireicePlugins".ucfirst($config_plugin)."Bundle:plugin".$config_plugin." plg_new
-                WHERE md.status = 'active'
-                AND md.final = 'Y'        
-                AND md.row_id != '".$not_row."'
-                AND md.plugin_name = 'fireice_comments_new'
-                AND md.plugin_id = plg_new.id
-                AND plg_new.value = '".$id_new."'");
+        // Новости
+        $query = $this->em->createQuery("
+            SELECT 
+                md.row_id
+            FROM 
+                ModuleCommentsBundle:modulecomments md, 
+                FireicePlugins".ucfirst($config_plugin)."Bundle:plugin".$config_plugin." plg_new
+            WHERE md.status = 'active'
+            AND md.final = 'Y'        
+            AND md.row_id != '".$not_row."'
+            AND md.plugin_name = 'new'
+            AND md.plugin_id = plg_new.id
+            AND plg_new.value = '".$data['id_new']."'");
 
-            $result = $query->getResult();
+        foreach ($query->getResult() as $val) $res2[] = $val['row_id'];
 
-            $res2 = array ();
-            foreach ($result as $val) $res2[] = $val['row_id'];
+        $res = array_intersect($res, $res2);
 
-            $res = array_intersect($res, $res2);
-        }
-
-        $return = array ();
-        $return[0] = array (
-            'value' => '---',
-            'checked' => '0'
+        $return = array (
+            0 => array (
+                'value' => '---',
+                'checked' => '0'
+            )
         );
 
         if (count($res) > 0) {

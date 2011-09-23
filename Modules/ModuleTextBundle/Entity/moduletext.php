@@ -83,7 +83,6 @@ class moduletext
          */
 
         // Источник - другой узел
-
         return array (
             'type' => 'node',
             'data' => array (
