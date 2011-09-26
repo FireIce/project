@@ -52,17 +52,17 @@ class BackendModel extends \example\Modules\ModuleNewsBundle\Model\BackendModel
 
                 // Добавим в value плагина answer названия узлов
                 $value['data']['answer']['value'] = $this->ajaxLoadComments(
-                    array ('id_node' => intval($value['data']['node']['value']), 'id_new' => intval($value['data']['new']['value'])), intval($value['data']['answer']['value'])
+                    array ('id_node' => intval($value['data']['node']['value']), 'id_item' => intval($value['data']['item']['value'])), intval($value['data']['answer']['value'])
                 );
 
-                // Добавим в value плагина new названия узлов
+                // Добавим в value плагина item названия узлов
                 $entity = '\\'.$this->container->getParameter('project_name').'\\Modules\\'.$this->getBundleName().'\\Entity\\'.$this->getEntityName();
                 $entity = new $entity();
 
-                $config = $entity->configNew();
+                $config = $entity->configItem();
 
-                $value['data']['new']['value'] = $this->ajaxLoadList(
-                    array ('id_node' => intval($value['data']['node']['value']), 'title' => $config['data']['title']), intval($value['data']['new']['value'])
+                $value['data']['item']['value'] = $this->ajaxLoadList(
+                    array ('id_node' => intval($value['data']['node']['value']), 'title' => $config['data']['title']), intval($value['data']['item']['value'])
                 );
 
                 // Добавим в value плагина node названия узлов
@@ -117,17 +117,17 @@ class BackendModel extends \example\Modules\ModuleNewsBundle\Model\BackendModel
 
         // Добавим в value плагина answer начала комментариев
         $data['answer']['value'] = $this->ajaxLoadComments(
-            array ('id_node' => intval($data['node']['value']), 'id_new' => intval($data['new']['value'])), intval($data['answer']['value']), $row_id
+            array ('id_node' => intval($data['node']['value']), 'id_item' => intval($data['item']['value'])), intval($data['answer']['value']), $row_id
         );
 
-        // Добавим в value плагина new названия новостей
+        // Добавим в value плагина item названия новостей
         $entity = '\\'.$this->container->getParameter('project_name').'\\Modules\\'.$this->getBundleName().'\\Entity\\'.$this->getEntityName();
         $entity = new $entity();
 
-        $config = $entity->configNew();
+        $config = $entity->configItem();
 
-        $data['new']['value'] = $this->ajaxLoadList(
-            array ('id_node' => intval($data['node']['value']), 'title' => $config['data']['title']), intval($data['new']['value'])
+        $data['item']['value'] = $this->ajaxLoadList(
+            array ('id_node' => intval($data['node']['value']), 'title' => $config['data']['title']), intval($data['item']['value'])
         );
 
         // Добавим в value плагина node названия узлов
@@ -160,7 +160,7 @@ class BackendModel extends \example\Modules\ModuleNewsBundle\Model\BackendModel
 
         $modules = $config['data']['modules'];
         foreach ($modules as &$value) {
-            $value = "'".$value."'";
+            $value = "'module".$value."'";
         }
 
         $query = $this->em->createQuery("
@@ -294,13 +294,13 @@ class BackendModel extends \example\Modules\ModuleNewsBundle\Model\BackendModel
                 md.row_id
             FROM 
                 ModuleCommentsBundle:modulecomments md, 
-                FireicePlugins".ucfirst($config_plugin)."Bundle:plugin".$config_plugin." plg_new
+                FireicePlugins".ucfirst($config_plugin)."Bundle:plugin".$config_plugin." plg_item
             WHERE md.status = 'active'
             AND md.final = 'Y'        
             AND md.row_id != '".$not_row."'
-            AND md.plugin_name = 'new'
-            AND md.plugin_id = plg_new.id
-            AND plg_new.value = '".$data['id_new']."'");
+            AND md.plugin_name = 'item'
+            AND md.plugin_id = plg_item.id
+            AND plg_item.value = '".$data['id_item']."'");
 
         foreach ($query->getResult() as $val) $res2[] = $val['row_id'];
 

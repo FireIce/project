@@ -68,17 +68,24 @@ class modulecomments
             2 => array ('type' => 'textarea', 'name' => 'comment', 'title' => 'Комментарий'),
             3 => array ('type' => 'selectbox', 'name' => 'node', 'title' => 'Узел', 'ajax' => array (
                     array (
-                        'url' => '/ajax_load?plugin=new&params[id_node]=[[ node ]]',
-                        'target' => 'new',
+                        'params' => array (
+                            'id_node' => 'node',
+                        ),
+                        'target' => 'item',
                     ),
                     array (
-                        'url' => '/ajax_load?plugin=answer&params[id_node]=[[ node ]]',
+                        'params' => array (
+                            'id_node' => 'node',
+                        ),
                         'target' => 'answer',
                     )
             )),
-            4 => array ('type' => 'selectbox', 'name' => 'new', 'title' => 'Новость', 'ajax' => array (
+            4 => array ('type' => 'selectbox', 'name' => 'item', 'title' => 'Новость', 'ajax' => array (
                     array (
-                        'url' => '/ajax_load?plugin=answer&params[id_node]=[[ node ]]&params[id_new]=[[ new ]]',
+                        'params' => array (
+                            'id_node' => 'node',
+                            'id_item' => 'item'
+                        ),
                         'target' => 'answer',
                     )
             )),
@@ -92,12 +99,12 @@ class modulecomments
             'type' => 'ajax',
             'data' => array (
                 'type' => 'node',
-                'modules' => array ('modulecontacts', 'modulenews', 'moduletext')
+                'modules' => array ('contacts', 'news', 'text')
             )
         );
     }
 
-    public function configNew($params=array ())
+    public function configItem($params=array ())
     {
         return array (
             'type' => 'ajax',
@@ -116,7 +123,7 @@ class modulecomments
             'data' => array (
                 'type' => 'comments',
                 'id_node' => isset($params['id_node']) ? $params['id_node'] : 0,
-                'id_new' => isset($params['id_new']) ? $params['id_new'] : 0,
+                'id_item' => isset($params['id_item']) ? $params['id_item'] : 0,
             )
         );
     }
