@@ -15,7 +15,7 @@ class BackendModel extends \fireice\FireiceSiteTree\Modules\BasicBundle\Model\Ba
 
         foreach ($this->getPlugins() as $plugin) {
             if (!isset($values[$plugin->getValue('type')])) {
-                $values[$plugin->getValue('type')] = $plugin->getBackendModuleData($sitetree_id, $this->bundle_name.':'.$this->entity_name, $module_id, self::TYPE_LIST);
+                $values[$plugin->getValue('type')] = $plugin->getData($sitetree_id, $this->bundle_name.':'.$this->entity_name, $module_id, self::TYPE_LIST);
             }
         }
 
@@ -53,7 +53,7 @@ class BackendModel extends \fireice\FireiceSiteTree\Modules\BasicBundle\Model\Ba
             foreach ($data as &$value) {
                 $tmp = $value['data'];
                 $value['data'] = array ();
-
+ 
                 foreach ($plugins as $plugin) {
                     $value['data'][$plugin->getValue('name')] = $tmp[$plugin->getValue('name')];
                 }
@@ -76,7 +76,7 @@ class BackendModel extends \fireice\FireiceSiteTree\Modules\BasicBundle\Model\Ba
       {
       if (!isset($values[$plugin->getValue('type')]))
       {
-      $values[$plugin->getValue('type')] = $plugin->getBackendModuleData($sitetree_id, $this->bundle_name.':'.$this->entity_name, $module_id, self::TYPE_LIST);
+      $values[$plugin->getValue('type')] = $plugin->getData($sitetree_id, $this->bundle_name.':'.$this->entity_name, $module_id, self::TYPE_LIST);
       }
       }
 
@@ -132,7 +132,7 @@ class BackendModel extends \fireice\FireiceSiteTree\Modules\BasicBundle\Model\Ba
 
         foreach ($this->getPlugins() as $plugin) {
             if (!isset($values[$plugin->getValue('type')])) {
-                $values[$plugin->getValue('type')] = $plugin->getBackendModuleData($sitetree_id, $this->bundle_name.':'.$this->entity_name, $module_id, self::TYPE_LIST, $row_id);
+                $values[$plugin->getValue('type')] = $plugin->getData($sitetree_id, $this->bundle_name.':'.$this->entity_name, $module_id, self::TYPE_LIST, array("'".$row_id."'"));
             }
         }
 

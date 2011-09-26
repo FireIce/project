@@ -2,12 +2,15 @@
 
 {% block content %} 
 
-    <div style="font-size: 17px; font-weight: bold; border: #000000 solid 1px; padding: 4px; margin-bottom: 3px;">text: </div>
+    <div style="font-size: 17px; font-weight: bold; border: #000000 solid 1px; padding: 4px; margin-bottom: 3px;">comments: </div>
 
 
-        {% for plugin in data['data'] %}
+        {% for i, new in data['data'] %}
 
-            {{ plugin.title }}: {{ plugin.value }}<br>  
+            {% for plugin in new['data'] %}
+                {{ plugin.title }}: {{ plugin.value }}<br>  
+            {% endfor %}
+            <br>
 
         {% endfor %}
 
