@@ -2,6 +2,8 @@
 
 namespace example\Modules\ModuleCommentsBundle\Model;
 
+use fireice\FireiceSiteTree\TreeBundle\Entity\history;
+
 class BackendModel extends \example\Modules\ModuleNewsBundle\Model\BackendModel
 {
     protected $bundle_name = 'ModuleCommentsBundle';
@@ -91,8 +93,8 @@ class BackendModel extends \example\Modules\ModuleNewsBundle\Model\BackendModel
         $values = array ();
 
         foreach ($this->getPlugins() as $plugin) {
-            if (!isset($values[$plugin->getValue('type')])) {              
-                $values[$plugin->getValue('type')] = $plugin->getData($sitetree_id, $this->bundle_name.':'.$this->entity_name, $module_id, self::TYPE_LIST, array("'".$row_id."'"));
+            if (!isset($values[$plugin->getValue('type')])) {
+                $values[$plugin->getValue('type')] = $plugin->getData($sitetree_id, $this->bundle_name.':'.$this->entity_name, $module_id, self::TYPE_LIST, array ("'".$row_id."'"));
             }
         }
 
@@ -140,6 +142,168 @@ class BackendModel extends \example\Modules\ModuleNewsBundle\Model\BackendModel
         unset($data['fireice_order']);
 
         return $data;
+    }
+
+    public function createEdit($request, $security, $acl)
+    {
+        $module = $this->em->getRepository('DialogsBundle:modules')->findOneBy(array ('name' => $this->bundle_name));
+
+        $service_module = new \fireice\FireiceSiteTree\Dialogs\DialogsBundle\Entity\module();
+        $service_module->setId($module->getId());
+
+        $plugins = $this->getPlugins();
+
+        if ($request->get('id_row') == -1) {
+            // Если вставка нового комента
+            // 
+            // Определим следующий row_id
+            $query = $this->em->createQuery("
+                SELECT 
+                    MAX(md.row_id) as maxim
+                FROM 
+                    ".$this->bundle_name.':'.$this->entity_name." md, 
+                    DialogsBundle:moduleslink m_l,
+                    DialogsBundle:modulespluginslink mp_l
+                WHERE m_l.up_tree = ".$request->get('id')."
+                AND m_l.up_module = ".$request->get('id_module')."
+                AND m_l.id = mp_l.up_link
+                AND mp_l.up_plugin = md.idd");
+
+            $res = $query->getSingleResult();
+
+            $curr_row_id = $res['maxim'] + 1;
+
+            foreach ($plugins as $plugin) {
+                $plugin_id = $plugin->setDataInDb($request->get($plugin->getValue('name')));
+
+                $new_module_record = '\\'.$this->container->getParameter('project_name').'\\Modules\\'.$this->bundle_name.'\\Entity\\'.$this->entity_name;
+                $new_module_record = new $new_module_record();
+                $new_module_record->setFinal('T');
+                $new_module_record->setRowId($curr_row_id);
+                $new_module_record->setPluginId($plugin_id);
+                $new_module_record->setPluginType($plugin->getValue('type'));
+                $new_module_record->setPluginName($plugin->getValue('name'));
+                $new_module_record->setStatus('inserting');
+                $this->em->persist($new_module_record);
+                $this->em->flush();
+
+                $history = new history();
+                $history->setUpUser($security->getToken()->getUser()->getId());
+                $history->setUp($new_module_record->getId());
+                $history->setUpTypeCode($this->entity_name);
+                $history->setActionCode('add_record');
+                $this->em->persist($history);
+                $this->em->flush();
+
+                $new_module_record->setIdd($new_module_record->getId());
+                $new_module_record->setCid($history->getId());
+                $new_module_record->setFinal('Y');
+                $new_module_record->setStatus('active');
+                $this->em->persist($new_module_record);
+                $this->em->flush();
+
+                $modulelink = $this->em->getRepository('DialogsBundle:moduleslink')->findOneBy(array (
+                    'up_tree' => $request->get('id'),
+                    'up_module' => $request->get('id_module')
+                    ));
+
+                $module_plugin_link = new \fireice\FireiceSiteTree\Dialogs\DialogsBundle\Entity\modulespluginslink();
+                $module_plugin_link->setUpLink($modulelink->getId());
+                $module_plugin_link->setUpPlugin($new_module_record->getIdd());
+                $this->em->persist($module_plugin_link);
+                $this->em->flush();
+            }
+        } else {
+            foreach ($plugins as $plugin) {
+                $query = $this->em->createQuery("
+                        SELECT 
+                            md.idd
+                        FROM 
+                            ".$this->bundle_name.':'.$this->entity_name." md,
+                            DialogsBundle:moduleslink m_l,
+                            DialogsBundle:modulespluginslink mp_l
+                        WHERE md.eid IS NULL            
+                        AND m_l.up_tree = ".$request->get('id')."
+                        AND m_l.up_module = ".$request->get('id_module')."
+                        AND m_l.id = mp_l.up_link
+                        AND mp_l.up_plugin = md.idd
+                        AND md.final != 'N'
+                        AND md.row_id = ".$request->get('id_row')."
+                        AND md.plugin_name = '".$plugin->getValue('name')."'
+                        AND md.plugin_type = '".$plugin->getValue('type')."'");
+
+                $result = $query->getResult();
+
+                if (count($result) > 0) {
+                    $result = $result[0];
+
+                    $plugin_id = $plugin->setDataInDb($request->get($plugin->getValue('name')));
+
+                    $history = new history();
+                    $history->setUpUser($security->getToken()->getUser()->getId());
+                    $history->setUp($result['idd']);
+                    $history->setUpTypeCode($this->entity_name);
+                    $history->setActionCode('edit_record');
+                    $this->em->persist($history);
+                    $this->em->flush();
+
+                    $hid = $history->getId();
+
+                    $query = $this->em->createQuery("UPDATE ".$this->bundle_name.':'.$this->entity_name." md SET md.final='N', md.eid = ".$hid." WHERE md.idd = ".$result['idd']." AND md.final != 'N' AND md.row_id = ".$request->get('id_row'));
+                    $query->getResult();
+
+                    $new_module_record = '\\'.$this->container->getParameter('project_name').'\\Modules\\'.$this->bundle_name.'\\Entity\\'.$this->entity_name;
+                    $new_module_record = new $new_module_record();
+                    $new_module_record->setIdd($result['idd']);
+                    $new_module_record->setCid($hid);
+                    $new_module_record->setFinal('Y');
+                    $new_module_record->setRowId($request->get('id_row'));
+                    $new_module_record->setPluginId($plugin_id);
+                    $new_module_record->setPluginType($plugin->getValue('type'));
+                    $new_module_record->setPluginName($plugin->getValue('name'));
+                    $new_module_record->setStatus('active');
+                    $this->em->persist($new_module_record);
+                    $this->em->flush();
+                } else {
+                    $plugin_id = $plugin->setDataInDb($request->get($plugin->getValue('name')));
+
+                    $new_module_record = '\\'.$this->container->getParameter('project_name').'\\Modules\\'.$this->bundle_name.'\\Entity\\'.$this->entity_name;
+                    $new_module_record = new $new_module_record();
+                    $new_module_record->setFinal('Y');
+                    $new_module_record->setRowId($request->get('id_row'));
+                    $new_module_record->setPluginId($plugin_id);
+                    $new_module_record->setPluginType($plugin->getValue('type'));
+                    $new_module_record->setPluginName($plugin->getValue('name'));
+                    $new_module_record->setStatus('active');
+                    $this->em->persist($new_module_record);
+                    $this->em->flush();
+
+                    $history = new history();
+                    $history->setUpUser($security->getToken()->getUser()->getId());
+                    $history->setUp($new_module_record->getId());
+                    $history->setUpTypeCode($this->entity_name);
+                    $history->setActionCode('add_record');
+                    $this->em->persist($history);
+                    $this->em->flush();
+
+                    $new_module_record->setIdd($new_module_record->getId());
+                    $new_module_record->setCid($history->getId());
+                    $this->em->persist($new_module_record);
+                    $this->em->flush();
+
+                    $modulelink = $this->em->getRepository('DialogsBundle:moduleslink')->findOneBy(array (
+                        'up_tree' => $request->get('id'),
+                        'up_module' => $request->get('id_module')
+                        ));
+
+                    $module_plugin_link = new \fireice\FireiceSiteTree\Dialogs\DialogsBundle\Entity\modulespluginslink();
+                    $module_plugin_link->setUpLink($modulelink->getId());
+                    $module_plugin_link->setUpPlugin($new_module_record->getId());
+                    $this->em->persist($module_plugin_link);
+                    $this->em->flush();
+                }
+            }
+        }
     }
 
     private function getNodesOptions($id_node)

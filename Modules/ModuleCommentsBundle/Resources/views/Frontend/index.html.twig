@@ -8,12 +8,25 @@
         {% for i, new in data['data'] %}
 
             {% for plugin in new['data'] %}
-                {{ plugin.title }}: {{ plugin.value }}<br>  
+                {{ plugin.title }}: 
+                {% if plugin.name == 'date' %}
+                    {{ plugin.value.data }}, {{ plugin.value.time }}
+                {% else %}
+                    {{ plugin.value }}
+                {% endif %}
+                <br>  
             {% endfor %}
             <br>
 
         {% endfor %}
 
-
-
+        <div style="border: #000000 solid 1px; padding: 15px;">
+            Добавить комментарий: <br><br>
+            <form action="{{ path('frontend', { 'path': path }) }}" method="post" {{ form_enctype(form) }}>
+                {{ form_widget(form) }}
+                <br>
+                <input type="submit" />
+            </form>
+        </div>
+        
 {% endblock %}

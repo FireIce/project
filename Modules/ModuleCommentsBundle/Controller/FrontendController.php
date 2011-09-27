@@ -8,13 +8,24 @@ class FrontendController extends \fireice\FireiceSiteTree\Modules\BasicBundle\Co
 {
     protected $model = '\\example\\Modules\\ModuleCommentsBundle\\Model\\FrontendModel';
 
-    public function frontend($id_node, $module_id=false)
+    public function frontend($id_node, $false)
     {
-        //echo 'sdfsdfs'; exit;
-        
         $model = $this->getModel();
 
-        return $this->render($model->getBundleName().':Frontend:index.html.twig', array ('data' => $model->getFrontendData($id_node, $module_id)));
+        $data = $model->getFrontendData($id_node, false);
+        
+        $form = $this->createFormBuilder()
+            ->add('title', 'text')
+            ->add('comment', 'textarea')
+            ->add('answer', 'choice', array ('choices' => $model->getAnswers()))
+            ->getForm();
+
+        return $this->render($model->getBundleName().':Frontend:index.html.twig', array (
+                'data' => $data,
+                'form' => $form->createView(),
+                'path' => trim($this->get('request')->getPathInfo(), '/')
+                )
+        );
     }
 
 }

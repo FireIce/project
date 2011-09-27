@@ -6,8 +6,9 @@ class FrontendModel extends \fireice\FireiceSiteTree\Modules\BasicBundle\Model\F
 {
     protected $bundle_name = 'ModuleCommentsBundle';
     protected $entity_name = 'modulecomments';
+    protected $data = array ();
 
-    public function getFrontendData($sitetree_id, $module_id=false)
+    public function getFrontendData($sitetree_id, $info=false)
     {
         $config_plugin = 'selectbox';
 
@@ -58,6 +59,7 @@ class FrontendModel extends \fireice\FireiceSiteTree\Modules\BasicBundle\Model\F
             $plugins = $this->getPlugins();
             unset($plugins['node']);
             unset($plugins['item']);
+            //unset($plugins['answer']);
 
             foreach ($plugins as $plugin) {
                 if (!isset($values[$plugin->getValue('type')])) {
@@ -74,7 +76,9 @@ class FrontendModel extends \fireice\FireiceSiteTree\Modules\BasicBundle\Model\F
                         );
                     }
 
-                    if ($value['plugin_name'] == $plugin->getValue('name')) $data[$value['row_id']]['data'][$value['plugin_name']] = $plugin->getValues() + array ('value' => $value['plugin_value']);
+                    if ($value['plugin_name'] == $plugin->getValue('name')) {
+                        $data[$value['row_id']]['data'][$value['plugin_name']] = $plugin->getValues() + array ('value' => $value['plugin_value']);
+                    }
                 }
 
                 // Если этот плагин не присутствует в массиве нужно добавить пустое значение
@@ -82,6 +86,8 @@ class FrontendModel extends \fireice\FireiceSiteTree\Modules\BasicBundle\Model\F
                     if (!array_key_exists($plugin->getValue('name'), $val['data'])) $val['data'][$plugin->getValue('name')] = $plugin->getNull();
                 }
             }
+
+            $this->data = $data;
 
             // Отсортируем в том порядке в каком они указаны в сущности
             foreach ($data as &$value) {
@@ -91,17 +97,28 @@ class FrontendModel extends \fireice\FireiceSiteTree\Modules\BasicBundle\Model\F
                 foreach ($plugins as $plugin) {
                     $value['data'][$plugin->getValue('name')] = $tmp[$plugin->getValue('name')];
                 }
+
+                $value['data']['answer']['value'] = ($value['data']['answer']['value'] != '0') ? $data[$value['data']['answer']['value']]['data']['title']['value'].' - '.$data[$value['data']['answer']['value']]['data']['comment']['value'] : '---';
             }
-
-            $data = $this->sort($data);
         }
-
-        //print_r($data); exit;
 
         return array (
             'type' => 'list',
             'data' => $data,
         );
+    }
+
+    public function getAnswers()
+    {
+        $return = array ();
+
+        foreach ($this->data as $key => $value) {
+            $return[$key] = $value['data']['title']['value'].' - '.$value['data']['comment']['value'];
+        }
+
+        natsort($return);
+
+        return array (0 => '---') + $return;
     }
 
 }

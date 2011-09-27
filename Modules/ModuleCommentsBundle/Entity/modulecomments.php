@@ -89,7 +89,7 @@ class modulecomments
                         'target' => 'answer',
                     )
             )),
-            5 => array ('type' => 'selectbox', 'name' => 'answer', 'title' => 'Ответ'),
+            5 => array ('type' => 'selectbox', 'name' => 'answer', 'title' => 'Ответ на'),
         );
     }
 
