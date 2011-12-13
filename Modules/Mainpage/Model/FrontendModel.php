@@ -1,10 +1,9 @@
 <?php
 
-namespace example\Modules\ModuleMainpageBundle\Model;
+namespace example\Modules\Mainpage\Model;
 
-class FrontendModel extends \fireice\FireiceSiteTree\Modules\BasicBundle\Model\FrontendModel
+class FrontendModel extends \fireice\Backend\Modules\Model\FrontendModel
 {
-    protected $bundle_name = 'ModuleMainpageBundle';
-    protected $entity_name = 'modulemainpage';
+    protected $module_name = 'mainpage';
 
 }

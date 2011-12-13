@@ -1,10 +1,9 @@
 <?php
 
-namespace example\Modules\FireiceModuleSiteTreeNodeOtherBundle\Model;
+namespace example\Modules\FireiceNodeOther\Model;
 
-class BackendModel extends \fireice\FireiceSiteTree\Modules\BasicBundle\Model\BackendModel
+class BackendModel extends \fireice\Backend\Modules\Model\BackendModel
 {
-    protected $bundle_name = 'FireiceModuleSiteTreeNodeOtherBundle';
-    protected $entity_name = 'modulesitetreenodeother';
+    protected $module_name = 'FireiceNodeOther';
 
 }

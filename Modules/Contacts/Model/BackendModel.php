@@ -1,6 +1,6 @@
 <?php
 
-namespace pit\Modules\Contacts\Model;
+namespace example\Modules\Contacts\Model;
 
 class BackendModel extends \fireice\Backend\Modules\Model\BackendModel
 {

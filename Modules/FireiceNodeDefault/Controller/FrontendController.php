@@ -1,11 +1,11 @@
 <?php
 
-namespace example\Modules\FireiceModuleSiteTreeNodeDefaultBundle\Controller;
+namespace pit\Modules\FireiceNodeDefault\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
-class FrontendController extends \fireice\FireiceSiteTree\Modules\BasicBundle\Controller\FrontendController
+class FrontendController extends \fireice\Backend\Modules\Controller\FrontendController
 {
-    protected $model = '\\example\\Modules\\FireiceModuleSiteTreeNodeDefaultBundle\\Model\\FrontendModel';
+    protected $model = '\\pit\\Modules\\FireiceNodeDefault\\Model\\FrontendModel';
 
 }

@@ -1,10 +1,9 @@
 <?php
 
-namespace example\Modules\ModuleTextBundle\Model;
+namespace example\Modules\Text\Model;
 
-class BackendModel extends \fireice\FireiceSiteTree\Modules\BasicBundle\Model\BackendModel
+class BackendModel extends \fireice\Backend\Modules\Model\BackendModel
 {
-    protected $bundle_name = 'ModuleTextBundle';
-    protected $entity_name = 'moduletext';
+    protected $module_name = 'text';
 
 }

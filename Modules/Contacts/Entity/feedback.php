@@ -1,6 +1,6 @@
 <?php
 
-namespace pit\Modules\Contacts\Entity;
+namespace example\Modules\Contacts\Entity;
 
 use Symfony\Component\Validator\Constraints as Assert;
 

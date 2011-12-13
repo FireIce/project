@@ -1,6 +1,6 @@
 <?php
 
-namespace pit\Modules\Contacts\Form;
+namespace example\Modules\Contacts\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilder;

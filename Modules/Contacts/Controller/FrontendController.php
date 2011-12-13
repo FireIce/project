@@ -1,16 +1,16 @@
 <?php
 
-namespace pit\Modules\Contacts\Controller;
+namespace example\Modules\Contacts\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
-use pit\Modules\Contacts\Form\FeedbackForm;
-use pit\Modules\Contacts\Entity\feedback;
+use example\Modules\Contacts\Form\FeedbackForm;
+use example\Modules\Contacts\Entity\feedback;
 use fireice\Backend\Tree\Controller\TreeController;
 
 class FrontendController extends \fireice\Backend\Modules\Controller\FrontendController
 {
-    protected $model = '\\pit\\Modules\\Contacts\\Model\\FrontendModel';
+    protected $model = '\\example\\Modules\\Contacts\\Model\\FrontendModel';
 
     public function frontend($params, $other=array ())
     {
@@ -89,20 +89,4 @@ class FrontendController extends \fireice\Backend\Modules\Controller\FrontendCon
         }
     }
 
-    /*
-      public function frontend($params, $other=array ())
-      {
-      $model = $this->getModel();
-
-      $url = str_replace($params, '', trim($this->get('request')->getUri(), '/'));
-      $url = trim($url, '/');
-
-      return $this->render($model->getBundleName().':Frontend:index.html.twig', array (
-      'data' => $this->load(array ('url' => $url)),
-      'navigation' => $other['navigation'],
-      'hierarchy' => $other['hierarchy'],
-      'current' => $this->id_node
-      ));
-      }
-     */
 }

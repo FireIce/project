@@ -1,12 +1,12 @@
 <?php
 
-namespace example\Modules\ModuleCommentsBundle\Controller;
+namespace example\Modules\Comments\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
-class FrontendController extends \fireice\FireiceSiteTree\Modules\BasicBundle\Controller\FrontendController
+class FrontendController extends \fireice\Backend\Modules\Controller\FrontendController
 {
-    protected $model = '\\example\\Modules\\ModuleCommentsBundle\\Model\\FrontendModel';
+    protected $model = '\\example\\Modules\\Comments\\Model\\FrontendModel';
 
     public function frontend($id_node, $false)
     {

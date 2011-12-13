@@ -2,12 +2,13 @@
 parameters:
     name:  text   
     title: Текст
+    css_tab: edit    
     parent:
         mainpage: ~
         text: ~     
     count:            25
     count-per-parent: 25
     modules:
-        sitetree: FireiceModuleSiteTreeNodeOtherBundle
-        frontend: ModuleTextBundle 
+        sitetree: FireiceNodeDefault
+        frontend: Text 
     type: item

@@ -1,7 +1,8 @@
 
 parameters:
-    name:             sitetreenodedefault   
-    title:            Модуль узла дерева default
+    name:             fireicenodedefault   
+    title:            Настройки
+    css_tab:          settings    
     parent:           
         mainpage: ~
         contacts: ~

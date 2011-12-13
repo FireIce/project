@@ -1,6 +1,6 @@
 <?php
 
-namespace example\Modules\ModuleCommentsBundle;
+namespace example\Modules\Comments;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 

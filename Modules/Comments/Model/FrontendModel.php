@@ -1,11 +1,10 @@
 <?php
 
-namespace example\Modules\ModuleCommentsBundle\Model;
+namespace example\Modules\Comments\Model;
 
-class FrontendModel extends \fireice\FireiceSiteTree\Modules\BasicBundle\Model\FrontendModel
+class FrontendModel extends \fireice\Backend\Modules\Model\FrontendModel
 {
-    protected $bundle_name = 'ModuleCommentsBundle';
-    protected $entity_name = 'modulecomments';
+    protected $module_name = 'comments';
     protected $data = array ();
 
     public function getFrontendData($sitetree_id, $info=false)

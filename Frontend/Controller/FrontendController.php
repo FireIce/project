@@ -1,10 +1,10 @@
 <?php
 
-namespace example\Frontend\FrontendBundle\Controller;
+namespace example\Frontend\Controller;
 
-use example\Frontend\FrontendBundle\Model\FrontendModel;
+use example\Frontend\Model\FrontendModel;
 
-class FrontendController extends \fireice\Frontend\FrontendBasicBundle\Controller\FrontendController
+class FrontendController extends \fireice\Frontend\Controller\FrontendController
 {
 
     public function getModel()
@@ -20,7 +20,7 @@ class FrontendController extends \fireice\Frontend\FrontendBasicBundle\Controlle
         return $this->model;
     }
 
-    public function showPage($id_node, $params)
+    public function showPage($id_node, $params='')
     {
         $frontend_model = $this->getModel();
 
@@ -30,7 +30,7 @@ class FrontendController extends \fireice\Frontend\FrontendBasicBundle\Controlle
             // Определяем нужно ли показывать комментарии
             $show = false;
             $comments = array ();
-            $entity = '\\'.$this->container->getParameter('project_name').'\\Modules\\ModuleCommentsBundle\\Entity\\modulecomments';
+            $entity = '\\'.$this->container->getParameter('project_name').'\\Modules\\Comments\\Entity\\modulecomments';
             $entity = new $entity();
             $tmp = $entity->configNode();
             foreach ($tmp['data']['modules'] as $value) {

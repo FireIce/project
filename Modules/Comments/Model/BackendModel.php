@@ -1,13 +1,12 @@
 <?php
 
-namespace example\Modules\ModuleCommentsBundle\Model;
+namespace example\Modules\Comments\Model;
 
-use fireice\FireiceSiteTree\TreeBundle\Entity\history;
+use fireice\Backend\Tree\Entity\history;
 
-class BackendModel extends \example\Modules\ModuleNewsBundle\Model\BackendModel
+class BackendModel extends \example\Modules\News\Model\BackendModel
 {
-    protected $bundle_name = 'ModuleCommentsBundle';
-    protected $entity_name = 'modulecomments';
+    protected $module_name = 'comments';
 
     public function getBackendData($sitetree_id, $acl, $module_id)
     {

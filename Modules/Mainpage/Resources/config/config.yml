@@ -2,11 +2,12 @@
 parameters:
     name:             mainpage   
     title:            Главная страница
+    css_tab:          edit
     parent:           
         ROOT: ~
     count:            1
     count-per-parent: 1
     modules:
-        sitetree: FireiceModuleSiteTreeNodeDefaultBundle
-        frontend: ModuleMainpageBundle    
+        sitetree: FireiceNodeDefault
+        frontend: Mainpage
     type: item

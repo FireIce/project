@@ -1,13 +1,13 @@
 <?php
 
-namespace example\Modules\ModuleCommentsBundle\Controller;
+namespace example\Modules\Comments\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use example\Modules\ModuleCommentsBundle\Model\BackendModel;
+use example\Modules\Comments\Model\BackendModel;
 
-class BackendController extends \example\Modules\ModuleNewsBundle\Controller\BackendController
+class BackendController extends \example\Modules\News\Controller\BackendController
 {
-    protected $model = '\\example\\Modules\\ModuleCommentsBundle\\Model\\BackendModel';
+    protected $model = '\\example\\Modules\\Comments\\Model\\BackendModel';
 
     public function getRights()
     {

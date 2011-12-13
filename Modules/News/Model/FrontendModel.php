@@ -1,6 +1,6 @@
 <?php
 
-namespace pit\Modules\News\Model;
+namespace example\Modules\News\Model;
 
 class FrontendModel extends \fireice\Backend\Modules\Model\FrontendModel
 {

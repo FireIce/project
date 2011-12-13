@@ -1,6 +1,6 @@
 <?php
 
-namespace example\Modules\ModuleTextBundle;
+namespace example\Modules\Text;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 

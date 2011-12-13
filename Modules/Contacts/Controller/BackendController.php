@@ -1,14 +1,14 @@
 <?php
 
-namespace pit\Modules\Contacts\Controller;
+namespace example\Modules\Contacts\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use pit\Modules\Contacts\Model\BackendModel;
+use example\Modules\Contacts\Model\BackendModel;
 
 class BackendController extends \fireice\Backend\Modules\Controller\BackendController
 {
-    protected $model = '\\pit\\Modules\\Contacts\\Model\\BackendModel';
+    protected $model = '\\example\\Modules\\Contacts\\Model\\BackendModel';
 
     public function getRights()
     {

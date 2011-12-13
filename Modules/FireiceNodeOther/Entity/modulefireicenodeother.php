@@ -1,16 +1,15 @@
 <?php
 
-namespace example\Modules\FireiceModuleSiteTreeNodeOtherBundle\Entity;
+namespace example\Modules\FireiceNodeOther\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
-use example\Modules\FireiceModuleSiteTreeNodeOtherBundle\Entity\modulesitetreenodedefault;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="module_sitetreenode_other")
  */
-class modulesitetreenodeother// extends modulesitetreenodedefault
+class modulefireicenodeother// extends modulesitetreenodedefault
 {
     /**
      * @ORM\Id

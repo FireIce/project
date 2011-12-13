@@ -2,6 +2,7 @@
 parameters:
     name:  comments   
     title: Комментарии
+    css_tab: edit
     parent:
         mainpage: ~
         text: ~     

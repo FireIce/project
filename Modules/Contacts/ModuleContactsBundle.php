@@ -1,6 +1,6 @@
 <?php
 
-namespace pit\Modules\Contacts;
+namespace example\Modules\Contacts;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 

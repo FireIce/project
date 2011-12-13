@@ -1,14 +1,14 @@
 <?php
 
-namespace pit\Modules\News\Controller;
+namespace example\Modules\News\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use pit\Modules\News\Model\BackendModel;
+use example\Modules\News\Model\BackendModel;
 
 class BackendController extends \fireice\Backend\Modules\Controller\BackendController
 {
-    protected $model = '\\pit\\Modules\\News\\Model\\BackendModel';
+    protected $model = '\\example\\Modules\\News\\Model\\BackendModel';
 
     public function getRowData($sitetree_id, $module_id, $row_id)
     {

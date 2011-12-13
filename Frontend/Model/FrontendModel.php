@@ -1,8 +1,8 @@
 <?php
 
-namespace example\Frontend\FrontendBundle\Model;
+namespace example\Frontend\Model;
 
-class FrontendModel extends \fireice\Frontend\FrontendBasicBundle\Model\FrontendModel
+class FrontendModel extends \fireice\Frontend\Model\FrontendModel
 {
 
     public function getCommentsInfo()

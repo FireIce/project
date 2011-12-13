@@ -1,6 +1,6 @@
 <?php
 
-namespace example\Modules\FireiceModuleSiteTreeNodeDefaultBundle\Entity;
+namespace example\Modules\FireiceNodeDefault\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -9,7 +9,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity
  * @ORM\Table(name="module_sitetreenode_default")
  */
-class modulesitetreenodedefault
+class modulefireicenodedefault
 {
     /**
      * @ORM\Id

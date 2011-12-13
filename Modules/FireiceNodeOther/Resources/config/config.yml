@@ -1,7 +1,8 @@
 
 parameters:
-    name:             sitetreenodeother   
-    title:            Модуль узла дерева other
+    name:             fireicenodeother   
+    title:            Настройки
+    css_tab:          settings    
     parent:           
         mainpage: ~
         contacts: ~
