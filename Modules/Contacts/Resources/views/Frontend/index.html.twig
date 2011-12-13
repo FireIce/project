@@ -1,0 +1,137 @@
+
+{% block content %} 
+
+{% macro menu(value, current) %}
+  {% if value|length > 0 %}
+
+                <ul>
+                    {% for k,v in value %}
+                    <li>
+                        {% if v.id == current %}<b>{{ v.title }}</b>{%else%}<a href="{{ url('homepage') }}{{ v.path }}">{{ v.title }}</a>{% endif %}
+                        {{ _self.menu(v.childs, current) }}
+                    </li>                    
+                    {% endfor %}
+                </ul>  
+  
+  {% endif %}
+{% endmacro %}
+
+
+{% macro field(row, lname, label) %}
+
+            <tr>
+                <td width="170"><label for="{{ lname }}">{{ label }}:</label></td>
+                <td>{{ form_widget(row) }}</td>                
+            </tr>
+            <tr>
+                <td></td>
+                <td>{{ form_errors(row) }}</td>
+            </tr>
+
+{% endmacro %}
+
+<div id="content">
+	{% if data.data.banner.value|length > 0 %}
+		<div class="banner inside"><div style="background-image:url('{{ data.data.banner.value[0].src|raw }}');"></div></div>
+	{% endif %}
+
+    <!-- Навигация пути к странице -->
+    <div class="pathway">
+        {% for val in navigation %}
+            {% if not loop.last %}
+                <a href="{{ url('homepage') }}{{ val.path }}">{{ val.title }}</a>
+            {%else%}
+                {{ val.title }}
+            {% endif %}
+        {% endfor %}    
+    </div>
+    <!-- END -->
+    <table>
+        <tr>
+            <!-- Если есть потомки, то показываем эту ячейку -->
+            {% if hierarchy|length > 0 %}
+            <td id="sidebar">
+                <div class="header"><h3>Разделы</h3></div>
+                
+                {{ _self.menu(hierarchy, current) }}  
+                 
+            </td>
+            {% endif %}
+            <!-- END -->            
+            <td>
+               
+{% if message == 'ok' %} 
+
+    <br>Ваше сообщение отправлено!
+
+{% else %}               
+                
+                {{ data.data.content.value|raw }}
+                
+<script src="{{ asset('bundles/tree/js/jquery.js') }}" type="text/javascript"></script>
+<script src="{{ asset('bundles/tree/js/jquery.validate.min.js') }}" type="text/javascript"></script>
+<script type="text/javascript">   
+(function($) {
+$(document).ready(function() { 
+        var validator = $("#contacts_form").validate({
+                rules: {
+                        'feedback[name]': {
+                                required: true,
+                                minlength: 3,
+                                maxlength: 15
+                        },
+                        'feedback[email]': {
+                                required: true,
+                                email: true
+                        },                        
+                        'feedback[comment]': {
+                                required: true,
+                                minlength: 3,
+                                maxlength: 500
+                        }       
+                },
+                messages: {
+
+                        'feedback[name]': {
+                                required: "Введите имя",
+                                minlength: "Минимальная длина 3 символа",
+                                maxlength: "Максимальная длина 15 символов"
+                        },
+                        'feedback[email]': "Введите корректный e-mail",                        
+                        'feedback[comment]': {
+                                required: "Введите сообщение",
+                                minlength: "Минимальная длина 3 символа",
+                                maxlength: "Максимальная длина 500 символов"
+                        }
+                        
+                }             
+        });
+});
+})(jQuery);  
+</script>
+<style type="text/css">
+#contacts_form label.error {
+	margin-left: 10px;
+	width: auto;
+	display: inline;
+    color: #ff0000;
+}
+</style>
+    <form id="contacts_form" action="{{ url }}" method="post" {{ form_enctype(form) }}>
+       <table class="contact-form">
+           {{ _self.field(form.name, 'name', 'Имя') }}
+           {{ _self.field(form.email, 'email', 'Электронный адрес') }}
+           {{ _self.field(form.comment, 'comment', 'Сообщение') }}
+           {{ form_widget(form._token) }}
+           <tr><td></td><td><input type="submit" value="Отправить" /></td></tr>
+       </table>
+    </form>       
+
+{% endif %}
+
+            </td>
+        </tr>
+    </table>
+</div>        
+
+{% endblock %}

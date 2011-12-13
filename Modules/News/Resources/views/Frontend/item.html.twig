@@ -1,0 +1,22 @@
+
+{% block content %} 
+
+<div id="content">
+    <div class="banner inside"><div style="background-image:url({{ asset('uploads/images/4.jpg') }});"></div></div>
+ 
+    <div class="pathway">
+       <a href="{{ url('homepage') }}">Главная</a> <a href="{{ url('homepage') }}news">Новости</a> {{ data['data'][0].data.title.value }}
+    </div>    
+
+	<div class="news">
+        {% for i, new in data['data'] %}
+			<h1>{{ new.data.title.value }}</h1>
+            <span class="date">{{ new.data.date.value }}</span>
+            {{ new.data.content.value|raw }}
+        {% endfor %}
+        <p><br><hr><a href="{{ url }}" class="back-to-news">Вернуться к списку</a></p>                
+
+        </div> 
+</div> 
+
+{% endblock %}

@@ -1,0 +1,60 @@
+
+{% block content %} 
+
+<div id="content">
+    <div class="banner inside"><div style="background-image:url({{ asset('uploads/images/4.jpg') }});"></div></div>
+    
+    <div class="pathway">
+        {% for val in navigation %}
+            {% if not loop.last %}
+                <a href="{{ url('homepage') }}{{ val.path }}">{{ val.title }}</a>
+            {%else%}
+                {{ val.title }}
+            {% endif %}
+        {% endfor %}    
+    </div>    
+    
+     <h1>Новости</h1>
+	<div class="news">
+        {% for i, new in data['data'] %}
+            <span class="date">{{ new.data.date.value }}</span><br>  
+            <a href="{{ new.url }}" class="title">{{ new.data.title.value }}</a>
+            <p class="anons">{{ new.data.anons.value }}</p> 
+        {% endfor %}
+        
+        <!-- Листалка -->  
+          {% if pager != false %}
+		 <br><hr />
+		  <h3>Страницы</h3>
+			<div class="news-page">
+				{% if pager['first'] != false %}
+					<a href="{{ url }}/{{ pager['first'] }}">Первая</a>
+				{% endif %}        
+			
+				{% if pager['prev'] != false %}
+					<a href="{{ url }}/{{ pager['prev'] }}" class="back"></a>
+				{% endif %}
+			
+				{% for value in pager['pages'] %}
+	   
+					{% if value.current %}
+						<b>{{ value.page }}</b>
+					{% else %}
+						<a href="{{ url }}/{{ value.id }}">{{ value.page }}</a>
+					{% endif %}                    
+				
+				{% endfor %}
+				
+				{% if pager['next'] != false %}
+					<a href="{{ url }}/{{ pager['next'] }}" class="next"></a>
+				{% endif %}     
+				
+				{% if pager['last'] != false %}
+					<a href="{{ url }}/{{ pager['last'] }}">Последняя</a>
+				{% endif %}
+			</div>
+         {% endif %}
+         <!-- Листалка -->                  
+	</div> 
+</div> 
+{% endblock %}

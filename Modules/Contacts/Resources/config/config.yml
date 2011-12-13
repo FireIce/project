@@ -1,0 +1,14 @@
+
+parameters:
+    name:             contacts   
+    title:            Контакты
+    css_tab:          edit
+    parent:           
+        mainpage: ~
+        contacts: ~
+    count:            100
+    count-per-parent: 50
+    modules:
+        sitetree: FireiceNodeDefault
+        frontend: Contacts
+    type: item
