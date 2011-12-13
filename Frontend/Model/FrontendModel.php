@@ -9,7 +9,7 @@ class FrontendModel extends \fireice\Frontend\Model\FrontendModel
     {
         foreach ($this->sitetree['nodes'] as $key => $value) {
             foreach ($value['user_modules'] as $k => $v) {
-                if ($v == 'ModuleCommentsBundle') return array (
+                if ($v == 'Comments') return array (
                         'id_node' => $key,
                         'id_module' => $k
                     );

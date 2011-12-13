@@ -18,7 +18,6 @@ class FrontendController extends \fireice\Backend\Modules\Controller\FrontendCon
         return $this->render($model->getBundleName().':Frontend:index.html.twig', array (
                 'data' => $this->load(array ('url' => $url)),
                 'navigation' => $other['navigation'],
-                'hierarchy' => $other['hierarchy'],
                 'current' => $this->id_node
             ));
     }

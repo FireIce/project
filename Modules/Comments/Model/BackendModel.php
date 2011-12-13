@@ -3,6 +3,8 @@
 namespace example\Modules\Comments\Model;
 
 use fireice\Backend\Tree\Entity\history;
+use fireice\Backend\Dialogs\Entity\module;
+use fireice\Backend\Dialogs\Entity\modulespluginslink;
 
 class BackendModel extends \example\Modules\News\Model\BackendModel
 {
@@ -14,7 +16,7 @@ class BackendModel extends \example\Modules\News\Model\BackendModel
 
         foreach ($this->getPlugins() as $plugin) {
             if (!isset($values[$plugin->getValue('type')])) {
-                $values[$plugin->getValue('type')] = $plugin->getData($sitetree_id, $this->bundle_name.':'.$this->entity_name, $module_id, self::TYPE_LIST);
+                $values[$plugin->getValue('type')] = $plugin->getData($sitetree_id, $this->getBundleName().':'.$this->getEntityName(), $module_id, self::TYPE_LIST);
             }
         }
 
@@ -57,7 +59,7 @@ class BackendModel extends \example\Modules\News\Model\BackendModel
                 );
 
                 // Добавим в value плагина item названия узлов
-                $entity = '\\'.$this->container->getParameter('project_name').'\\Modules\\'.$this->getBundleName().'\\Entity\\'.$this->getEntityName();
+                $entity = '\\'.$this->container->getParameter('project_name').'\\Modules\\'.ucfirst($this->module_name).'\\Entity\\'.$this->getEntityName();
                 $entity = new $entity();
 
                 $config = $entity->configItem();
@@ -143,28 +145,27 @@ class BackendModel extends \example\Modules\News\Model\BackendModel
         return $data;
     }
 
-    public function createEdit($request, $security, $acl)
+    public function createEdit($security, $acl)
     {
-        $module = $this->em->getRepository('DialogsBundle:modules')->findOneBy(array ('name' => $this->bundle_name));
+        $module = $this->em->getRepository('DialogsBundle:modules')->findOneBy(array ('name' => $this->module_name));
 
-        $service_module = new \fireice\FireiceSiteTree\Dialogs\DialogsBundle\Entity\module();
+        $service_module = new module();
         $service_module->setId($module->getId());
 
         $plugins = $this->getPlugins();
 
-        if ($request->get('id_row') == -1) {
+        if ($this->request->get('id_row') == -1) {
             // Если вставка нового комента
-            // 
             // Определим следующий row_id
             $query = $this->em->createQuery("
                 SELECT 
                     MAX(md.row_id) as maxim
                 FROM 
-                    ".$this->bundle_name.':'.$this->entity_name." md, 
+                    ".$this->getBundleName().':'.$this->getEntityName()." md, 
                     DialogsBundle:moduleslink m_l,
                     DialogsBundle:modulespluginslink mp_l
-                WHERE m_l.up_tree = ".$request->get('id')."
-                AND m_l.up_module = ".$request->get('id_module')."
+                WHERE m_l.up_tree = ".$this->request->get('id')."
+                AND m_l.up_module = ".$this->request->get('id_module')."
                 AND m_l.id = mp_l.up_link
                 AND mp_l.up_plugin = md.idd");
 
@@ -173,9 +174,9 @@ class BackendModel extends \example\Modules\News\Model\BackendModel
             $curr_row_id = $res['maxim'] + 1;
 
             foreach ($plugins as $plugin) {
-                $plugin_id = $plugin->setDataInDb($request->get($plugin->getValue('name')));
+                $plugin_id = $plugin->setDataInDb($this->request->get($plugin->getValue('name')));
 
-                $new_module_record = '\\'.$this->container->getParameter('project_name').'\\Modules\\'.$this->bundle_name.'\\Entity\\'.$this->entity_name;
+                $new_module_record = '\\'.$this->container->getParameter('project_name').'\\Modules\\'.ucfirst($this->module_name).'\\Entity\\'.$this->getEntityName();
                 $new_module_record = new $new_module_record();
                 $new_module_record->setFinal('T');
                 $new_module_record->setRowId($curr_row_id);
@@ -189,7 +190,7 @@ class BackendModel extends \example\Modules\News\Model\BackendModel
                 $history = new history();
                 $history->setUpUser($security->getToken()->getUser()->getId());
                 $history->setUp($new_module_record->getId());
-                $history->setUpTypeCode($this->entity_name);
+                $history->setUpTypeCode($this->getEntityName());
                 $history->setActionCode('add_record');
                 $this->em->persist($history);
                 $this->em->flush();
@@ -202,11 +203,11 @@ class BackendModel extends \example\Modules\News\Model\BackendModel
                 $this->em->flush();
 
                 $modulelink = $this->em->getRepository('DialogsBundle:moduleslink')->findOneBy(array (
-                    'up_tree' => $request->get('id'),
-                    'up_module' => $request->get('id_module')
+                    'up_tree' => $this->request->get('id'),
+                    'up_module' => $this->request->get('id_module')
                     ));
 
-                $module_plugin_link = new \fireice\FireiceSiteTree\Dialogs\DialogsBundle\Entity\modulespluginslink();
+                $module_plugin_link = new modulespluginslink();
                 $module_plugin_link->setUpLink($modulelink->getId());
                 $module_plugin_link->setUpPlugin($new_module_record->getIdd());
                 $this->em->persist($module_plugin_link);
@@ -218,16 +219,16 @@ class BackendModel extends \example\Modules\News\Model\BackendModel
                         SELECT 
                             md.idd
                         FROM 
-                            ".$this->bundle_name.':'.$this->entity_name." md,
+                            ".$this->getBundleName().':'.$this->getEntityName()." md,
                             DialogsBundle:moduleslink m_l,
                             DialogsBundle:modulespluginslink mp_l
                         WHERE md.eid IS NULL            
-                        AND m_l.up_tree = ".$request->get('id')."
-                        AND m_l.up_module = ".$request->get('id_module')."
+                        AND m_l.up_tree = ".$this->request->get('id')."
+                        AND m_l.up_module = ".$this->request->get('id_module')."
                         AND m_l.id = mp_l.up_link
                         AND mp_l.up_plugin = md.idd
                         AND md.final != 'N'
-                        AND md.row_id = ".$request->get('id_row')."
+                        AND md.row_id = ".$this->request->get('id_row')."
                         AND md.plugin_name = '".$plugin->getValue('name')."'
                         AND md.plugin_type = '".$plugin->getValue('type')."'");
 
@@ -236,27 +237,27 @@ class BackendModel extends \example\Modules\News\Model\BackendModel
                 if (count($result) > 0) {
                     $result = $result[0];
 
-                    $plugin_id = $plugin->setDataInDb($request->get($plugin->getValue('name')));
+                    $plugin_id = $plugin->setDataInDb($this->request->get($plugin->getValue('name')));
 
                     $history = new history();
                     $history->setUpUser($security->getToken()->getUser()->getId());
                     $history->setUp($result['idd']);
-                    $history->setUpTypeCode($this->entity_name);
+                    $history->setUpTypeCode($this->getEntityName());
                     $history->setActionCode('edit_record');
                     $this->em->persist($history);
                     $this->em->flush();
 
                     $hid = $history->getId();
 
-                    $query = $this->em->createQuery("UPDATE ".$this->bundle_name.':'.$this->entity_name." md SET md.final='N', md.eid = ".$hid." WHERE md.idd = ".$result['idd']." AND md.final != 'N' AND md.row_id = ".$request->get('id_row'));
+                    $query = $this->em->createQuery("UPDATE ".$this->getBundleName().':'.$this->getEntityName()." md SET md.final='N', md.eid = ".$hid." WHERE md.idd = ".$result['idd']." AND md.final != 'N' AND md.row_id = ".$request->get('id_row'));
                     $query->getResult();
 
-                    $new_module_record = '\\'.$this->container->getParameter('project_name').'\\Modules\\'.$this->bundle_name.'\\Entity\\'.$this->entity_name;
+                    $new_module_record = '\\'.$this->container->getParameter('project_name').'\\Modules\\'.ucfirst($this->module_name).'\\Entity\\'.$this->getEntityName();
                     $new_module_record = new $new_module_record();
                     $new_module_record->setIdd($result['idd']);
                     $new_module_record->setCid($hid);
                     $new_module_record->setFinal('Y');
-                    $new_module_record->setRowId($request->get('id_row'));
+                    $new_module_record->setRowId($this->request->get('id_row'));
                     $new_module_record->setPluginId($plugin_id);
                     $new_module_record->setPluginType($plugin->getValue('type'));
                     $new_module_record->setPluginName($plugin->getValue('name'));
@@ -266,10 +267,10 @@ class BackendModel extends \example\Modules\News\Model\BackendModel
                 } else {
                     $plugin_id = $plugin->setDataInDb($request->get($plugin->getValue('name')));
 
-                    $new_module_record = '\\'.$this->container->getParameter('project_name').'\\Modules\\'.$this->bundle_name.'\\Entity\\'.$this->entity_name;
+                    $new_module_record = '\\'.$this->container->getParameter('project_name').'\\Modules\\'.ucfirst($this->module_name).'\\Entity\\'.$this->getEntityName();
                     $new_module_record = new $new_module_record();
                     $new_module_record->setFinal('Y');
-                    $new_module_record->setRowId($request->get('id_row'));
+                    $new_module_record->setRowId($this->request->get('id_row'));
                     $new_module_record->setPluginId($plugin_id);
                     $new_module_record->setPluginType($plugin->getValue('type'));
                     $new_module_record->setPluginName($plugin->getValue('name'));
@@ -280,7 +281,7 @@ class BackendModel extends \example\Modules\News\Model\BackendModel
                     $history = new history();
                     $history->setUpUser($security->getToken()->getUser()->getId());
                     $history->setUp($new_module_record->getId());
-                    $history->setUpTypeCode($this->entity_name);
+                    $history->setUpTypeCode($this->getEntityName());
                     $history->setActionCode('add_record');
                     $this->em->persist($history);
                     $this->em->flush();
@@ -291,11 +292,11 @@ class BackendModel extends \example\Modules\News\Model\BackendModel
                     $this->em->flush();
 
                     $modulelink = $this->em->getRepository('DialogsBundle:moduleslink')->findOneBy(array (
-                        'up_tree' => $request->get('id'),
-                        'up_module' => $request->get('id_module')
+                        'up_tree' => $this->request->get('id'),
+                        'up_module' => $this->request->get('id_module')
                         ));
 
-                    $module_plugin_link = new \fireice\FireiceSiteTree\Dialogs\DialogsBundle\Entity\modulespluginslink();
+                    $module_plugin_link = new modulespluginslink();
                     $module_plugin_link->setUpLink($modulelink->getId());
                     $module_plugin_link->setUpPlugin($new_module_record->getId());
                     $this->em->persist($module_plugin_link);
@@ -316,7 +317,7 @@ class BackendModel extends \example\Modules\News\Model\BackendModel
             );
         }
 
-        $entity = '\\'.$this->container->getParameter('project_name').'\\Modules\\'.$this->getBundleName().'\\Entity\\'.$this->getEntityName();
+        $entity = '\\'.$this->container->getParameter('project_name').'\\Modules\\'.ucfirst($this->module_name).'\\Entity\\'.$this->getEntityName();
         $entity = new $entity();
 
         $config = $entity->configNode();
@@ -390,13 +391,13 @@ class BackendModel extends \example\Modules\News\Model\BackendModel
                     m_l.up_tree AS node_id,
                     plg.value as node_name
                 FROM 
-                    ".$type['bundle'].':'.$key." md, 
+                    Module".$type['bundle'].'Bundle:'.$key." md, 
                     FireicePlugins".ucfirst($plugin)."Bundle:plugin".$plugin." plg,
                     DialogsBundle:moduleslink m_l,
                     DialogsBundle:modulespluginslink mp_l
                 WHERE md.status = 'active'
             
-                AND m_l.up_tree In (".implode(',', $type['ids']).")
+                AND m_l.up_tree IN (".implode(',', $type['ids']).")
                 AND m_l.up_module = ".$type['module_id']."
                 AND m_l.id = mp_l.up_link
                 AND mp_l.up_plugin = md.idd

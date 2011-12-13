@@ -8,11 +8,11 @@ class FrontendController extends \fireice\Backend\Modules\Controller\FrontendCon
 {
     protected $model = '\\example\\Modules\\Comments\\Model\\FrontendModel';
 
-    public function frontend($id_node, $false)
+    public function frontend($id_node, $false=array())
     {
         $model = $this->getModel();
 
-        $data = $model->getFrontendData($id_node, false);
+        $data = $this->load();
         
         $form = $this->createFormBuilder()
             ->add('title', 'text')

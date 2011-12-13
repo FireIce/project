@@ -31,9 +31,6 @@
 {% endmacro %}
 
 <div id="content">
-	{% if data.data.banner.value|length > 0 %}
-		<div class="banner inside"><div style="background-image:url('{{ data.data.banner.value[0].src|raw }}');"></div></div>
-	{% endif %}
 
     <!-- Навигация пути к странице -->
     <div class="pathway">
@@ -47,17 +44,7 @@
     </div>
     <!-- END -->
     <table>
-        <tr>
-            <!-- Если есть потомки, то показываем эту ячейку -->
-            {% if hierarchy|length > 0 %}
-            <td id="sidebar">
-                <div class="header"><h3>Разделы</h3></div>
-                
-                {{ _self.menu(hierarchy, current) }}  
-                 
-            </td>
-            {% endif %}
-            <!-- END -->            
+        <tr>         
             <td>
                
 {% if message == 'ok' %} 
@@ -66,7 +53,7 @@
 
 {% else %}               
                 
-                {{ data.data.content.value|raw }}
+                
                 
 <script src="{{ asset('bundles/tree/js/jquery.js') }}" type="text/javascript"></script>
 <script src="{{ asset('bundles/tree/js/jquery.validate.min.js') }}" type="text/javascript"></script>

@@ -3,6 +3,7 @@
 namespace example\Frontend\Controller;
 
 use example\Frontend\Model\FrontendModel;
+use fireice\Backend\Tree\Controller\TreeController;
 
 class FrontendController extends \fireice\Frontend\Controller\FrontendController
 {
@@ -23,9 +24,19 @@ class FrontendController extends \fireice\Frontend\Controller\FrontendController
     public function showPage($id_node, $params='')
     {
         $frontend_model = $this->getModel();
+        
+        $tree = new TreeController();
+        $tree->setContainer($this->container);    
+        
+        $menu = array (
+            'right' => $frontend_model->getMenu(1),
+            'sub' => $frontend_model->getMenu($id_node),
+        );
+        $navigation = $frontend_model->getNavigation($id_node);
+        $current_page = $navigation[count($navigation) - 1];        
 
         if ($frontend_model->checkAccess($id_node)) {
-            $node_modules = $frontend_model->getNodeModules($id_node);
+            $node_modules = $frontend_model->getNodeUsersModules($id_node);
 
             // Определяем нужно ли показывать комментарии
             $show = false;
@@ -33,9 +44,11 @@ class FrontendController extends \fireice\Frontend\Controller\FrontendController
             $entity = '\\'.$this->container->getParameter('project_name').'\\Modules\\Comments\\Entity\\modulecomments';
             $entity = new $entity();
             $tmp = $entity->configNode();
+            
             foreach ($tmp['data']['modules'] as $value) {
-                $comments[] = 'Module'.ucfirst($value).'Bundle';
+                $comments[] = ucfirst($value);
             }
+
             foreach ($node_modules as $key => $val) {
                 if (in_array($val, $comments)) {
                     $show = true;
@@ -69,7 +82,7 @@ class FrontendController extends \fireice\Frontend\Controller\FrontendController
                     'item' => 0
                 ));
 
-                $module_act = '\\'.$this->container->getParameter('project_name').'\\Modules\\ModuleCommentsBundle\\Controller\\BackendController';
+                $module_act = '\\'.$this->container->getParameter('project_name').'\\Modules\\Comments\\Controller\\BackendController';
                 $module_act = new $module_act();
                 $module_act->setContainer($this->container);
                 $module_act->createEdit();
@@ -79,31 +92,23 @@ class FrontendController extends \fireice\Frontend\Controller\FrontendController
 
             // Собираем хтмл
             foreach ($node_modules as $key => $val) {
-                $module_act = '\\'.$this->container->getParameter('project_name').'\\Modules\\'.$val.'\\Controller\\FrontendController';
-                $module_act = new $module_act();
-                $module_act->setContainer($this->container);
+                                              
+                $frontend = $tree->getNodeModule($id_node, $key)->frontend($params, array (
+                    'navigation' => $navigation,
+                    ));
 
-                $modules_html[] = $module_act->frontend($id_node, $key)->getContent();
+                if ($frontend->isRedirect()) return $frontend;
+
+                $modules_html[] = $frontend->getContent();                
             }
 
             // Хтмл комментариев (если нужно)
             if ($show) {
-                $module_act = '\\'.$this->container->getParameter('project_name').'\\Modules\\ModuleCommentsBundle\\Controller\\FrontendController';
-                $module_act = new $module_act();
-                $module_act->setContainer($this->container);
-
-                $modules_html[] = $module_act->frontend($id_node, false)->getContent();
+                $modules_html[] = $tree->getNodeModule(223, 7)->frontend($id_node, false)->getContent();                
             }
         } else {
             $modules_html['main'] = 'Ошибка!<br>Вы не имеете доступа к этой странице!';
         }
-
-        $menu = array (
-            'right' => $frontend_model->getMenu(1),
-            'sub' => $frontend_model->getMenu($id_node),
-        );
-        $navigation = $frontend_model->getNavigation($id_node);
-        $current_page = $navigation[count($navigation) - 1];
 
         return $this->render('FrontendBundle:Frontend:index.html.twig', array (
                 'modules' => $modules_html,

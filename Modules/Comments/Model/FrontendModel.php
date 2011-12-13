@@ -7,7 +7,7 @@ class FrontendModel extends \fireice\Backend\Modules\Model\FrontendModel
     protected $module_name = 'comments';
     protected $data = array ();
 
-    public function getFrontendData($sitetree_id, $info=false)
+    public function getFrontendData($sitetree_id, $module_id, $params=array ())
     {
         $config_plugin = 'selectbox';
 
@@ -22,7 +22,7 @@ class FrontendModel extends \fireice\Backend\Modules\Model\FrontendModel
             WHERE m_l.up_module = md.idd
             AND md.status = 'active'
             AND md.final = 'Y'
-            AND md.name = 'ModuleCommentsBundle'");
+            AND md.name = 'Comments'");
 
         $result = $query->getSingleResult();
 

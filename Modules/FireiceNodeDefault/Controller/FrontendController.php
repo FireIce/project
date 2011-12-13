@@ -1,6 +1,6 @@
 <?php
 
-namespace pit\Modules\FireiceNodeDefault\Controller;
+namespace example\Modules\FireiceNodeDefault\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 

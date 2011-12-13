@@ -24,7 +24,7 @@ class FrontendController extends \fireice\Backend\Modules\Controller\FrontendCon
         $feedback = new feedback();
         $form = $this->createForm(new FeedbackForm(), $feedback);
 
-        if ($this->get('session')->get($this->get('request')->getUri().'_success') !== true) {
+        if ($this->get('session')->get($this->get('request')->getUri().'_success') !== true) { 
             if ($request->getMethod() == 'POST') {
 
                 $form->bindRequest($request);
@@ -32,7 +32,7 @@ class FrontendController extends \fireice\Backend\Modules\Controller\FrontendCon
                 if ($form->isValid()) {
 
                     $tree = new TreeController();
-                    $tree->setContainer($this->container);
+                    $tree->setContainer($this->container); 
                     $settings = $tree->getNodeModule(22, 11)->load();
 
                     // Отправка письма
@@ -72,7 +72,7 @@ class FrontendController extends \fireice\Backend\Modules\Controller\FrontendCon
                     'url' => $url,
                     'data' => $this->load(),
                     'navigation' => $other['navigation'],
-                    'hierarchy' => $other['hierarchy'],
+                    //'hierarchy' => $other['hierarchy'],
                     'current' => $this->id_node
                 ));
         } else {

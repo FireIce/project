@@ -40,8 +40,7 @@ class FrontendController extends \fireice\Backend\Modules\Controller\FrontendCon
                         return $this->render($model->getBundleName().':Frontend:item.html.twig', array (
                                 'data' => $this->load($parametres),
                                 'url' => $url,
-                                'navigation' => $other['navigation'],
-                                'hierarchy' => $other['hierarchy'],
+                                'navigation' => $other['navigation'],        
                                 'current' => $this->id_node
                             ));
                     }
@@ -63,7 +62,6 @@ class FrontendController extends \fireice\Backend\Modules\Controller\FrontendCon
                 'pager' => $pager,
                 'url' => $url,
                 'navigation' => $other['navigation'],
-                'hierarchy' => $other['hierarchy'],
                 'current' => $this->id_node            
             ));
     }
