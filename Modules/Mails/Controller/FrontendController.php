@@ -1,13 +1,13 @@
 <?php
 
-namespace pit\Modules\Mails\Controller;
+namespace example\Modules\Mails\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 
-class FrontendController extends \pit\Modules\News\Controller\FrontendController
+class FrontendController extends \example\Modules\News\Controller\FrontendController
 {
-    protected $model = '\\pit\\Modules\\Mails\\Model\\FrontendModel';
+    protected $model = '\\example\\Modules\\Mails\\Model\\FrontendModel';
 
     public function frontend($param, $other=array())
     {

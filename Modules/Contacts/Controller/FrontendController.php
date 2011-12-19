@@ -33,19 +33,12 @@ class FrontendController extends \fireice\Backend\Modules\Controller\FrontendCon
 
                     $tree = new TreeController();
                     $tree->setContainer($this->container); 
-                    $settings = $tree->getNodeModule(22, 11)->load();
 
                     // Отправка письма
                     $message = \Swift_Message::newInstance()
                         ->setSubject('Сообщение с сайта '.$this->get('request')->getHost().' от посетителя '.$feedback->getName())
                         ->setFrom('no-reply@'.$this->get('request')->getHost())
-                        ->setTo($settings['data']['email']['value'])
-                        /*
-                        ->setBody('Вам пришло сообщение с сайта '.$this->get('request')->getHost().' от посетителя '.$feedback->getName()
-                            ."\n\rEmail посетителя: ".$feedback->getEmail()
-                            ."\n\rСообщение:\n\r"
-                            .$feedback->getComment());                        
-                         */
+                        ->setTo($this->container->getParameter('email'))
                         ->setBody($this->renderView($model->getBundleName().':Frontend:mail.html.twig', array(
                             'url' => $this->get('request')->getHost(),
                             'user' => $feedback->getEmail(),
@@ -58,7 +51,7 @@ class FrontendController extends \fireice\Backend\Modules\Controller\FrontendCon
                     $tree = new TreeController();
                     $tree->setContainer($this->container);
 
-                    $frontend = $tree->getNodeModule(5, 10)->saveMessage($feedback);
+                    $frontend = $tree->getNodeModule(238, 8)->saveMessage($feedback);
 
                     $this->get('session')->set($request->getUri().'_success', true);
 
@@ -72,7 +65,6 @@ class FrontendController extends \fireice\Backend\Modules\Controller\FrontendCon
                     'url' => $url,
                     'data' => $this->load(),
                     'navigation' => $other['navigation'],
-                    //'hierarchy' => $other['hierarchy'],
                     'current' => $this->id_node
                 ));
         } else {
@@ -83,7 +75,6 @@ class FrontendController extends \fireice\Backend\Modules\Controller\FrontendCon
                     'message' => 'ok',
                     'data' => $this->load(array ('url' => $url)),
                     'navigation' => $other['navigation'],
-                    'hierarchy' => $other['hierarchy'],
                     'current' => $this->id_node
                 ));
         }

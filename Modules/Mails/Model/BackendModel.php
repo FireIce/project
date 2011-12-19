@@ -1,8 +1,8 @@
 <?php
 
-namespace pit\Modules\Mails\Model;
+namespace example\Modules\Mails\Model;
 
-class BackendModel extends \pit\Modules\News\Model\BackendModel
+class BackendModel extends \example\Modules\News\Model\BackendModel
 {
     protected $module_name = 'mails';
 

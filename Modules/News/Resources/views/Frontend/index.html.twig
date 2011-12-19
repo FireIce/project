@@ -2,22 +2,12 @@
 {% block content %} 
 
 <div id="content">
-    <div class="banner inside"><div style="background-image:url({{ asset('uploads/images/4.jpg') }});"></div></div>
-    
-    <div class="pathway">
-        {% for val in navigation %}
-            {% if not loop.last %}
-                <a href="{{ url('homepage') }}{{ val.path }}">{{ val.title }}</a>
-            {%else%}
-                {{ val.title }}
-            {% endif %}
-        {% endfor %}    
-    </div>    
+    <div class="banner inside"><div style="background-image:url({{ asset('uploads/images/4.jpg') }});"></div></div>  
     
      <h1>Новости</h1>
 	<div class="news">
         {% for i, new in data['data'] %}
-            <span class="date">{{ new.data.date.value }}</span><br>  
+            <span class="date">{{ new.data.date.value.data }}</span><br>  
             <a href="{{ new.url }}" class="title">{{ new.data.title.value }}</a>
             <p class="anons">{{ new.data.new.value }}</p> 
         {% endfor %}

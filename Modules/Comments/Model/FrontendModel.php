@@ -62,7 +62,7 @@ class FrontendModel extends \fireice\Backend\Modules\Model\FrontendModel
 
             foreach ($plugins as $plugin) {
                 if (!isset($values[$plugin->getValue('type')])) {
-                    $values[$plugin->getValue('type')] = $plugin->getData($id_node, $this->bundle_name.':'.$this->entity_name, $id_module, self::TYPE_LIST, $ids);
+                    $values[$plugin->getValue('type')] = $plugin->getData($id_node, $this->getBundleName().':'.$this->getEntityName(), $id_module, self::TYPE_LIST, $ids);
                 }
             }
 

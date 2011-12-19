@@ -1,20 +1,5 @@
 
-{% block content %} 
-
-{% macro menu(value, current) %}
-  {% if value|length > 0 %}
-
-                <ul>
-                    {% for k,v in value %}
-                    <li>
-                        {% if v.id == current %}<b>{{ v.title }}</b>{%else%}<a href="{{ url('homepage') }}{{ v.path }}">{{ v.title }}</a>{% endif %}
-                        {{ _self.menu(v.childs, current) }}
-                    </li>                    
-                    {% endfor %}
-                </ul>  
-  
-  {% endif %}
-{% endmacro %}
+{% block content %}
 
 
 {% macro field(row, lname, label) %}
@@ -32,17 +17,6 @@
 
 <div id="content">
 
-    <!-- Навигация пути к странице -->
-    <div class="pathway">
-        {% for val in navigation %}
-            {% if not loop.last %}
-                <a href="{{ url('homepage') }}{{ val.path }}">{{ val.title }}</a>
-            {%else%}
-                {{ val.title }}
-            {% endif %}
-        {% endfor %}    
-    </div>
-    <!-- END -->
     <table>
         <tr>         
             <td>

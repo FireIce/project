@@ -95,7 +95,7 @@ class BackendModel extends \example\Modules\News\Model\BackendModel
 
         foreach ($this->getPlugins() as $plugin) {
             if (!isset($values[$plugin->getValue('type')])) {
-                $values[$plugin->getValue('type')] = $plugin->getData($sitetree_id, $this->bundle_name.':'.$this->entity_name, $module_id, self::TYPE_LIST, array ("'".$row_id."'"));
+                $values[$plugin->getValue('type')] = $plugin->getData($sitetree_id, $this->getBundleName().':'.$this->getEntityName(), $module_id, self::TYPE_LIST, array ("'".$row_id."'"));
             }
         }
 
@@ -124,7 +124,7 @@ class BackendModel extends \example\Modules\News\Model\BackendModel
         );
 
         // Добавим в value плагина item названия новостей
-        $entity = '\\'.$this->container->getParameter('project_name').'\\Modules\\'.$this->getBundleName().'\\Entity\\'.$this->getEntityName();
+        $entity = '\\'.$this->container->getParameter('project_name').'\\Modules\\'.ucfirst($this->module_name).'\\Entity\\'.$this->getEntityName();
         $entity = new $entity();
 
         $config = $entity->configItem();
@@ -249,7 +249,7 @@ class BackendModel extends \example\Modules\News\Model\BackendModel
 
                     $hid = $history->getId();
 
-                    $query = $this->em->createQuery("UPDATE ".$this->getBundleName().':'.$this->getEntityName()." md SET md.final='N', md.eid = ".$hid." WHERE md.idd = ".$result['idd']." AND md.final != 'N' AND md.row_id = ".$request->get('id_row'));
+                    $query = $this->em->createQuery("UPDATE ".$this->getBundleName().':'.$this->getEntityName()." md SET md.final='N', md.eid = ".$hid." WHERE md.idd = ".$result['idd']." AND md.final != 'N' AND md.row_id = ".$this->request->get('id_row'));
                     $query->getResult();
 
                     $new_module_record = '\\'.$this->container->getParameter('project_name').'\\Modules\\'.ucfirst($this->module_name).'\\Entity\\'.$this->getEntityName();
@@ -265,7 +265,7 @@ class BackendModel extends \example\Modules\News\Model\BackendModel
                     $this->em->persist($new_module_record);
                     $this->em->flush();
                 } else {
-                    $plugin_id = $plugin->setDataInDb($request->get($plugin->getValue('name')));
+                    $plugin_id = $plugin->setDataInDb($this->request->get($plugin->getValue('name')));
 
                     $new_module_record = '\\'.$this->container->getParameter('project_name').'\\Modules\\'.ucfirst($this->module_name).'\\Entity\\'.$this->getEntityName();
                     $new_module_record = new $new_module_record();

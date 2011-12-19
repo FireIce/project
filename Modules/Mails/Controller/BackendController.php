@@ -1,14 +1,14 @@
 <?php
 
-namespace pit\Modules\Mails\Controller;
+namespace example\Modules\Mails\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use pit\Modules\Mails\Model\BackendModel;
+use example\Modules\Mails\Model\BackendModel;
 
-class BackendController extends \pit\Modules\News\Controller\BackendController
+class BackendController extends \example\Modules\News\Controller\BackendController
 {
-    protected $model = '\\pit\\Modules\\Mails\\Model\\BackendModel';
+    protected $model = '\\example\\Modules\\Mails\\Model\\BackendModel';
 
     public function getRights()
     {

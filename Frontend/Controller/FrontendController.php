@@ -2,6 +2,7 @@
 
 namespace example\Frontend\Controller;
 
+use example\Modules\Comments\Form\CommentsForm;
 use example\Frontend\Model\FrontendModel;
 use fireice\Backend\Tree\Controller\TreeController;
 
@@ -59,14 +60,9 @@ class FrontendController extends \fireice\Frontend\Controller\FrontendController
             $request = $this->get('request');
 
             // Если нужно сохранить комент, то сохраняем и редерим на стр.
-            if ($show && $request->getMethod() == 'POST') {
+            if ($show && $request->getMethod() == 'POST' && $request->request->has('comments')) {
                 // Занести комент в БД
-                $form = $this->createFormBuilder()
-                    ->add('title', 'text')
-                    ->add('comment', 'textarea')
-                    ->add('answer', 'choice')
-                    ->getForm();
-
+                $form = $this->createForm(new CommentsForm());
                 $form->bindRequest($request);
 
                 $info = $frontend_model->getCommentsInfo();

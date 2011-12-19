@@ -3,6 +3,7 @@
 namespace example\Modules\Comments\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use example\Modules\Comments\Form\CommentsForm;
 
 class FrontendController extends \fireice\Backend\Modules\Controller\FrontendController
 {
@@ -12,13 +13,9 @@ class FrontendController extends \fireice\Backend\Modules\Controller\FrontendCon
     {
         $model = $this->getModel();
 
-        $data = $this->load();
-        
-        $form = $this->createFormBuilder()
-            ->add('title', 'text')
-            ->add('comment', 'textarea')
-            ->add('answer', 'choice', array ('choices' => $model->getAnswers()))
-            ->getForm();
+        $data = $model->getFrontendData($id_node, 0, array());
+
+        $form = $this->createForm(new CommentsForm($model->getAnswers()));
 
         return $this->render($model->getBundleName().':Frontend:index.html.twig', array (
                 'data' => $data,
