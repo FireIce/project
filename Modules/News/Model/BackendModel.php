@@ -8,7 +8,7 @@ use fireice\Backend\Dialogs\Entity\modulespluginslink;
 
 class BackendModel extends \fireice\Backend\Modules\Model\BackendModel
 {
-    protected $module_name = 'news';
+    //protected $module_name = 'news';
 
     public function getBackendData($sitetree_id, $acl, $module_id)
     {

@@ -8,7 +8,7 @@ use fireice\Backend\Dialogs\Entity\modulespluginslink;
 
 class BackendModel extends \example\Modules\News\Model\BackendModel
 {
-    protected $module_name = 'comments';
+    //protected $module_name = 'comments';
 
     public function getBackendData($sitetree_id, $acl, $module_id)
     {

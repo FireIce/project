@@ -4,7 +4,7 @@ namespace example\Modules\News\Model;
 
 class FrontendModel extends \fireice\Backend\Modules\Model\FrontendModel
 {
-    protected $module_name = 'news';
+    //protected $module_name = 'news';
 
     public function getFrontendData($sitetree_id, $module_id, $params=array ())
     {

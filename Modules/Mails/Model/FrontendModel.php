@@ -7,7 +7,7 @@ use fireice\Backend\Dialogs\Entity\modulespluginslink;
 
 class FrontendModel extends \example\Modules\News\Model\FrontendModel
 {
-    protected $module_name = 'mails';
+    //protected $module_name = 'mails';
 
     public function saveMessage($id_node, $id_module, $feedback, $acl)
     { 
