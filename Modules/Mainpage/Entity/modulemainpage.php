@@ -20,7 +20,7 @@ class modulemainpage
     protected $id;
     /**
      * @ORM\Column(type="integer")    
-     * @Assert\Type("numeric")     
+     * @Assert\Type("numeric",nullable="TRUE")     
      */
     protected $idd;
     /**
