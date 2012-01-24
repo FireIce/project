@@ -1,6 +1,6 @@
 <?php
 
-namespace example\Modules\News\Model;
+namespace project\Modules\News\Model;
 
 use fireice\Backend\Tree\Entity\history;
 use fireice\Backend\Dialogs\Entity\module;

@@ -1,6 +1,6 @@
 <?php
 
-namespace example\Modules\Mails\Entity;
+namespace project\Modules\Mails\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;

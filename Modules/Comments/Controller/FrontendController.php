@@ -1,13 +1,13 @@
 <?php
 
-namespace example\Modules\Comments\Controller;
+namespace project\Modules\Comments\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use example\Modules\Comments\Form\CommentsForm;
+use project\Modules\Comments\Form\CommentsForm;
 
 class FrontendController extends \fireice\Backend\Modules\Controller\FrontendController
 {
-    protected $model = '\\example\\Modules\\Comments\\Model\\FrontendModel';
+    protected $model = '\\project\\Modules\\Comments\\Model\\FrontendModel';
 
     public function frontend($id_node, $false=array())
     {

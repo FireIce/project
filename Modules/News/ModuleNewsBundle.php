@@ -1,6 +1,6 @@
 <?php
 
-namespace example\Modules\News;
+namespace project\Modules\News;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 

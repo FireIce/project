@@ -1,12 +1,12 @@
 <?php
 
-namespace example\Modules\News\Controller;
+namespace project\Modules\News\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class FrontendController extends \fireice\Backend\Modules\Controller\FrontendController
 {
-    protected $model = '\\example\\Modules\\News\\Model\\FrontendModel';
+    protected $model = '\\project\\Modules\\News\\Model\\FrontendModel';
     // Кол-во новостей на странице
     protected $page_limit = 3;
 

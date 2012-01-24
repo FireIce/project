@@ -1,12 +1,12 @@
 <?php
 
-namespace example\Modules\Text\Controller;
+namespace project\Modules\Text\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class FrontendController extends \fireice\Backend\Modules\Controller\FrontendController
 {
-    protected $model = '\\example\\Modules\\Text\\Model\\FrontendModel';
+    protected $model = '\\project\\Modules\\Text\\Model\\FrontendModel';
 
     public function frontend($params, $other=array ())
     {

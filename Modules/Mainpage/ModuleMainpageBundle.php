@@ -1,6 +1,6 @@
 <?php
 
-namespace example\Modules\Mainpage;
+namespace project\Modules\Mainpage;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 

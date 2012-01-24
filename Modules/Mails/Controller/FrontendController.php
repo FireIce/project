@@ -1,13 +1,13 @@
 <?php
 
-namespace example\Modules\Mails\Controller;
+namespace project\Modules\Mails\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 
-class FrontendController extends \example\Modules\News\Controller\FrontendController
+class FrontendController extends \project\Modules\News\Controller\FrontendController
 {
-    protected $model = '\\example\\Modules\\Mails\\Model\\FrontendModel';
+    protected $model = '\\project\\Modules\\Mails\\Model\\FrontendModel';
 
     public function frontend($param, $other=array())
     {

@@ -1,6 +1,6 @@
 <?php
 
-namespace example\Modules\FireiceNodeDefault\Model;
+namespace project\Modules\FireiceNodeDefault\Model;
 
 class FrontendModel extends \fireice\Backend\Modules\Model\FrontendModel
 {

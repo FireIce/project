@@ -1,6 +1,6 @@
 <?php
 
-namespace example\Modules\Mails;
+namespace project\Modules\Mails;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 

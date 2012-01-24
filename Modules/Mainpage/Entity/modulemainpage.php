@@ -1,6 +1,6 @@
 <?php
 
-namespace example\Modules\Mainpage\Entity;
+namespace project\Modules\Mainpage\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;

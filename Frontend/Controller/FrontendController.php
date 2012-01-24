@@ -1,9 +1,9 @@
 <?php
 
-namespace example\Frontend\Controller;
+namespace project\Frontend\Controller;
 
-use example\Modules\Comments\Form\CommentsForm;
-use example\Frontend\Model\FrontendModel;
+use project\Modules\Comments\Form\CommentsForm;
+use project\Frontend\Model\FrontendModel;
 use fireice\Backend\Tree\Controller\TreeController;
 
 class FrontendController extends \fireice\Frontend\Controller\FrontendController

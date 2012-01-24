@@ -1,6 +1,6 @@
 <?php
 
-namespace example\Modules\Comments\Model;
+namespace project\Modules\Comments\Model;
 
 class FrontendModel extends \fireice\Backend\Modules\Model\FrontendModel
 {

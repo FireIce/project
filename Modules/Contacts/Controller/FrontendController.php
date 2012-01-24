@@ -1,16 +1,16 @@
 <?php
 
-namespace example\Modules\Contacts\Controller;
+namespace project\Modules\Contacts\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
-use example\Modules\Contacts\Form\FeedbackForm;
-use example\Modules\Contacts\Entity\feedback;
+use project\Modules\Contacts\Form\FeedbackForm;
+use project\Modules\Contacts\Entity\feedback;
 use fireice\Backend\Tree\Controller\TreeController;
 
 class FrontendController extends \fireice\Backend\Modules\Controller\FrontendController
 {
-    protected $model = '\\example\\Modules\\Contacts\\Model\\FrontendModel';
+    protected $model = '\\project\\Modules\\Contacts\\Model\\FrontendModel';
 
     public function frontend($params, $other=array ())
     {

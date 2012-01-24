@@ -1,6 +1,6 @@
 <?php
 
-namespace example\Modules\Comments\Form;
+namespace project\Modules\Comments\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilder;

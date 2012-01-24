@@ -1,14 +1,14 @@
 <?php
 
-namespace example\Modules\Mails\Controller;
+namespace project\Modules\Mails\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use example\Modules\Mails\Model\BackendModel;
+use project\Modules\Mails\Model\BackendModel;
 
-class BackendController extends \example\Modules\News\Controller\BackendController
+class BackendController extends \project\Modules\News\Controller\BackendController
 {
-    protected $model = '\\example\\Modules\\Mails\\Model\\BackendModel';
+    protected $model = '\\project\\Modules\\Mails\\Model\\BackendModel';
 
     public function getRights()
     {

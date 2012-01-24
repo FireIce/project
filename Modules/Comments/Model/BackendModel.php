@@ -1,12 +1,12 @@
 <?php
 
-namespace example\Modules\Comments\Model;
+namespace project\Modules\Comments\Model;
 
 use fireice\Backend\Tree\Entity\history;
 use fireice\Backend\Dialogs\Entity\module;
 use fireice\Backend\Dialogs\Entity\modulespluginslink;
 
-class BackendModel extends \example\Modules\News\Model\BackendModel
+class BackendModel extends \project\Modules\News\Model\BackendModel
 {
     //protected $module_name = 'comments';
 

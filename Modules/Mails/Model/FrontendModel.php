@@ -1,11 +1,11 @@
 <?php
 
-namespace example\Modules\Mails\Model;
+namespace project\Modules\Mails\Model;
 
 use fireice\Backend\Tree\Entity\history;
 use fireice\Backend\Dialogs\Entity\modulespluginslink;
 
-class FrontendModel extends \example\Modules\News\Model\FrontendModel
+class FrontendModel extends \project\Modules\News\Model\FrontendModel
 {
     //protected $module_name = 'mails';
 

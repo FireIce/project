@@ -1,6 +1,6 @@
 <?php
 
-namespace example\Modules\Contacts\Form;
+namespace project\Modules\Contacts\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilder;

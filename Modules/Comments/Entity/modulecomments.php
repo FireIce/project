@@ -1,6 +1,6 @@
 <?php
 
-namespace example\Modules\Comments\Entity;
+namespace project\Modules\Comments\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;

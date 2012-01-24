@@ -1,14 +1,14 @@
 <?php
 
-namespace example\Modules\Mainpage\Controller;
+namespace project\Modules\Mainpage\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use example\Modules\Mainpage\Model\BackendModel;
+use project\Modules\Mainpage\Model\BackendModel;
 
 class BackendController extends \fireice\Backend\Modules\Controller\BackendController
 {
-    protected $model = '\\example\\Modules\\Mainpage\\Model\\BackendModel';
+    protected $model = '\\project\\Modules\\Mainpage\\Model\\BackendModel';
 
     public function getRights()
     {
