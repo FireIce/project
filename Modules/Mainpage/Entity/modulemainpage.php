@@ -24,7 +24,7 @@ class modulemainpage
      */
     protected $idd;
     /**
-     * @ORM\Column(type="integer")          
+     * @ORM\Column(type="integer", nullable="TRUE")          
      */
     protected $cid;
     /**
