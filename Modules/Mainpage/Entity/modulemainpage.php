@@ -19,8 +19,8 @@ class modulemainpage
      */
     protected $id;
     /**
-     * @ORM\Column(type="integer")    
-     * @Assert\Type("numeric",nullable="TRUE")     
+     * @ORM\Column(type="integer",nullable="TRUE")    
+     * @Assert\Type("numeric")     
      */
     protected $idd;
     /**
