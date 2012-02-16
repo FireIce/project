@@ -78,8 +78,7 @@ class FrontendController extends \fireice\Frontend\Controller\FrontendController
                     'item' => 0
                 ));
 
-                $module_act = '\\project\\Modules\\Comments\\Controller\\BackendController';
-                $module_act = new $module_act();
+                $module_act = new \project\Modules\Comments\Controller\BackendController();
                 $module_act->setContainer($this->container);
                 $module_act->createEdit();
 
