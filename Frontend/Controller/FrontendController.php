@@ -5,6 +5,7 @@ namespace project\Frontend\Controller;
 use project\Modules\Comments\Form\CommentsForm;
 use project\Frontend\Model\FrontendModel;
 use fireice\Backend\Tree\Controller\TreeController;
+use project\Modules\Comments\Entity\modulecomments;
 
 class FrontendController extends \fireice\Frontend\Controller\FrontendController
 {
@@ -42,8 +43,7 @@ class FrontendController extends \fireice\Frontend\Controller\FrontendController
             // Определяем нужно ли показывать комментарии
             $show = false;
             $comments = array ();
-            $entity = '\\project\\Modules\\Comments\\Entity\\modulecomments';
-            $entity = new $entity();
+            $entity =  new modulecomments();
             $tmp = $entity->configNode();
             
             foreach ($tmp['data']['modules'] as $value) {
