@@ -42,7 +42,7 @@ class FrontendController extends \fireice\Frontend\Controller\FrontendController
             // Определяем нужно ли показывать комментарии
             $show = false;
             $comments = array ();
-            $entity = '\\'.$this->container->getParameter('project_name').'\\Modules\\Comments\\Entity\\modulecomments';
+            $entity = '\\project\\Modules\\Comments\\Entity\\modulecomments';
             $entity = new $entity();
             $tmp = $entity->configNode();
             
@@ -78,7 +78,7 @@ class FrontendController extends \fireice\Frontend\Controller\FrontendController
                     'item' => 0
                 ));
 
-                $module_act = '\\'.$this->container->getParameter('project_name').'\\Modules\\Comments\\Controller\\BackendController';
+                $module_act = '\\project\\Modules\\Comments\\Controller\\BackendController';
                 $module_act = new $module_act();
                 $module_act->setContainer($this->container);
                 $module_act->createEdit();
@@ -100,7 +100,7 @@ class FrontendController extends \fireice\Frontend\Controller\FrontendController
 
             // Хтмл комментариев (если нужно)
             if ($show) {
-                $modules_html[] = $tree->getNodeModule(223, 7)->frontend($id_node, false)->getContent();                
+               $modules_html[] = $tree->getNodeModule(223, 7)->frontend($id_node, false)->getContent();                
             }
         } else {
             $modules_html['main'] = 'Ошибка!<br>Вы не имеете доступа к этой странице!';

@@ -59,7 +59,7 @@ class BackendModel extends \project\Modules\News\Model\BackendModel
                 );
 
                 // Добавим в value плагина item названия узлов
-                $entity = '\\'.$this->container->getParameter('project_name').'\\Modules\\'.ucfirst($this->module_name).'\\Entity\\'.$this->getEntityName();
+                $entity = '\\project\\Modules\\'.ucfirst($this->module_name).'\\Entity\\'.$this->getEntityName();
                 $entity = new $entity();
 
                 $config = $entity->configItem();
@@ -124,7 +124,7 @@ class BackendModel extends \project\Modules\News\Model\BackendModel
         );
 
         // Добавим в value плагина item названия новостей
-        $entity = '\\'.$this->container->getParameter('project_name').'\\Modules\\'.ucfirst($this->module_name).'\\Entity\\'.$this->getEntityName();
+        $entity = '\\project\\Modules\\'.ucfirst($this->module_name).'\\Entity\\'.$this->getEntityName();
         $entity = new $entity();
 
         $config = $entity->configItem();
@@ -176,7 +176,7 @@ class BackendModel extends \project\Modules\News\Model\BackendModel
             foreach ($plugins as $plugin) {
                 $plugin_id = $plugin->setDataInDb($this->request->get($plugin->getValue('name')));
 
-                $new_module_record = '\\'.$this->container->getParameter('project_name').'\\Modules\\'.ucfirst($this->module_name).'\\Entity\\'.$this->getEntityName();
+                $new_module_record = '\\project\\Modules\\'.ucfirst($this->module_name).'\\Entity\\'.$this->getEntityName();
                 $new_module_record = new $new_module_record();
                 $new_module_record->setFinal('T');
                 $new_module_record->setRowId($curr_row_id);
@@ -252,7 +252,7 @@ class BackendModel extends \project\Modules\News\Model\BackendModel
                     $query = $this->em->createQuery("UPDATE ".$this->getBundleName().':'.$this->getEntityName()." md SET md.final='N', md.eid = ".$hid." WHERE md.idd = ".$result['idd']." AND md.final != 'N' AND md.row_id = ".$this->request->get('id_row'));
                     $query->getResult();
 
-                    $new_module_record = '\\'.$this->container->getParameter('project_name').'\\Modules\\'.ucfirst($this->module_name).'\\Entity\\'.$this->getEntityName();
+                    $new_module_record = '\\project\\Modules\\'.ucfirst($this->module_name).'\\Entity\\'.$this->getEntityName();
                     $new_module_record = new $new_module_record();
                     $new_module_record->setIdd($result['idd']);
                     $new_module_record->setCid($hid);
@@ -267,7 +267,7 @@ class BackendModel extends \project\Modules\News\Model\BackendModel
                 } else {
                     $plugin_id = $plugin->setDataInDb($this->request->get($plugin->getValue('name')));
 
-                    $new_module_record = '\\'.$this->container->getParameter('project_name').'\\Modules\\'.ucfirst($this->module_name).'\\Entity\\'.$this->getEntityName();
+                    $new_module_record = '\\project\\Modules\\'.ucfirst($this->module_name).'\\Entity\\'.$this->getEntityName();
                     $new_module_record = new $new_module_record();
                     $new_module_record->setFinal('Y');
                     $new_module_record->setRowId($this->request->get('id_row'));
@@ -317,7 +317,7 @@ class BackendModel extends \project\Modules\News\Model\BackendModel
             );
         }
 
-        $entity = '\\'.$this->container->getParameter('project_name').'\\Modules\\'.ucfirst($this->module_name).'\\Entity\\'.$this->getEntityName();
+        $entity = '\\project\\Modules\\'.ucfirst($this->module_name).'\\Entity\\'.$this->getEntityName();
         $entity = new $entity();
 
         $config = $entity->configNode();
@@ -376,7 +376,7 @@ class BackendModel extends \project\Modules\News\Model\BackendModel
 
         foreach ($node_types as $key => $type) {
 
-            $module = '\\'.$this->container->getParameter('project_name').'\\Modules\\'.$type['bundle'].'\\Entity\\'.$key;
+            $module = '\\project\\Modules\\'.$type['bundle'].'\\Entity\\'.$key;
             $module = new $module();
 
             foreach ($module->getConfig() as $val) {

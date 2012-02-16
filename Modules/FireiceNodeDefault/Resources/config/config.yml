@@ -1,6 +1,6 @@
 
 parameters:
-    name:             fireicenodedefault   
+    name:             FireiceNodeDefault   
     title:            Настройки
     css_tab:          settings    
     parent:           
