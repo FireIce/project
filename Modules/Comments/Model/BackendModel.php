@@ -105,7 +105,7 @@ class BackendModel extends \project\Modules\News\Model\BackendModel
         foreach ($this->getPlugins() as $plugin) {
             $type = $plugin->getValue('type');
 
-            if ($values[$type] !== array () && isset($values[$type])) {
+            if (isset($values[$type]) && $values[$type] !== array ()  ) {
                 foreach ($values[$type] as $val) {
                     if ($val['plugin_name'] == $plugin->getValue('name')) {
                         $data[$plugin->getValue('name')] = $plugin->getValues() + array ('value' => $val['plugin_value']);
