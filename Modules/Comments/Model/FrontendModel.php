@@ -7,7 +7,7 @@ class FrontendModel extends \fireice\Backend\Modules\Model\FrontendModel
     //protected $module_name = 'comments';
     protected $data = array ();
 
-    public function getFrontendData($sitetree_id, $module_id, $params=array ())
+    public function getFrontendData($sitetree_id, $module_id, $params = array ())
     {
         $config_plugin = 'selectbox';
 
@@ -46,7 +46,7 @@ class FrontendModel extends \fireice\Backend\Modules\Model\FrontendModel
 
         $data = array ();
 
-        if (count($result) > 0) {
+        if ($result !== array ()) {
             $ids = array ();
 
             foreach ($result as $value) {

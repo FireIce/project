@@ -8,6 +8,7 @@ use fireice\Backend\Dialogs\Entity\modulespluginslink;
 
 class BackendModel extends \fireice\Backend\Modules\Model\BackendModel
 {
+
     //protected $module_name = 'news';
 
     public function getBackendData($sitetree_id, $acl, $module_id)
@@ -42,7 +43,7 @@ class BackendModel extends \fireice\Backend\Modules\Model\BackendModel
             }
         }
 
-        if (count($data) === 0) {
+        if ($data === array ()) {
             $data[0] = array (
                 'id_row' => 'null',
                 'data' => array ()
@@ -86,7 +87,7 @@ class BackendModel extends \fireice\Backend\Modules\Model\BackendModel
         foreach ($this->getPlugins() as $plugin) {
             $type = $plugin->getValue('type');
 
-            if (count($values[$type]) > 0) {
+            if ($values[$type] !== array () && isset($values[$type])) {
                 foreach ($values[$type] as $val) {
                     if ($val['plugin_name'] == $plugin->getValue('name')) {
                         $data[$plugin->getValue('name')] = $plugin->getValues() + array ('value' => $val['plugin_value']);
@@ -132,8 +133,8 @@ class BackendModel extends \fireice\Backend\Modules\Model\BackendModel
                 AND m_l.up_module = :up_module
                 AND m_l.id = mp_l.up_link
                 AND mp_l.up_plugin = md.idd");
-            
-            $query->setParameters(array(
+
+            $query->setParameters(array (
                 'up_tree' => $this->request->get('id'),
                 'up_module' => $this->request->get('id_module')
             ));
@@ -286,8 +287,8 @@ class BackendModel extends \fireice\Backend\Modules\Model\BackendModel
                         AND md.row_id = :row_id
                         AND md.plugin_name = :plugin_name
                         AND md.plugin_type = :plugin_type");
-                    
-                    $query->setParameters(array(
+
+                    $query->setParameters(array (
                         'up_tree' => $this->request->get('id'),
                         'up_module' => $this->request->get('id_module'),
                         'row_id' => $this->request->get('id_row'),
@@ -384,8 +385,8 @@ class BackendModel extends \fireice\Backend\Modules\Model\BackendModel
                         AND mp_l.up_plugin = md.idd
                         AND md.plugin_name = :plugin_name
                         AND md.plugin_type = :plugin_type");
-                    
-                    $query->setParameters(array(
+
+                    $query->setParameters(array (
                         'row_id' => $this->request->get('id_row'),
                         'up_tree' => $this->request->get('id'),
                         'up_module' => $this->request->get('id_module'),
@@ -489,8 +490,8 @@ class BackendModel extends \fireice\Backend\Modules\Model\BackendModel
                 AND md.row_id = :row_id
                 AND md.plugin_name = :plugin_name
                 AND md.plugin_type = :plugin_type");
-            
-            $query->setParameters(array(
+
+            $query->setParameters(array (
                 'up_tree' => $this->request->get('id'),
                 'up_module' => $this->request->get('id_module'),
                 'row_id' => $this->request->get('id_row'),
@@ -558,8 +559,8 @@ class BackendModel extends \fireice\Backend\Modules\Model\BackendModel
             AND md.final != 'D'
             AND md.row_id IN (".implode(',', array_keys($orders)).")
             AND md.plugin_name = 'fireice_order'");
-        
-        $query->setParameters(array(
+
+        $query->setParameters(array (
             'up_tree' => $this->request->get('id'),
             'up_module' => $this->request->get('id_module')
         ));

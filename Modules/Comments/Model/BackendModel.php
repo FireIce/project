@@ -8,6 +8,7 @@ use fireice\Backend\Dialogs\Entity\modulespluginslink;
 
 class BackendModel extends \project\Modules\News\Model\BackendModel
 {
+
     //protected $module_name = 'comments';
 
     public function getBackendData($sitetree_id, $acl, $module_id)
@@ -42,7 +43,7 @@ class BackendModel extends \project\Modules\News\Model\BackendModel
             }
         }
 
-        if (count($data) === 0) {
+        if ($data === array ()) {
             $data[0] = array (
                 'id_row' => 'null',
                 'data' => array ()
@@ -104,7 +105,7 @@ class BackendModel extends \project\Modules\News\Model\BackendModel
         foreach ($this->getPlugins() as $plugin) {
             $type = $plugin->getValue('type');
 
-            if (count($values[$type]) > 0) {
+            if ($values[$type] !== array () && isset($values[$type])) {
                 foreach ($values[$type] as $val) {
                     if ($val['plugin_name'] == $plugin->getValue('name')) {
                         $data[$plugin->getValue('name')] = $plugin->getValues() + array ('value' => $val['plugin_value']);
@@ -234,7 +235,7 @@ class BackendModel extends \project\Modules\News\Model\BackendModel
 
                 $result = $query->getResult();
 
-                if (count($result) > 0) {
+                if ($result !== array ()) {
                     $result = $result[0];
 
                     $plugin_id = $plugin->setDataInDb($this->request->get($plugin->getValue('name')));
@@ -427,7 +428,7 @@ class BackendModel extends \project\Modules\News\Model\BackendModel
         return $return;
     }
 
-    public function ajaxLoadComments($data, $id_comment='', $not_row=0)
+    public function ajaxLoadComments($data, $id_comment = '', $not_row = 0)
     {
         $config_plugin = 'selectbox';
 
@@ -477,7 +478,7 @@ class BackendModel extends \project\Modules\News\Model\BackendModel
             )
         );
 
-        if (count($res) > 0) {
+        if ($res !== array ()) {
             $query = $this->em->createQuery("
                 SELECT 
                     md.row_id,

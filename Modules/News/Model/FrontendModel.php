@@ -4,9 +4,10 @@ namespace project\Modules\News\Model;
 
 class FrontendModel extends \fireice\Backend\Modules\Model\FrontendModel
 {
+
     //protected $module_name = 'news';
 
-    public function getFrontendData($sitetree_id, $module_id, $params=array ())
+    public function getFrontendData($sitetree_id, $module_id, $params = array ())
     {
         $values = array ();
 
@@ -53,7 +54,7 @@ class FrontendModel extends \fireice\Backend\Modules\Model\FrontendModel
         $parametres = array ();
 
         // Нужно применить настройки
-        if (count($params) > 0) {
+        if ($params !== array ()) {
 
             if (!isset($params['current'])) {
 
