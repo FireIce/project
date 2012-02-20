@@ -7,9 +7,9 @@ class FrontendModel extends \fireice\Backend\Modules\Model\FrontendModel
     //protected $module_name = 'comments';
     protected $data = array ();
 
-    public function getFrontendData($sitetree_id, $module_id, $params = array ())
+    public function getFrontendData($sitetreeId, $moduleId, $params = array ())
     {
-        $config_plugin = 'selectbox';
+        $configPlugin = 'selectbox';
 
         // К какому узлу привязан модуль "Комментарии"
         $query = $this->em->createQuery("
@@ -26,8 +26,8 @@ class FrontendModel extends \fireice\Backend\Modules\Model\FrontendModel
 
         $result = $query->getSingleResult();
 
-        $id_node = $result['id_node'];
-        $id_module = $result['id_module'];
+        $idNode = $result['id_node'];
+        $idModule = $result['id_module'];
 
         // Узлы
         $query = $this->em->createQuery("
@@ -35,12 +35,12 @@ class FrontendModel extends \fireice\Backend\Modules\Model\FrontendModel
                 md.row_id
             FROM 
                 ModuleCommentsBundle:modulecomments md, 
-                FireicePlugins".ucfirst($config_plugin)."Bundle:plugin".$config_plugin." plg_node
+                FireicePlugins".ucfirst($configPlugin)."Bundle:plugin".$configPlugin." plg_node
             WHERE md.status = 'active'
             AND md.final = 'Y'
             AND md.plugin_name = 'node'
             AND md.plugin_id = plg_node.id
-            AND plg_node.value = '".$sitetree_id."'");
+            AND plg_node.value = '".$sitetreeId."'");
 
         $result = $query->getResult();
 
@@ -62,7 +62,7 @@ class FrontendModel extends \fireice\Backend\Modules\Model\FrontendModel
 
             foreach ($plugins as $plugin) {
                 if (!isset($values[$plugin->getValue('type')])) {
-                    $values[$plugin->getValue('type')] = $plugin->getData($id_node, $this->getBundleName().':'.$this->getEntityName(), $id_module, self::TYPE_LIST, $ids);
+                    $values[$plugin->getValue('type')] = $plugin->getData($idNode, $this->getBundleName().':'.$this->getEntityName(), $idModule, self::TYPE_LIST, $ids);
                 }
             }
 

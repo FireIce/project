@@ -9,7 +9,7 @@ class FrontendModel extends \project\Modules\News\Model\FrontendModel
 {
     //protected $module_name = 'mails';
 
-    public function saveMessage($id_node, $id_module, $feedback, $acl)
+    public function saveMessage($idNode, $idModule, $feedback, $acl)
     { 
         $plugins = $this->getPlugins();
 
@@ -27,8 +27,8 @@ class FrontendModel extends \project\Modules\News\Model\FrontendModel
                 AND mp_l.up_plugin = md.idd");
         
         $query->setParameters(array(
-            'up_tree' => $id_node,
-            'up_module' => $id_module
+            'up_tree' => $idNode,
+            'up_module' => $idModule
         ));
 
         $res = $query->getSingleResult();
@@ -39,42 +39,42 @@ class FrontendModel extends \project\Modules\News\Model\FrontendModel
             
             $method = 'get'.ucfirst($plugin->getValue('name'));
             
-            $plugin_id = $plugin->setDataInDb($feedback->$method());
+            $pluginId = $plugin->setDataInDb($feedback->$method());
 
-            $new_module_record = $this->getModuleEntity();
-            $new_module_record->setFinal('T');
-            $new_module_record->setRowId($curr_row_id);
-            $new_module_record->setPluginId($plugin_id);
-            $new_module_record->setPluginType($plugin->getValue('type'));
-            $new_module_record->setPluginName($plugin->getValue('name'));
-            $new_module_record->setStatus('inserting');
-            $this->em->persist($new_module_record);
+            $newModuleRecord = $this->getModuleEntity();
+            $newModuleRecord->setFinal('T');
+            $newModuleRecord->setRowId($curr_row_id);
+            $newModuleRecord->setPluginId($pluginId);
+            $newModuleRecord->setPluginType($plugin->getValue('type'));
+            $newModuleRecord->setPluginName($plugin->getValue('name'));
+            $newModuleRecord->setStatus('inserting');
+            $this->em->persist($newModuleRecord);
             $this->em->flush();
 
             $history = new history();
             $history->setUpUser($acl->current_user->getId());
-            $history->setUp($new_module_record->getId());
+            $history->setUp($newModuleRecord->getId());
             $history->setUpTypeCode($this->getEntityName());
             $history->setActionCode('add_record');
             $this->em->persist($history);
             $this->em->flush();
 
-            $new_module_record->setIdd($new_module_record->getId());
-            $new_module_record->setCid($history->getId());
-            $new_module_record->setFinal('Y');
-            $new_module_record->setStatus('active');
-            $this->em->persist($new_module_record);
+            $newModuleRecord->setIdd($newModuleRecord->getId());
+            $newModuleRecord->setCid($history->getId());
+            $newModuleRecord->setFinal('Y');
+            $newModuleRecord->setStatus('active');
+            $this->em->persist($newModuleRecord);
             $this->em->flush();
 
             $modulelink = $this->em->getRepository('DialogsBundle:moduleslink')->findOneBy(array (
-                'up_tree' => $id_node,
-                'up_module' => $id_module
+                'up_tree' => $idNode,
+                'up_module' => $idModule
                 ));
 
-            $module_plugin_link = new modulespluginslink();
-            $module_plugin_link->setUpLink($modulelink->getId());
-            $module_plugin_link->setUpPlugin($new_module_record->getIdd());
-            $this->em->persist($module_plugin_link);
+            $modulePluginLink = new modulespluginslink();
+            $modulePluginLink->setUpLink($modulelink->getId());
+            $modulePluginLink->setUpPlugin($newModuleRecord->getIdd());
+            $this->em->persist($modulePluginLink);
             $this->em->flush();
         }        
     }

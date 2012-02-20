@@ -23,22 +23,22 @@ class FrontendController extends \fireice\Frontend\Controller\FrontendController
         return $this->model;
     }
 
-    public function showPage($id_node, $params='')
+    public function showPage($idNode, $params='')
     {
-        $frontend_model = $this->getModel();
+        $frontendModel = $this->getModel();
         
         $tree = new TreeController();
         $tree->setContainer($this->container);    
         
         $menu = array (
-            'right' => $frontend_model->getMenu(1),
-            'sub' => $frontend_model->getMenu($id_node),
+            'right' => $frontendModel->getMenu(1),
+            'sub' => $frontendModel->getMenu($idNode),
         );
-        $navigation = $frontend_model->getNavigation($id_node);
-        $current_page = $navigation[count($navigation) - 1];        
+        $navigation = $frontendModel->getNavigation($idNode);
+        $currentPage = $navigation[count($navigation) - 1];        
 
-        if ($frontend_model->checkAccess($id_node)) {
-            $node_modules = $frontend_model->getNodeUsersModules($id_node);
+        if ($frontendModel->checkAccess($idNode)) {
+            $nodeModules = $frontendModel->getNodeUsersModules($idNode);
 
             // Определяем нужно ли показывать комментарии
             $show = false;
@@ -50,7 +50,7 @@ class FrontendController extends \fireice\Frontend\Controller\FrontendController
                 $comments[] = ucfirst($value);
             }
 
-            foreach ($node_modules as $key => $val) {
+            foreach ($nodeModules as $key => $val) {
                 if (in_array($val, $comments)) {
                     $show = true;
                     break;
@@ -65,8 +65,8 @@ class FrontendController extends \fireice\Frontend\Controller\FrontendController
                 $form = $this->createForm(new CommentsForm());
                 $form->bindRequest($request);
 
-                $info = $frontend_model->getCommentsInfo();
-
+                $info = $frontendModel->getCommentsInfo();
+                
                 $request->query->add(array (
                     'id' => $info['id_node'],
                     'id_module' => $info['id_module'],
@@ -74,43 +74,43 @@ class FrontendController extends \fireice\Frontend\Controller\FrontendController
                 ));
                 $request->request->add($form->getData() + array (
                     'date' => array ('data' => date("m.d.y"), 'time' => date("H:i:s")),
-                    'node' => $id_node,
+                    'node' => $idNode,
                     'item' => 0
                 ));
 
-                $module_act = new \project\Modules\Comments\Controller\BackendController();
-                $module_act->setContainer($this->container);
-                $module_act->createEdit();
+                $moduleAct = new \project\Modules\Comments\Controller\BackendController();
+                $moduleAct->setContainer($this->container);
+                $moduleAct->createEdit();
 
                 return $this->redirect($this->generateUrl('frontend', array ('path' => trim($request->getPathInfo(), '/'))));
             }
 
             // Собираем хтмл
-            foreach ($node_modules as $key => $val) {
+            foreach ($nodeModules as $key => $val) {
                                               
-                $frontend = $tree->getNodeModule($id_node, $key)->frontend($params, array (
+                $frontend = $tree->getNodeModule($idNode, $key)->frontend($params, array (
                     'navigation' => $navigation,
                     ));
 
                 if ($frontend->isRedirect()) return $frontend;
 
-                $modules_html[] = $frontend->getContent();                
+                $modulesHtml[] = $frontend->getContent();                
             }
 
             // Хтмл комментариев (если нужно)
             if ($show) {
-               $modules_html[] = $tree->getNodeModule(223, 7)->frontend($id_node, false)->getContent();                
+               $modulesHtml[] = $tree->getNodeModule(223, 7)->frontend($idNode, false)->getContent();                
             }
         } else {
-            $modules_html['main'] = 'Ошибка!<br>Вы не имеете доступа к этой странице!';
+            $modulesHtml['main'] = 'Ошибка!<br>Вы не имеете доступа к этой странице!';
         }
 
         return $this->render('FrontendBundle:Frontend:index.html.twig', array (
-                'modules' => $modules_html,
+                'modules' => $modulesHtml,
                 'menu' => $menu,
                 'navigation' => $navigation,
-                'current_page' => $current_page,
-                'user' => $frontend_model->getUser(),
+                'current_page' => $currentPage,
+                'user' => $frontendModel->getUser(),
             ));
     }
 

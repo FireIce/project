@@ -11,13 +11,13 @@ class BackendModel extends \project\Modules\News\Model\BackendModel
 
     //protected $module_name = 'comments';
 
-    public function getBackendData($sitetree_id, $acl, $module_id)
+    public function getBackendData($sitetreeId, $acl, $moduleId)
     {
         $values = array ();
 
         foreach ($this->getPlugins() as $plugin) {
             if (!isset($values[$plugin->getValue('type')])) {
-                $values[$plugin->getValue('type')] = $plugin->getData($sitetree_id, $this->getBundleName().':'.$this->getEntityName(), $module_id, self::TYPE_LIST);
+                $values[$plugin->getValue('type')] = $plugin->getData($sitetreeId, $this->getBundleName().':'.$this->getEntityName(), $moduleId, self::TYPE_LIST);
             }
         }
 
@@ -60,7 +60,7 @@ class BackendModel extends \project\Modules\News\Model\BackendModel
                 );
 
                 // Добавим в value плагина item названия узлов
-                $entity = '\\project\\Modules\\'.ucfirst($this->module_name).'\\Entity\\'.$this->getEntityName();
+                $entity = '\\project\\Modules\\'.ucfirst($this->moduleName).'\\Entity\\'.$this->getEntityName();
                 $entity = new $entity();
 
                 $config = $entity->configItem();
@@ -90,13 +90,13 @@ class BackendModel extends \project\Modules\News\Model\BackendModel
         );
     }
 
-    public function getRowData($sitetree_id, $module_id, $row_id)
+    public function getRowData($sitetreeId, $moduleId, $rowId)
     {
         $values = array ();
 
         foreach ($this->getPlugins() as $plugin) {
             if (!isset($values[$plugin->getValue('type')])) {
-                $values[$plugin->getValue('type')] = $plugin->getData($sitetree_id, $this->getBundleName().':'.$this->getEntityName(), $module_id, self::TYPE_LIST, array ("'".$row_id."'"));
+                $values[$plugin->getValue('type')] = $plugin->getData($sitetreeId, $this->getBundleName().':'.$this->getEntityName(), $moduleId, self::TYPE_LIST, array ("'".$rowId."'"));
             }
         }
 
@@ -121,11 +121,11 @@ class BackendModel extends \project\Modules\News\Model\BackendModel
 
         // Добавим в value плагина answer начала комментариев
         $data['answer']['value'] = $this->ajaxLoadComments(
-            array ('id_node' => intval($data['node']['value']), 'id_item' => intval($data['item']['value'])), intval($data['answer']['value']), $row_id
+            array ('id_node' => intval($data['node']['value']), 'id_item' => intval($data['item']['value'])), intval($data['answer']['value']), $rowId
         );
 
         // Добавим в value плагина item названия новостей
-        $entity = '\\project\\Modules\\'.ucfirst($this->module_name).'\\Entity\\'.$this->getEntityName();
+        $entity = '\\project\\Modules\\'.ucfirst($this->moduleName).'\\Entity\\'.$this->getEntityName();
         $entity = new $entity();
 
         $config = $entity->configItem();
@@ -148,10 +148,10 @@ class BackendModel extends \project\Modules\News\Model\BackendModel
 
     public function createEdit($security, $acl)
     {
-        $module = $this->em->getRepository('DialogsBundle:modules')->findOneBy(array ('name' => $this->module_name));
+        $module = $this->em->getRepository('DialogsBundle:modules')->findOneBy(array ('name' => $this->moduleName));
 
-        $service_module = new module();
-        $service_module->setId($module->getId());
+        $serviceModule = new module();
+        $serviceModule->setId($module->getId());
 
         $plugins = $this->getPlugins();
 
@@ -177,30 +177,30 @@ class BackendModel extends \project\Modules\News\Model\BackendModel
             foreach ($plugins as $plugin) {
                 $plugin_id = $plugin->setDataInDb($this->request->get($plugin->getValue('name')));
 
-                $new_module_record = '\\project\\Modules\\'.ucfirst($this->module_name).'\\Entity\\'.$this->getEntityName();
-                $new_module_record = new $new_module_record();
-                $new_module_record->setFinal('T');
-                $new_module_record->setRowId($curr_row_id);
-                $new_module_record->setPluginId($plugin_id);
-                $new_module_record->setPluginType($plugin->getValue('type'));
-                $new_module_record->setPluginName($plugin->getValue('name'));
-                $new_module_record->setStatus('inserting');
-                $this->em->persist($new_module_record);
+                $newModuleRecord = '\\project\\Modules\\'.ucfirst($this->moduleName).'\\Entity\\'.$this->getEntityName();
+                $newModuleRecord = new $newModuleRecord();
+                $newModuleRecord->setFinal('T');
+                $newModuleRecord->setRowId($curr_row_id);
+                $newModuleRecord->setPluginId($plugin_id);
+                $newModuleRecord->setPluginType($plugin->getValue('type'));
+                $newModuleRecord->setPluginName($plugin->getValue('name'));
+                $newModuleRecord->setStatus('inserting');
+                $this->em->persist($newModuleRecord);
                 $this->em->flush();
 
                 $history = new history();
                 $history->setUpUser($security->getToken()->getUser()->getId());
-                $history->setUp($new_module_record->getId());
+                $history->setUp($newModuleRecord->getId());
                 $history->setUpTypeCode($this->getEntityName());
                 $history->setActionCode('add_record');
                 $this->em->persist($history);
                 $this->em->flush();
 
-                $new_module_record->setIdd($new_module_record->getId());
-                $new_module_record->setCid($history->getId());
-                $new_module_record->setFinal('Y');
-                $new_module_record->setStatus('active');
-                $this->em->persist($new_module_record);
+                $newModuleRecord->setIdd($newModuleRecord->getId());
+                $newModuleRecord->setCid($history->getId());
+                $newModuleRecord->setFinal('Y');
+                $newModuleRecord->setStatus('active');
+                $this->em->persist($newModuleRecord);
                 $this->em->flush();
 
                 $modulelink = $this->em->getRepository('DialogsBundle:moduleslink')->findOneBy(array (
@@ -208,10 +208,10 @@ class BackendModel extends \project\Modules\News\Model\BackendModel
                     'up_module' => $this->request->get('id_module')
                     ));
 
-                $module_plugin_link = new modulespluginslink();
-                $module_plugin_link->setUpLink($modulelink->getId());
-                $module_plugin_link->setUpPlugin($new_module_record->getIdd());
-                $this->em->persist($module_plugin_link);
+                $modulePluginLink = new modulespluginslink();
+                $modulePluginLink->setUpLink($modulelink->getId());
+                $modulePluginLink->setUpPlugin($newModuleRecord->getIdd());
+                $this->em->persist($modulePluginLink);
                 $this->em->flush();
             }
         } else {
@@ -253,43 +253,43 @@ class BackendModel extends \project\Modules\News\Model\BackendModel
                     $query = $this->em->createQuery("UPDATE ".$this->getBundleName().':'.$this->getEntityName()." md SET md.final='N', md.eid = ".$hid." WHERE md.idd = ".$result['idd']." AND md.final != 'N' AND md.row_id = ".$this->request->get('id_row'));
                     $query->getResult();
 
-                    $new_module_record = '\\project\\Modules\\'.ucfirst($this->module_name).'\\Entity\\'.$this->getEntityName();
-                    $new_module_record = new $new_module_record();
-                    $new_module_record->setIdd($result['idd']);
-                    $new_module_record->setCid($hid);
-                    $new_module_record->setFinal('Y');
-                    $new_module_record->setRowId($this->request->get('id_row'));
-                    $new_module_record->setPluginId($plugin_id);
-                    $new_module_record->setPluginType($plugin->getValue('type'));
-                    $new_module_record->setPluginName($plugin->getValue('name'));
-                    $new_module_record->setStatus('active');
-                    $this->em->persist($new_module_record);
+                    $newModuleRecord = '\\project\\Modules\\'.ucfirst($this->moduleName).'\\Entity\\'.$this->getEntityName();
+                    $newModuleRecord = new $newModuleRecord();
+                    $newModuleRecord->setIdd($result['idd']);
+                    $newModuleRecord->setCid($hid);
+                    $newModuleRecord->setFinal('Y');
+                    $newModuleRecord->setRowId($this->request->get('id_row'));
+                    $newModuleRecord->setPluginId($plugin_id);
+                    $newModuleRecord->setPluginType($plugin->getValue('type'));
+                    $newModuleRecord->setPluginName($plugin->getValue('name'));
+                    $newModuleRecord->setStatus('active');
+                    $this->em->persist($newModuleRecord);
                     $this->em->flush();
                 } else {
                     $plugin_id = $plugin->setDataInDb($this->request->get($plugin->getValue('name')));
 
-                    $new_module_record = '\\project\\Modules\\'.ucfirst($this->module_name).'\\Entity\\'.$this->getEntityName();
-                    $new_module_record = new $new_module_record();
-                    $new_module_record->setFinal('Y');
-                    $new_module_record->setRowId($this->request->get('id_row'));
-                    $new_module_record->setPluginId($plugin_id);
-                    $new_module_record->setPluginType($plugin->getValue('type'));
-                    $new_module_record->setPluginName($plugin->getValue('name'));
-                    $new_module_record->setStatus('active');
-                    $this->em->persist($new_module_record);
+                    $newModuleRecord = '\\project\\Modules\\'.ucfirst($this->moduleName).'\\Entity\\'.$this->getEntityName();
+                    $newModuleRecord = new $newModuleRecord();
+                    $newModuleRecord->setFinal('Y');
+                    $newModuleRecord->setRowId($this->request->get('id_row'));
+                    $newModuleRecord->setPluginId($plugin_id);
+                    $newModuleRecord->setPluginType($plugin->getValue('type'));
+                    $newModuleRecord->setPluginName($plugin->getValue('name'));
+                    $newModuleRecord->setStatus('active');
+                    $this->em->persist($newModuleRecord);
                     $this->em->flush();
 
                     $history = new history();
                     $history->setUpUser($security->getToken()->getUser()->getId());
-                    $history->setUp($new_module_record->getId());
+                    $history->setUp($newModuleRecord->getId());
                     $history->setUpTypeCode($this->getEntityName());
                     $history->setActionCode('add_record');
                     $this->em->persist($history);
                     $this->em->flush();
 
-                    $new_module_record->setIdd($new_module_record->getId());
-                    $new_module_record->setCid($history->getId());
-                    $this->em->persist($new_module_record);
+                    $newModuleRecord->setIdd($newModuleRecord->getId());
+                    $newModuleRecord->setCid($history->getId());
+                    $this->em->persist($newModuleRecord);
                     $this->em->flush();
 
                     $modulelink = $this->em->getRepository('DialogsBundle:moduleslink')->findOneBy(array (
@@ -297,10 +297,10 @@ class BackendModel extends \project\Modules\News\Model\BackendModel
                         'up_module' => $this->request->get('id_module')
                         ));
 
-                    $module_plugin_link = new modulespluginslink();
-                    $module_plugin_link->setUpLink($modulelink->getId());
-                    $module_plugin_link->setUpPlugin($new_module_record->getId());
-                    $this->em->persist($module_plugin_link);
+                    $modulePluginLink = new modulespluginslink();
+                    $modulePluginLink->setUpLink($modulelink->getId());
+                    $modulePluginLink->setUpPlugin($newModuleRecord->getId());
+                    $this->em->persist($modulePluginLink);
                     $this->em->flush();
                 }
             }
@@ -318,7 +318,7 @@ class BackendModel extends \project\Modules\News\Model\BackendModel
             );
         }
 
-        $entity = '\\project\\Modules\\'.ucfirst($this->module_name).'\\Entity\\'.$this->getEntityName();
+        $entity = '\\project\\Modules\\'.ucfirst($this->moduleName).'\\Entity\\'.$this->getEntityName();
         $entity = new $entity();
 
         $config = $entity->configNode();

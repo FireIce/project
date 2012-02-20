@@ -8,7 +8,7 @@ class FrontendController extends \fireice\Backend\Modules\Controller\FrontendCon
 {
     protected $model = '\\project\\Modules\\News\\Model\\FrontendModel';
     // Кол-во новостей на странице
-    protected $page_limit = 3;
+    protected $pageLimit = 3;
 
     public function frontend($param, $other=array ())
     {
@@ -29,7 +29,7 @@ class FrontendController extends \fireice\Backend\Modules\Controller\FrontendCon
                         $page = $matches[2];
                         $parametres += array (
                             'chunk' => $page,
-                            'limit' => $this->page_limit
+                            'limit' => $this->pageLimit
                         );
                     } elseif ($matches[1] === 'current') {
 
@@ -41,7 +41,7 @@ class FrontendController extends \fireice\Backend\Modules\Controller\FrontendCon
                                 'data' => $this->load($parametres),
                                 'url' => $url,
                                 'navigation' => $other['navigation'],        
-                                'current' => $this->id_node
+                                'current' => $this->idNode
                             ));
                     }
                     break;
@@ -49,7 +49,7 @@ class FrontendController extends \fireice\Backend\Modules\Controller\FrontendCon
             }
         } else {
             $parametres += array (
-                'limit' => $this->page_limit
+                'limit' => $this->pageLimit
             );
         }
 
@@ -62,7 +62,7 @@ class FrontendController extends \fireice\Backend\Modules\Controller\FrontendCon
                 'pager' => $pager,
                 'url' => $url,
                 'navigation' => $other['navigation'],
-                'current' => $this->id_node            
+                'current' => $this->idNode            
             ));
     }
 

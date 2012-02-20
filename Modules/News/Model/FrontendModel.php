@@ -7,13 +7,13 @@ class FrontendModel extends \fireice\Backend\Modules\Model\FrontendModel
 
     //protected $module_name = 'news';
 
-    public function getFrontendData($sitetree_id, $module_id, $params = array ())
+    public function getFrontendData($sitetreeId, $moduleIid, $params = array ())
     {
         $values = array ();
 
         foreach ($this->getPlugins() as $plugin) {
             if (!isset($values[$plugin->getValue('type')])) {
-                $values[$plugin->getValue('type')] = $plugin->getData($sitetree_id, $this->getBundleName().':'.$this->getEntityName(), $module_id, self::TYPE_LIST);
+                $values[$plugin->getValue('type')] = $plugin->getData($sitetreeId, $this->getBundleName().':'.$this->getEntityName(), $moduleIid, self::TYPE_LIST);
             }
         }
 
@@ -68,9 +68,9 @@ class FrontendModel extends \fireice\Backend\Modules\Model\FrontendModel
                 if (isset($params['limit'])) {
 
                     $chunks = array_chunk($data, $params['limit']);
-                    $count_chunks = count($chunks);
+                    $countChunks = count($chunks);
 
-                    if ($count_chunks > 1) {
+                    if ($countChunks > 1) {
                         $parametres['pager'] = array (
                             'pages' => array (),
                             'next' => false,
@@ -102,18 +102,18 @@ class FrontendModel extends \fireice\Backend\Modules\Model\FrontendModel
                             }
 
                             if (false !== $page) {
-                                if ($page < $count_chunks) $parametres['pager']['next'] = $parametres['pager']['pages'][$page + 1]['id'];
+                                if ($page < $countChunks) $parametres['pager']['next'] = $parametres['pager']['pages'][$page + 1]['id'];
                                 if ($page > 1) $parametres['pager']['prev'] = $parametres['pager']['pages'][$page - 1]['id'];
                                 if ($page != 1) $parametres['pager']['first'] = $parametres['pager']['pages'][1]['id'];
-                                if ($page != $count_chunks) $parametres['pager']['last'] = $parametres['pager']['pages'][$count_chunks]['id'];
+                                if ($page != $countChunks) $parametres['pager']['last'] = $parametres['pager']['pages'][$countChunks]['id'];
                             } else {
                                 $data = array ();
                             }
                         } else {
                             $data = $chunks[0];
                             $parametres['pager']['pages'][1]['current'] = true;
-                            $parametres['pager']['next'] = $count_chunks > 1 ? $parametres['pager']['pages'][2]['id'] : false;
-                            $parametres['pager']['last'] = $count_chunks > 1 ? $parametres['pager']['pages'][$count_chunks]['id'] : false;
+                            $parametres['pager']['next'] = $countChunks > 1 ? $parametres['pager']['pages'][2]['id'] : false;
+                            $parametres['pager']['last'] = $countChunks > 1 ? $parametres['pager']['pages'][$countChunks]['id'] : false;
                         }
                     }
                 }

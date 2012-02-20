@@ -9,11 +9,11 @@ class FrontendController extends \fireice\Backend\Modules\Controller\FrontendCon
 {
     protected $model = '\\project\\Modules\\Comments\\Model\\FrontendModel';
 
-    public function frontend($id_node, $false=array())
+    public function frontend($idNode, $false=array())
     {
         $model = $this->getModel();
 
-        $data = $model->getFrontendData($id_node, 0, array());
+        $data = $model->getFrontendData($idNode, 0, array());
 
         $form = $this->createForm(new CommentsForm($model->getAnswers()));
 

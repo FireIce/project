@@ -16,7 +16,7 @@ class FrontendController extends \project\Modules\News\Controller\FrontendContro
 
     public function saveMessage($feedback)
     {   
-        $this->getModel()->saveMessage($this->id_node, $this->id_module, $feedback, $this->get('acl'));
+        $this->getModel()->saveMessage($this->idNode, $this->idModule, $feedback, $this->get('acl'));
     }
 
 }

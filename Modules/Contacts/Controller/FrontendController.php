@@ -65,7 +65,7 @@ class FrontendController extends \fireice\Backend\Modules\Controller\FrontendCon
                     'url' => $url,
                     'data' => $this->load(),
                     'navigation' => $other['navigation'],
-                    'current' => $this->id_node
+                    'current' => $this->idNode
                 ));
         } else {
 
@@ -75,7 +75,7 @@ class FrontendController extends \fireice\Backend\Modules\Controller\FrontendCon
                     'message' => 'ok',
                     'data' => $this->load(array ('url' => $url)),
                     'navigation' => $other['navigation'],
-                    'current' => $this->id_node
+                    'current' => $this->idNode
                 ));
         }
     }
