@@ -66,7 +66,7 @@ class BackendModel extends \project\Modules\News\Model\BackendModel
                 $config = $entity->configItem();
 
                 $value['data']['item']['value'] = $this->ajaxLoadList(
-                    array ('id_node' => intval($value['data']['node']['value']), 'title' => $config['data']['title']), intval($value['data']['item']['value'])
+                    array ('id_node' => intval($value['data']['node']['value']), 'title' => $config['data']['title'],'plugin_type' => $value['data']['node']['type']), intval($value['data']['item']['value'])
                 );
 
                 // Добавим в value плагина node названия узлов
@@ -131,7 +131,7 @@ class BackendModel extends \project\Modules\News\Model\BackendModel
         $config = $entity->configItem();
 
         $data['item']['value'] = $this->ajaxLoadList(
-            array ('id_node' => intval($data['node']['value']), 'title' => $config['data']['title']), intval($data['item']['value'])
+            array ('id_node' => intval($data['node']['value']), 'title' => $config['data']['title'],'plugin_type' => $value['data']['node']['type']), intval($data['item']['value'])
         );
 
         // Добавим в value плагина node названия узлов
@@ -172,7 +172,7 @@ class BackendModel extends \project\Modules\News\Model\BackendModel
 
             $res = $query->getSingleResult();
 
-            $curr_row_id = $res['maxim'] + 1;
+            $currRowId = $res['maxim'] + 1;
 
             foreach ($plugins as $plugin) {
                 $plugin_id = $plugin->setDataInDb($this->request->get($plugin->getValue('name')));
@@ -180,7 +180,7 @@ class BackendModel extends \project\Modules\News\Model\BackendModel
                 $newModuleRecord = '\\project\\Modules\\'.ucfirst($this->moduleName).'\\Entity\\'.$this->getEntityName();
                 $newModuleRecord = new $newModuleRecord();
                 $newModuleRecord->setFinal('T');
-                $newModuleRecord->setRowId($curr_row_id);
+                $newModuleRecord->setRowId($currRowId);
                 $newModuleRecord->setPluginId($plugin_id);
                 $newModuleRecord->setPluginType($plugin->getValue('type'));
                 $newModuleRecord->setPluginName($plugin->getValue('name'));
@@ -307,11 +307,11 @@ class BackendModel extends \project\Modules\News\Model\BackendModel
         }
     }
 
-    private function getNodesOptions($id_node)
+    private function getNodesOptions($idNode)
     {
         $return = array ();
 
-        if ($id_node == '') {
+        if ($idNode == '') {
             $return[] = array (
                 'value' => '-------',
                 'checked' => '1'
@@ -421,16 +421,16 @@ class BackendModel extends \project\Modules\News\Model\BackendModel
         foreach ($сhoices as $k => $v) {
             $return[$k] = array (
                 'value' => $v,
-                'checked' => ($id_node == $k) ? '1' : '0'
+                'checked' => ($idNode == $k) ? '1' : '0'
             );
         }
 
         return $return;
     }
 
-    public function ajaxLoadComments($data, $id_comment = '', $not_row = 0)
+    public function ajaxLoadComments($data, $idComment = '', $notRow = 0)
     {
-        $config_plugin = 'selectbox';
+        $configPlugin = 'selectbox';
 
         // Узлы
         $query = $this->em->createQuery("
@@ -438,10 +438,10 @@ class BackendModel extends \project\Modules\News\Model\BackendModel
                 md.row_id
             FROM 
                 ModuleCommentsBundle:modulecomments md, 
-                FireicePlugins".ucfirst($config_plugin)."Bundle:plugin".$config_plugin." plg_node
+                FireicePlugins".ucfirst($configPlugin)."Bundle:plugin".$configPlugin." plg_node
             WHERE md.status = 'active'
             AND md.final = 'Y'
-            AND md.row_id != '".$not_row."'
+            AND md.row_id != '".$notRow."'
             AND md.plugin_name = 'node'
             AND md.plugin_id = plg_node.id
             AND plg_node.value = '".$data['id_node']."'");
@@ -459,10 +459,10 @@ class BackendModel extends \project\Modules\News\Model\BackendModel
                 md.row_id
             FROM 
                 ModuleCommentsBundle:modulecomments md, 
-                FireicePlugins".ucfirst($config_plugin)."Bundle:plugin".$config_plugin." plg_item
+                FireicePlugins".ucfirst($configPlugin)."Bundle:plugin".$configPlugin." plg_item
             WHERE md.status = 'active'
             AND md.final = 'Y'        
-            AND md.row_id != '".$not_row."'
+            AND md.row_id != '".$notRow."'
             AND md.plugin_name = 'item'
             AND md.plugin_id = plg_item.id
             AND plg_item.value = '".$data['id_item']."'");
@@ -497,7 +497,7 @@ class BackendModel extends \project\Modules\News\Model\BackendModel
             foreach ($result as $v) {
                 $return[$v['row_id']] = array (
                     'value' => $v['plugin_value'],
-                    'checked' => ($id_comment == $v['row_id']) ? '1' : '0'
+                    'checked' => ($idComment == $v['row_id']) ? '1' : '0'
                 );
             }
         }

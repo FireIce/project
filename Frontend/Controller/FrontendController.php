@@ -6,7 +6,7 @@ use project\Modules\Comments\Form\CommentsForm;
 use project\Frontend\Model\FrontendModel;
 use fireice\Backend\Tree\Controller\TreeController;
 use project\Modules\Comments\Entity\modulecomments;
-
+use Symfony\Component\HttpFoundation\Request;
 class FrontendController extends \fireice\Frontend\Controller\FrontendController
 {
 
@@ -58,7 +58,7 @@ class FrontendController extends \fireice\Frontend\Controller\FrontendController
             }
 
             $request = $this->get('request');
-
+  
             // Если нужно сохранить комент, то сохраняем и редерим на стр.
             if ($show && $request->getMethod() == 'POST' && $request->request->has('comments')) {
                 // Занести комент в БД
@@ -77,7 +77,7 @@ class FrontendController extends \fireice\Frontend\Controller\FrontendController
                     'node' => $idNode,
                     'item' => 0
                 ));
-
+                $request->overrideGlobals();
                 $moduleAct = new \project\Modules\Comments\Controller\BackendController();
                 $moduleAct->setContainer($this->container);
                 $moduleAct->createEdit();
