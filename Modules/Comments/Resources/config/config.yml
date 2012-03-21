@@ -9,6 +9,6 @@ parameters:
     count:            25
     count-per-parent: 25
     modules:
-        sitetree: FireiceModuleSiteTreeNodeOtherBundle
-        frontend: ModuleCommentsBundle 
+        sitetree: FireiceNodeDefault
+        frontend: comments 
     type: list
