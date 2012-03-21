@@ -7,7 +7,7 @@ class FrontendModel extends \fireice\Backend\Modules\Model\FrontendModel
     //protected $module_name = 'comments';
     protected $data = array ();
 
-    public function getFrontendData($sitetreeId, $moduleId, $params = array ())
+    public function getFrontendData($sitetreeId, $moduleId, $params = array (),$language='ru')
     {
         $configPlugin = 'selectbox';
 
@@ -62,7 +62,7 @@ class FrontendModel extends \fireice\Backend\Modules\Model\FrontendModel
 
             foreach ($plugins as $plugin) {
                 if (!isset($values[$plugin->getValue('type')])) {
-                    $values[$plugin->getValue('type')] = $plugin->getData($idNode, $this->getBundleName().':'.$this->getEntityName(), $idModule, self::TYPE_LIST, $ids);
+                    $values[$plugin->getValue('type')] = $plugin->getData($idNode, $this->getBundleName().':'.$this->getEntityName(), $idModule, self::TYPE_LIST, $ids,$language);
                 }
             }
 

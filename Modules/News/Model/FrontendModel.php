@@ -7,13 +7,13 @@ class FrontendModel extends \fireice\Backend\Modules\Model\FrontendModel
 
     //protected $module_name = 'news';
 
-    public function getFrontendData($sitetreeId, $moduleIid, $params = array ())
+    public function getFrontendData($sitetreeId, $moduleIid, $params = array (),$language='ru')
     {
         $values = array ();
 
         foreach ($this->getPlugins() as $plugin) {
             if (!isset($values[$plugin->getValue('type')])) {
-                $values[$plugin->getValue('type')] = $plugin->getData($sitetreeId, $this->getBundleName().':'.$this->getEntityName(), $moduleIid, self::TYPE_LIST);
+                $values[$plugin->getValue('type')] = $plugin->getData($sitetreeId, $this->getBundleName().':'.$this->getEntityName(), $moduleIid, self::TYPE_LIST, false,$language);
             }
         }
 

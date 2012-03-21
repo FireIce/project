@@ -11,13 +11,13 @@ class BackendModel extends \fireice\Backend\Modules\Model\BackendModel
 
     //protected $module_name = 'news';
 
-    public function getBackendData($sitetreeId, $acl, $moduleId)
+    public function getBackendData($sitetreeId, $acl, $moduleId,$language='ru')
     {
         $values = array ();
 
         foreach ($this->getPlugins() as $plugin) {
             if (!isset($values[$plugin->getValue('type')])) {
-                $values[$plugin->getValue('type')] = $plugin->getData($sitetreeId, $this->getBundleName().':'.$this->getEntityName(), $moduleId, self::TYPE_LIST);
+                $values[$plugin->getValue('type')] = $plugin->getData($sitetreeId, $this->getBundleName().':'.$this->getEntityName(), $moduleId, self::TYPE_LIST, false,$language);
             }
         }
 
