@@ -17,7 +17,7 @@ class BackendModel extends \project\Modules\News\Model\BackendModel
 
         foreach ($this->getPlugins() as $plugin) {
             if (!isset($values[$plugin->getValue('type')])) {
-                $values[$plugin->getValue('type')] = $plugin->getData($sitetreeId, $this->getBundleName().':'.$this->getEntityName(), $moduleId, self::TYPE_LIST,false,$language);
+                $values[$plugin->getValue('type')] = $plugin->getData($sitetreeId, $moduleId, $language, $this->getBundleName().':'.$this->getEntityName(), self::TYPE_ITEM);
             }
         }
 
