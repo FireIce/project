@@ -70,14 +70,14 @@ class BackendModel extends \fireice\Backend\Modules\Model\BackendModel
         );
     }
 
-    public function getRowData($sitetreeId, $moduleId, $rowId)
+    public function getRowData($sitetreeId, $moduleId, $language, $rowId)
     {
         $values = array ();
 
         foreach ($this->getPlugins() as $plugin) {
             if (!isset($values[$plugin->getValue('type')])) {
-                $values[$plugin->getValue('type')] = $plugin->getData($sitetreeId, $this->getBundleName().':'.$this->getEntityName(), $moduleId, self::TYPE_LIST, array ("'".$rowId."'"));
-            }
+                $values[$plugin->getValue('type')] = $plugin->getData($sitetreeId, $moduleId, $language, $this->getBundleName().':'.$this->getEntityName(), self::TYPE_LIST, array ("'".$rowId."'"));
+            }  //$plugin->getData($sitetreeId, $moduleId, $language, $this->getBundleName().':'.$this->getEntityName(), self::TYPE_LIST);
         }
 
         $data = array ();

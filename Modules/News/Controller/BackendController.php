@@ -10,9 +10,9 @@ class BackendController extends \fireice\Backend\Modules\Controller\BackendContr
 {
     protected $model = '\\project\\Modules\\News\\Model\\BackendModel';
 
-    public function getRowData($sitetreeId, $moduleId, $rowId)
+    public function getRowData($sitetreeId, $moduleId, $language, $rowId)
     {
-        return $this->getModel()->getRowData($sitetreeId, $moduleId, $rowId);
+        return $this->getModel()->getRowData($sitetreeId, $moduleId, $language, $rowId);
     }
 
     public function deleteRow()
