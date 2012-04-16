@@ -11,13 +11,13 @@ class BackendModel extends \project\Modules\News\Model\BackendModel
 
     //protected $module_name = 'comments';
 
-    public function getBackendData($sitetreeId, $acl, $moduleId, $language='ru')
+    public function getBackendData($sitetreeId, $acl, $moduleId, $language = 'ru')
     {
         $values = array ();
 
         foreach ($this->getPlugins() as $plugin) {
             if (!isset($values[$plugin->getValue('type')])) {
-                $values[$plugin->getValue('type')] = $plugin->getData($sitetreeId, $moduleId, $language, $this->getBundleName().':'.$this->getEntityName(), self::TYPE_ITEM);
+                $values[$plugin->getValue('type')] = $plugin->getData($sitetreeId, $moduleId, $language, $this->getBundleName().':'.$this->getEntityName(), self::TYPE_LIST);
             }
         }
 
@@ -66,7 +66,7 @@ class BackendModel extends \project\Modules\News\Model\BackendModel
                 $config = $entity->configItem();
 
                 $value['data']['item']['value'] = $this->ajaxLoadList(
-                    array ('id_node' => intval($value['data']['node']['value']), 'title' => $config['data']['title'],'plugin_type' => $value['data']['node']['type']), intval($value['data']['item']['value'])
+                    array ('id_node' => intval($value['data']['node']['value']), 'title' => $config['data']['title'], 'plugin_type' => $value['data']['node']['type']), intval($value['data']['item']['value'])
                 );
 
                 // Добавим в value плагина node названия узлов
@@ -90,13 +90,13 @@ class BackendModel extends \project\Modules\News\Model\BackendModel
         );
     }
 
-    public function getRowData($sitetreeId, $moduleId, $rowId)
+    public function getRowData($sitetreeId, $moduleId, $language, $rowId)
     {
         $values = array ();
 
         foreach ($this->getPlugins() as $plugin) {
             if (!isset($values[$plugin->getValue('type')])) {
-                $values[$plugin->getValue('type')] = $plugin->getData($sitetreeId, $this->getBundleName().':'.$this->getEntityName(), $moduleId, self::TYPE_LIST, array ("'".$rowId."'"));
+                $values[$plugin->getValue('type')] = $plugin->getData($sitetreeId, $moduleId, $language, $this->getBundleName().':'.$this->getEntityName(), self::TYPE_LIST, array ("'".$rowId."'"));
             }
         }
 
@@ -105,7 +105,7 @@ class BackendModel extends \project\Modules\News\Model\BackendModel
         foreach ($this->getPlugins() as $plugin) {
             $type = $plugin->getValue('type');
 
-            if (isset($values[$type]) && $values[$type] !== array ()  ) {
+            if (isset($values[$type]) && $values[$type] !== array ()) {
                 foreach ($values[$type] as $val) {
                     if ($val['plugin_name'] == $plugin->getValue('name')) {
                         $data[$plugin->getValue('name')] = $plugin->getValues() + array ('value' => $val['plugin_value']);
@@ -131,7 +131,7 @@ class BackendModel extends \project\Modules\News\Model\BackendModel
         $config = $entity->configItem();
 
         $data['item']['value'] = $this->ajaxLoadList(
-            array ('id_node' => intval($data['node']['value']), 'title' => $config['data']['title'],'plugin_type' => $value['data']['node']['type']), intval($data['item']['value'])
+            array ('id_node' => intval($data['node']['value']), 'title' => $config['data']['title'], 'plugin_type' => $data['node']['type']), intval($data['item']['value'])
         );
 
         // Добавим в value плагина node названия узлов
@@ -481,16 +481,28 @@ class BackendModel extends \project\Modules\News\Model\BackendModel
         if ($res !== array ()) {
             $query = $this->em->createQuery("
                 SELECT 
-                    md.row_id,
+                    mc.row_id,
                     plg.value AS plugin_value
                 FROM 
-                    ModuleCommentsBundle:modulecomments md, 
+                    TreeBundle:modulesitetree tr, 
+                    DialogsBundle:modulespluginslink as mpl,
+                    DialogsBundle:modules mds,
+                    DialogsBundle:moduleslink ml, 
+                    ModuleCommentsBundle:modulecomments mc, 
                     FireicePluginsTextareaBundle:plugintextarea plg
-                WHERE md.status = 'active'            
-                AND md.row_id IN (".implode(',', $res).")
-                AND md.final = 'Y' 
-                AND md.plugin_id = plg.id
-                AND md.plugin_name = 'comment'");
+                WHERE  
+                mpl.up_link =  ml.id
+                AND mpl.up_plugin = mc.idd
+                AND tr.idd = ml.up_tree
+                AND ml.up_module = mds.idd     
+                AND tr.status != 'deleted'  
+                AND tr.final = 'Y'
+                AND mds.name = 'Comments'
+                AND mc.status = 'active' 
+                AND mc.row_id IN (".implode(',', $res).")
+                AND mc.final = 'Y' 
+                AND mc.plugin_id = plg.id
+                AND mc.plugin_name = 'comment'");
 
             $result = $query->getResult();
 

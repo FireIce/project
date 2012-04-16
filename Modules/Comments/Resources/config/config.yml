@@ -6,8 +6,8 @@ parameters:
     parent:
         mainpage: ~
         text: ~     
-    count:            25
-    count-per-parent: 25
+    count:            1
+    count-per-parent: 1
     modules:
         sitetree: FireiceNodeDefault
         frontend: comments 
