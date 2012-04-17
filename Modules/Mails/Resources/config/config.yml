@@ -10,6 +10,10 @@ parameters:
     count:            15
     count-per-parent: 15
     modules:
-        sitetree: FireiceNodeDefault
-        frontend: mails 
+        sitetree: 
+          name: FireiceNodeDefault
+          multilanguage: no
+        frontend: 
+          name: mails 
+          multilanguage: no
     type: list

@@ -9,6 +9,10 @@ parameters:
     count:            25
     count-per-parent: 25
     modules:
-        sitetree: FireiceNodeDefault
-        frontend: Text 
+        sitetree: 
+          name: FireiceNodeDefault
+          multilanguage: no
+        frontend: 
+          name: Text 
+          multilanguage: yes
     type: item

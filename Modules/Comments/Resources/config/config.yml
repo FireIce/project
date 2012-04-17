@@ -9,6 +9,10 @@ parameters:
     count:            1
     count-per-parent: 1
     modules:
-        sitetree: FireiceNodeDefault
-        frontend: comments 
+        sitetree: 
+          name: FireiceNodeDefault
+          multilanguage: no
+        frontend: 
+          name: comments 
+          multilanguage: no
     type: list

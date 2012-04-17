@@ -11,7 +11,7 @@ class BackendModel extends \fireice\Backend\Modules\Model\BackendModel
 
     //protected $module_name = 'news';
 
-    public function getBackendData($sitetreeId, $acl, $moduleId,$language='ru')
+    public function getBackendData($sitetreeId, $acl, $moduleId,$language)
     {
         $values = array ();
 

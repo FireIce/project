@@ -9,6 +9,10 @@ parameters:
     count:            100
     count-per-parent: 50
     modules:
-        sitetree: FireiceNodeDefault
-        frontend: Contacts
-    type: item
+        sitetree: 
+          name: FireiceNodeDefault
+          multilanguage: no
+        frontend: 
+          name: Contacts
+          multilanguage: yes
+    type: item   

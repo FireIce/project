@@ -10,6 +10,11 @@ parameters:
     count:            15
     count-per-parent: 15
     modules:
-        sitetree: FireiceNodeDefault
-        frontend: News 
+        sitetree: 
+          name: FireiceNodeDefault
+          multilanguage: no
+        frontend: 
+          name: News 
+          multilanguage: yes
+          
     type: list

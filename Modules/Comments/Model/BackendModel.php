@@ -11,7 +11,7 @@ class BackendModel extends \project\Modules\News\Model\BackendModel
 
     //protected $module_name = 'comments';
 
-    public function getBackendData($sitetreeId, $acl, $moduleId, $language = 'ru')
+    public function getBackendData($sitetreeId, $acl, $moduleId, $language)
     {
         $values = array ();
 

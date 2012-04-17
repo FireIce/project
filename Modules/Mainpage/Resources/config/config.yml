@@ -8,6 +8,10 @@ parameters:
     count:            1
     count-per-parent: 1
     modules:
-        sitetree: FireiceNodeDefault
-        frontend: Mainpage
+        sitetree: 
+          name: FireiceNodeDefault
+          multilanguage: no
+        frontend: 
+          name: Mainpage
+          multilanguage: yes
     type: item
