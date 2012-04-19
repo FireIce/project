@@ -13,6 +13,6 @@ parameters:
           name: FireiceNodeDefault
           multilanguage: no
         frontend: 
-          name: comments 
-          multilanguage: no
+          name: Comments 
+          multilanguage: yes
     type: list

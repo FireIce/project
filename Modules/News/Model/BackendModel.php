@@ -11,12 +11,12 @@ class BackendModel extends \fireice\Backend\Modules\Model\BackendModel
 
     //protected $module_name = 'news';
 
-    public function getBackendData($sitetreeId, $acl, $moduleId,$language)
+    public function getBackendData($sitetreeId, $acl, $moduleId, $language)
     {
         $values = array ();
 
         foreach ($this->getPlugins() as $plugin) {
-            if (!isset($values[$plugin->getValue('type')])) {     
+            if (!isset($values[$plugin->getValue('type')])) {
                 $values[$plugin->getValue('type')] = $plugin->getData($sitetreeId, $moduleId, $language, $this->getBundleName().':'.$this->getEntityName(), self::TYPE_LIST);
             }
         }
@@ -131,12 +131,14 @@ class BackendModel extends \fireice\Backend\Modules\Model\BackendModel
                     DialogsBundle:modulespluginslink mp_l
                 WHERE m_l.up_tree = :up_tree
                 AND m_l.up_module = :up_module
+                AND m_l.language = :language
                 AND m_l.id = mp_l.up_link
                 AND mp_l.up_plugin = md.idd");
 
             $query->setParameters(array (
                 'up_tree' => $this->request->get('id'),
-                'up_module' => $this->request->get('id_module')
+                'up_module' => $this->request->get('id_module'),
+                'language' => $this->request->get('language')
             ));
 
             $res = $query->getSingleResult();
@@ -176,7 +178,8 @@ class BackendModel extends \fireice\Backend\Modules\Model\BackendModel
 
                     $modulelink = $this->em->getRepository('DialogsBundle:moduleslink')->findOneBy(array (
                         'up_tree' => $this->request->get('id'),
-                        'up_module' => $this->request->get('id_module')
+                        'up_module' => $this->request->get('id_module'),
+                        'language' => $this->request->get('language')
                         ));
 
                     $modulePluginLink = new modulespluginslink();
@@ -217,7 +220,8 @@ class BackendModel extends \fireice\Backend\Modules\Model\BackendModel
 
                     $modulelink = $this->em->getRepository('DialogsBundle:moduleslink')->findOneBy(array (
                         'up_tree' => $this->request->get('id'),
-                        'up_module' => $this->request->get('id_module')
+                        'up_module' => $this->request->get('id_module'),
+                        'language' => $this->request->get('language'),
                         ));
 
                     $modulePluginLink = new modulespluginslink();
@@ -257,7 +261,8 @@ class BackendModel extends \fireice\Backend\Modules\Model\BackendModel
 
                 $modulelink = $this->em->getRepository('DialogsBundle:moduleslink')->findOneBy(array (
                     'up_tree' => $this->request->get('id'),
-                    'up_module' => $this->request->get('id_module')
+                    'up_module' => $this->request->get('id_module'),
+                    'language' => $this->request->get('language'),
                     ));
 
                 $modulePluginLink = new modulespluginslink();
@@ -281,6 +286,7 @@ class BackendModel extends \fireice\Backend\Modules\Model\BackendModel
                         WHERE md.eid IS NULL            
                         AND m_l.up_tree = :up_tree
                         AND m_l.up_module = :up_module
+                        AND m_l.language = :language
                         AND m_l.id = mp_l.up_link
                         AND mp_l.up_plugin = md.idd
                         AND md.final != 'N'
@@ -291,6 +297,7 @@ class BackendModel extends \fireice\Backend\Modules\Model\BackendModel
                     $query->setParameters(array (
                         'up_tree' => $this->request->get('id'),
                         'up_module' => $this->request->get('id_module'),
+                        'language' => $this->request->get('language'),
                         'row_id' => $this->request->get('id_row'),
                         'plugin_name' => $plugin->getValue('name'),
                         'plugin_type' => $plugin->getValue('type')
@@ -355,7 +362,8 @@ class BackendModel extends \fireice\Backend\Modules\Model\BackendModel
 
                         $modulelink = $this->em->getRepository('DialogsBundle:moduleslink')->findOneBy(array (
                             'up_tree' => $this->request->get('id'),
-                            'up_module' => $this->request->get('id_module')
+                            'up_module' => $this->request->get('id_module'),
+                            'language' => $this->request->get('language')
                             ));
 
                         $modulePluginLink = new modulespluginslink();
@@ -381,6 +389,7 @@ class BackendModel extends \fireice\Backend\Modules\Model\BackendModel
                         AND md.row_id = :row_id
                         AND m_l.up_tree = :up_tree
                         AND m_l.up_module = :up_module
+                        AND m_l.language = :language
                         AND m_l.id = mp_l.up_link
                         AND mp_l.up_plugin = md.idd
                         AND md.plugin_name = :plugin_name
@@ -390,6 +399,7 @@ class BackendModel extends \fireice\Backend\Modules\Model\BackendModel
                         'row_id' => $this->request->get('id_row'),
                         'up_tree' => $this->request->get('id'),
                         'up_module' => $this->request->get('id_module'),
+                        'language' => $this->request->get('language'),
                         'plugin_name' => $plugin->getValue('name'),
                         'plugin_type' => $plugin->getValue('type')
                     ));
@@ -455,7 +465,8 @@ class BackendModel extends \fireice\Backend\Modules\Model\BackendModel
 
                         $modulelink = $this->em->getRepository('DialogsBundle:moduleslink')->findOneBy(array (
                             'up_tree' => $this->request->get('id'),
-                            'up_module' => $this->request->get('id_module')
+                            'up_module' => $this->request->get('id_module'),
+                            'language' => $this->request->get('language'),
                             ));
 
                         $modulePluginLink = new modulespluginslink();
@@ -483,6 +494,7 @@ class BackendModel extends \fireice\Backend\Modules\Model\BackendModel
                 WHERE md.eid IS NULL            
                 AND m_l.up_tree = :up_tree
                 AND m_l.up_module = :up_module
+                AND m_l.language = :language
                 AND m_l.id = mp_l.up_link
                 AND mp_l.up_plugin = md.idd
                 AND md.final != 'N'
@@ -494,6 +506,7 @@ class BackendModel extends \fireice\Backend\Modules\Model\BackendModel
             $query->setParameters(array (
                 'up_tree' => $this->request->get('id'),
                 'up_module' => $this->request->get('id_module'),
+                'language' => $this->request->get('language'),
                 'row_id' => $this->request->get('id_row'),
                 'plugin_name' => $plugin->getValue('name'),
                 'plugin_type' => $plugin->getValue('type')
@@ -553,6 +566,7 @@ class BackendModel extends \fireice\Backend\Modules\Model\BackendModel
             WHERE md.eid IS NULL
             AND m_l.up_tree = :up_tree
             AND m_l.up_module = :up_module
+            AND m_l.language = :language
             AND m_l.id = mp_l.up_link
             AND mp_l.up_plugin = md.idd
             AND md.final != 'N'
@@ -562,7 +576,8 @@ class BackendModel extends \fireice\Backend\Modules\Model\BackendModel
 
         $query->setParameters(array (
             'up_tree' => $this->request->get('id'),
-            'up_module' => $this->request->get('id_module')
+            'up_module' => $this->request->get('id_module'),
+            'language' => $this->request->get('language'),
         ));
 
         $result = $query->getResult();
@@ -636,7 +651,8 @@ class BackendModel extends \fireice\Backend\Modules\Model\BackendModel
 
                 $modulelink = $this->em->getRepository('DialogsBundle:moduleslink')->findOneBy(array (
                     'up_tree' => $this->request->get('id'),
-                    'up_module' => $this->request->get('id_module')
+                    'up_module' => $this->request->get('id_module'),
+                    'language' => $this->request->get('language'),
                     ));
 
                 $modulePluginLink = new modulespluginslink();
