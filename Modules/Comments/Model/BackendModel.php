@@ -56,7 +56,7 @@ class BackendModel extends \project\Modules\News\Model\BackendModel
 
                 // Добавим в value плагина answer названия узлов
                 $value['data']['answer']['value'] = $this->ajaxLoadComments(
-                    array ('id_node' => intval($value['data']['node']['value']), 'id_item' => intval($value['data']['item']['value'])), intval($value['data']['answer']['value'])
+                    array ('id_node' => intval($value['data']['node']['value']), 'id_item' => intval($value['data']['item']['value']), 'language' => $language), intval($value['data']['answer']['value'])
                 );
 
                 // Добавим в value плагина item названия узлов
@@ -66,7 +66,7 @@ class BackendModel extends \project\Modules\News\Model\BackendModel
                 $config = $entity->configItem();
 
                 $value['data']['item']['value'] = $this->ajaxLoadList(
-                    array ('id_node' => intval($value['data']['node']['value']), 'title' => $config['data']['title'], 'plugin_type' => $value['data']['node']['type']), intval($value['data']['item']['value'])
+                    array ('id_node' => intval($value['data']['node']['value']), 'language' => $language, 'title' => $config['data']['title'], 'plugin_type' => $config['data']['plugin_type']), intval($value['data']['item']['value'])
                 );
 
                 // Добавим в value плагина node названия узлов
@@ -121,7 +121,7 @@ class BackendModel extends \project\Modules\News\Model\BackendModel
 
         // Добавим в value плагина answer начала комментариев
         $data['answer']['value'] = $this->ajaxLoadComments(
-            array ('id_node' => intval($data['node']['value']), 'id_item' => intval($data['item']['value'])), intval($data['answer']['value']), $rowId
+            array ('id_node' => intval($data['node']['value']), 'id_item' => intval($data['item']['value']), 'language' => $language), intval($data['answer']['value']), $rowId
         );
 
         // Добавим в value плагина item названия новостей
@@ -131,7 +131,7 @@ class BackendModel extends \project\Modules\News\Model\BackendModel
         $config = $entity->configItem();
 
         $data['item']['value'] = $this->ajaxLoadList(
-            array ('id_node' => intval($data['node']['value']), 'title' => $config['data']['title'], 'plugin_type' => $data['node']['type']), intval($data['item']['value'])
+            array ('id_node' => intval($data['node']['value']), 'language' => $language, 'title' => $config['data']['title'], 'plugin_type' => $config['data']['plugin_type']), intval($data['item']['value'])
         );
 
         // Добавим в value плагина node названия узлов
@@ -165,11 +165,17 @@ class BackendModel extends \project\Modules\News\Model\BackendModel
                     ".$this->getBundleName().':'.$this->getEntityName()." md, 
                     DialogsBundle:moduleslink m_l,
                     DialogsBundle:modulespluginslink mp_l
-                WHERE m_l.up_tree = ".$this->request->get('id')."
-                AND m_l.up_module = ".$this->request->get('id_module')."
-                AND m_l.language = ".$this->request->get('language')."
+                WHERE m_l.up_tree = :up_tree
+                AND m_l.up_module = :up_module
+                AND m_l.language = :language
                 AND m_l.id = mp_l.up_link
                 AND mp_l.up_plugin = md.idd");
+
+            $query->setParameters(array (
+                'up_tree' => $this->request->get('id'),
+                'up_module' => $this->request->get('id_module'),
+                'language' => $this->request->get('language'),
+            ));
 
             $res = $query->getSingleResult();
 
@@ -413,7 +419,7 @@ class BackendModel extends \project\Modules\News\Model\BackendModel
                 AND md.final = 'Y'
                 AND md.plugin_id = plg.id
                 AND md.plugin_name = 'fireice_node_title'");
-                $query->setParameter('language',$type['language']);
+            $query->setParameter('language', $type['language']);
             $plugins_values = array_merge($query->getResult(), $plugins_values);
         }
 
@@ -501,7 +507,8 @@ class BackendModel extends \project\Modules\News\Model\BackendModel
                 mpl.up_link =  ml.id
                 AND mpl.up_plugin = mc.idd
                 AND tr.idd = ml.up_tree
-                AND ml.up_module = mds.idd     
+                AND ml.up_module = mds.idd 
+                AND ml.language = :language 
                 AND tr.status != 'deleted'  
                 AND tr.final = 'Y'
                 AND mds.name = 'Comments'
@@ -511,6 +518,7 @@ class BackendModel extends \project\Modules\News\Model\BackendModel
                 AND mc.plugin_id = plg.id
                 AND mc.plugin_name = 'comment'");
 
+            $query->setParameters(array ('language' => $data['language'],));
             $result = $query->getResult();
 
             foreach ($result as $v) {

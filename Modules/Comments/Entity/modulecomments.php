@@ -111,7 +111,9 @@ class modulecomments
             'data' => array (
                 'type' => 'list',
                 'title' => 'title',
+                'plugin_type' => 'text',
                 'id_node' => isset($params['id_node']) ? $params['id_node'] : 0,
+                'language' => isset($params['language']) ? $params['language'] : 0,
             )
         );
     }
@@ -124,6 +126,7 @@ class modulecomments
                 'type' => 'comments',
                 'id_node' => isset($params['id_node']) ? $params['id_node'] : 0,
                 'id_item' => isset($params['id_item']) ? $params['id_item'] : 0,
+                'language' => isset($params['language']) ? $params['language'] : 0,
             )
         );
     }
