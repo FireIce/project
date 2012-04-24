@@ -7,10 +7,11 @@ use fireice\Backend\Dialogs\Entity\modulespluginslink;
 
 class FrontendModel extends \project\Modules\News\Model\FrontendModel
 {
+
     //protected $module_name = 'mails';
 
-    public function saveMessage($idNode, $idModule, $feedback, $acl)
-    { 
+    public function saveMessage($idNode, $idModule, $language, $feedback, $acl)
+    {
         $plugins = $this->getPlugins();
 
         // Определим следующий row_id
@@ -23,12 +24,14 @@ class FrontendModel extends \project\Modules\News\Model\FrontendModel
                     DialogsBundle:modulespluginslink mp_l
                 WHERE m_l.up_tree = :up_tree
                 AND m_l.up_module = :up_module
+                AND m_l.language = :language
                 AND m_l.id = mp_l.up_link
                 AND mp_l.up_plugin = md.idd");
-        
-        $query->setParameters(array(
+
+        $query->setParameters(array (
             'up_tree' => $idNode,
-            'up_module' => $idModule
+            'up_module' => $idModule,
+            'language' => $language,
         ));
 
         $res = $query->getSingleResult();
@@ -36,9 +39,9 @@ class FrontendModel extends \project\Modules\News\Model\FrontendModel
         $curr_row_id = $res['maxim'] + 1;
 
         foreach ($plugins as $plugin) {
-            
+
             $method = 'get'.ucfirst($plugin->getValue('name'));
-            
+
             $pluginId = $plugin->setDataInDb($feedback->$method());
 
             $newModuleRecord = $this->getModuleEntity();
@@ -67,15 +70,17 @@ class FrontendModel extends \project\Modules\News\Model\FrontendModel
             $this->em->flush();
 
             $modulelink = $this->em->getRepository('DialogsBundle:moduleslink')->findOneBy(array (
-                'up_tree' => $idNode,
-                'up_module' => $idModule
-                ));
+            'up_tree' => $idNode,
+            'up_module' => $idModule,
+            'language' => $language,
+            ));
 
             $modulePluginLink = new modulespluginslink();
             $modulePluginLink->setUpLink($modulelink->getId());
             $modulePluginLink->setUpPlugin($newModuleRecord->getIdd());
             $this->em->persist($modulePluginLink);
             $this->em->flush();
-        }        
+        }
     }
+
 }

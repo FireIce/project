@@ -23,7 +23,7 @@ class FrontendController extends \fireice\Frontend\Controller\FrontendController
         return $this->model;
     }
 
-    public function showPage($idNode, $params='')
+    public function showPage($idNode, $language, $params='')
     {
         $frontendModel = $this->getModel();
         
@@ -31,14 +31,14 @@ class FrontendController extends \fireice\Frontend\Controller\FrontendController
         $tree->setContainer($this->container);    
         
         $menu = array (
-            'right' => $frontendModel->getMenu(1),
-            'sub' => $frontendModel->getMenu($idNode),
+            'right' => $frontendModel->getMenu(1,$language),
+            'sub' => $frontendModel->getMenu($idNode,$language),
         );
-        $navigation = $frontendModel->getNavigation($idNode);
+        $navigation = $frontendModel->getNavigation($idNode,$language);
         $currentPage = $navigation[count($navigation) - 1];        
 
         if ($frontendModel->checkAccess($idNode)) {
-            $nodeModules = $frontendModel->getNodeUsersModules($idNode);
+            $nodeModules = $frontendModel->getNodeUsersModules($idNode, $language);
 
             // Определяем нужно ли показывать комментарии
             $show = false;
@@ -65,11 +65,12 @@ class FrontendController extends \fireice\Frontend\Controller\FrontendController
                 $form = $this->createForm(new CommentsForm());
                 $form->bindRequest($request);
 
-                $info = $frontendModel->getCommentsInfo();
+                $info = $frontendModel->getCommentsInfo($language);
                 
                 $request->query->add(array (
                     'id' => $info['id_node'],
                     'id_module' => $info['id_module'],
+                    'language' => $info['language'],
                     'id_row' => -1
                 ));
                 $request->request->add($form->getData() + array (
@@ -88,7 +89,7 @@ class FrontendController extends \fireice\Frontend\Controller\FrontendController
             // Собираем хтмл
             foreach ($nodeModules as $key => $val) {
                                               
-                $frontend = $tree->getNodeModule($idNode, $key)->frontend($params, array (
+                $frontend = $tree->getNodeModule($idNode, $language,$key)->frontend($params,  array (
                     'navigation' => $navigation,
                     ));
 
@@ -99,7 +100,7 @@ class FrontendController extends \fireice\Frontend\Controller\FrontendController
 
             // Хтмл комментариев (если нужно)
             if ($show) {
-               $modulesHtml[] = $tree->getNodeModule(223, 7)->frontend($idNode, false)->getContent();                
+               $modulesHtml[] = $tree->getNodeModule(328, $language, 7)->frontend($idNode, false)->getContent();                
             }
         } else {
             $modulesHtml['main'] = 'Ошибка!<br>Вы не имеете доступа к этой странице!';

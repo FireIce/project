@@ -7,7 +7,7 @@ class FrontendModel extends \fireice\Backend\Modules\Model\FrontendModel
     //protected $module_name = 'comments';
     protected $data = array ();
 
-    public function getFrontendData($sitetreeId, $moduleId, $params = array (),$language='ru')
+    public function getFrontendData($sitetreeId, $moduleId, $language, $params = array ())
     {
         $configPlugin = 'selectbox';
 
@@ -17,13 +17,19 @@ class FrontendModel extends \fireice\Backend\Modules\Model\FrontendModel
                 m_l.up_tree AS id_node,
                 md.idd AS id_module
             FROM 
+                TreeBundle:modulesitetree tr, 
                 DialogsBundle:moduleslink m_l,
                 DialogsBundle:modules md
             WHERE m_l.up_module = md.idd
+            AND m_l.language=:language
+            AND m_l.up_tree = tr.idd
+            AND (tr.status = 'active' OR tr.status = 'hidden')
+            AND tr.final = 'Y'
             AND md.status = 'active'
             AND md.final = 'Y'
             AND md.name = 'Comments'");
-
+        $query->setParameter('language', $language);
+   
         $result = $query->getSingleResult();
 
         $idNode = $result['id_node'];
@@ -89,6 +95,7 @@ class FrontendModel extends \fireice\Backend\Modules\Model\FrontendModel
             $this->data = $data;
 
             // Отсортируем в том порядке в каком они указаны в сущности
+           // print_r($data); print_r($plugins);
             foreach ($data as &$value) {
                 $tmp = $value['data'];
                 $value['data'] = array ();

@@ -17,7 +17,7 @@ class FrontendController extends \fireice\Backend\Modules\Controller\FrontendCon
         $model = $this->getModel();
 
         $request = $this->get('request');
-
+        $language = $this->language;
         $url = str_replace($params, '', trim($request->getUri(), '/'));
         $url = trim($url, '/');
 
@@ -51,7 +51,7 @@ class FrontendController extends \fireice\Backend\Modules\Controller\FrontendCon
                     $tree = new TreeController();
                     $tree->setContainer($this->container);
 
-                    $frontend = $tree->getNodeModule(238, 8)->saveMessage($feedback);
+                    $frontend = $tree->getNodeModule(238, $language , 8)->saveMessage($feedback);
 
                     $this->get('session')->set($request->getUri().'_success', true);
 

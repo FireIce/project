@@ -13,7 +13,7 @@ class FrontendController extends \fireice\Backend\Modules\Controller\FrontendCon
     {
         $model = $this->getModel();
 
-        $data = $model->getFrontendData($idNode, 0, array());
+        $data = $model->getFrontendData($idNode, 0, $this->language, array());
 
         $form = $this->createForm(new CommentsForm($model->getAnswers()));
 

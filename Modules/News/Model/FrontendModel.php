@@ -7,7 +7,7 @@ class FrontendModel extends \fireice\Backend\Modules\Model\FrontendModel
 
     //protected $module_name = 'news';
 
-    public function getFrontendData($sitetreeId, $moduleIid, $params = array (),$language='ru')
+    public function getFrontendData($sitetreeId, $moduleIid, $language, $params = array ())
     {
         $values = array ();
 
