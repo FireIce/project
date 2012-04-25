@@ -7,6 +7,7 @@ use project\Frontend\Model\FrontendModel;
 use fireice\Backend\Tree\Controller\TreeController;
 use project\Modules\Comments\Entity\modulecomments;
 use Symfony\Component\HttpFoundation\Request;
+
 class FrontendController extends \fireice\Frontend\Controller\FrontendController
 {
 
@@ -23,19 +24,19 @@ class FrontendController extends \fireice\Frontend\Controller\FrontendController
         return $this->model;
     }
 
-    public function showPage($idNode, $language, $params='')
+    public function showPage($idNode, $language, $params = '')
     {
         $frontendModel = $this->getModel();
-        
+
         $tree = new TreeController();
-        $tree->setContainer($this->container);    
-        
+        $tree->setContainer($this->container);
+
         $menu = array (
-            'right' => $frontendModel->getMenu(1,$language),
-            'sub' => $frontendModel->getMenu($idNode,$language),
+            'right' => $frontendModel->getMenu(1, $language),
+            'sub' => $frontendModel->getMenu($idNode, $language),
         );
-        $navigation = $frontendModel->getNavigation($idNode,$language);
-        $currentPage = $navigation[count($navigation) - 1];        
+        $navigation = $frontendModel->getNavigation($idNode, $language);
+        $currentPage = $navigation[count($navigation) - 1];
 
         if ($frontendModel->checkAccess($idNode)) {
             $nodeModules = $frontendModel->getNodeUsersModules($idNode, $language);
@@ -43,9 +44,9 @@ class FrontendController extends \fireice\Frontend\Controller\FrontendController
             // Определяем нужно ли показывать комментарии
             $show = false;
             $comments = array ();
-            $entity =  new modulecomments();
+            $entity = new modulecomments();
             $tmp = $entity->configNode();
-            
+
             foreach ($tmp['data']['modules'] as $value) {
                 $comments[] = ucfirst($value);
             }
@@ -58,7 +59,7 @@ class FrontendController extends \fireice\Frontend\Controller\FrontendController
             }
 
             $request = $this->get('request');
-  
+
             // Если нужно сохранить комент, то сохраняем и редерим на стр.
             if ($show && $request->getMethod() == 'POST' && $request->request->has('comments')) {
                 // Занести комент в БД
@@ -66,7 +67,7 @@ class FrontendController extends \fireice\Frontend\Controller\FrontendController
                 $form->bindRequest($request);
 
                 $info = $frontendModel->getCommentsInfo($language);
-                
+
                 $request->query->add(array (
                     'id' => $info['id_node'],
                     'id_module' => $info['id_module'],
@@ -88,19 +89,19 @@ class FrontendController extends \fireice\Frontend\Controller\FrontendController
 
             // Собираем хтмл
             foreach ($nodeModules as $key => $val) {
-                                              
-                $frontend = $tree->getNodeModule($idNode, $language,$key)->frontend($params,  array (
+
+                $frontend = $tree->getNodeModule($idNode, $language, $key)->frontend($params, array (
                     'navigation' => $navigation,
                     ));
 
                 if ($frontend->isRedirect()) return $frontend;
 
-                $modulesHtml[] = $frontend->getContent();                
+                $modulesHtml[] = $frontend->getContent();
             }
 
             // Хтмл комментариев (если нужно)
             if ($show) {
-               $modulesHtml[] = $tree->getNodeModule(328, $language, 7)->frontend($idNode, false)->getContent();                
+                $modulesHtml[] = $tree->getNodeModule(328, $language, 7)->frontend($idNode, false)->getContent();
             }
         } else {
             $modulesHtml['main'] = 'Ошибка!<br>Вы не имеете доступа к этой странице!';

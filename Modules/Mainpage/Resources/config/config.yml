@@ -10,7 +10,7 @@ parameters:
     modules:
         sitetree: 
           name: FireiceNodeDefault
-          multilanguage: no
+          multilanguage: yes
         frontend: 
           name: Mainpage
           multilanguage: yes
