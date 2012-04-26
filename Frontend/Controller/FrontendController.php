@@ -17,7 +17,8 @@ class FrontendController extends \fireice\Frontend\Controller\FrontendController
             $this->model = new FrontendModel(
                     $this->get('doctrine.orm.entity_manager'),
                     $this->get('acl'),
-                    $this->get('cache')
+                    $this->get('cache'),
+                    $this->container
             );
         }
 
