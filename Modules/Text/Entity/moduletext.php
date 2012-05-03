@@ -71,7 +71,7 @@ class moduletext
     public function configCheck()
     {
         // Источник - массив данных
-       /* 
+        
           return array(
           'type' => 'array',
           'data' => array(
@@ -80,11 +80,12 @@ class moduletext
           '2' => 'Чекбокс_2'
           )
           );
-         */
+         
 
         // Источник - другой узел
         
-          return array (
+        /*  
+           return array (
             'type' => 'node',
             'data' => array (
                 'id_node' => 149,
@@ -92,6 +93,7 @@ class moduletext
                 'plugin_id_for_title' => 1,
             )
         );
+         */
          
     }
 
