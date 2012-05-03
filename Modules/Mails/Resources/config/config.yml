@@ -12,8 +12,8 @@ parameters:
     modules:
         sitetree: 
           name: FireiceNodeDefault
-          multilanguage: no
+          multilanguage: yes
         frontend: 
           name: mails 
-          multilanguage: no
+          multilanguage: yes
     type: list
