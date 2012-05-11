@@ -59,9 +59,10 @@ class modulefireicenodedefault
     public function getConfig()
     {
         return array (
-            0 => array ('type' => 'text', 'name' => 'fireice_node_name', 'title' => 'Имя'),
-            1 => array ('type' => 'text', 'name' => 'fireice_node_title', 'title' => 'Заголовок'),
-            2 => array ('type' => 'datatime', 'name' => 'datatime', 'title' => 'Дата-время'),
+            0 => array ('type' => 'text', 'name' => 'fireice_node_name', 'title' => 'Имя', 'multi' => false),
+            1 => array ('type' => 'text', 'name' => 'fireice_node_title', 'title' => 'Заголовок для BackEnd', 'multi' => false),
+            2 => array ('type' => 'text', 'name' => 'fireice_node_title_lang', 'title' => 'Заголовок', 'multi' => true),
+            3 => array ('type' => 'datatime', 'name' => 'datatime', 'title' => 'Дата-время', 'multi' => false),
         );
     }
 

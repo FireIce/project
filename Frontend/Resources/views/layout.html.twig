@@ -1,31 +1,31 @@
 {% extends "::base.html.twig" %}
 
 {% block body %}  
-    <div align="right">Пользователь: {{ user.name }}<br><a href="{{ url('backoffice') }}">Админка</a> {% if not user.anon %}<a href="{{ url('_security_logout') }}">Выход</a>{% endif %}</div>                                          
-    <h1>Frontend:</h1>	
-    <div style="margin-bottom: 5px;">
-        {% for val in navigation %}
-        <a href="{{ url('homepage') }}{{ val.path }}">{{ val.title }}</a> {% if not loop.last %} &gt;&gt; {% endif %}
-        {% endfor %}
-    </div>
-    <table width="100%" border="1" cellpadding="10">
-        <tr>
-            <td>
-                <div>
-                    {% for key, v in menu.sub %}
-                    <a href="{{ url('homepage') }}{{ v.path }}">{% if v.title != '' %} {{ v.title }} {% else %} [Узел без названия] {% endif %}</a> |
-                    {% endfor %}                
-                </div><br>
-                {% block content %}{% endblock %}
-            </td>
-            <td width="250" style="vertical-align: top;">
-                <ul>
-                    {% for key, v in menu.right %}
-                    <li><a href="{{ url('homepage') }}{{ v.path }}">{{ v.title }}</a></li>
-                    {% endfor %}
-                </ul>
-            </td>
-        </tr>
-    </table>
-    
+<div align="right">Пользователь: {{ user.name }}<br><a href="{{ url('backoffice') }}">Админка</a> {% if not user.anon %}<a href="{{ url('_security_logout') }}">Выход</a>{% endif %}</div>                                          
+<h1>Frontend:</h1>
+<div style="margin-bottom: 5px;">
+    {% for val in navigation %}
+    <a href="{{ url('homepage') }}{{ val.path }}">{{ val.title }}</a> {% if not loop.last %} &gt;&gt; {% endif %}
+    {% endfor %}
+</div>
+<table width="100%" border="1" cellpadding="10">
+    <tr>
+        <td>
+            <div>
+                {% for key, v in menu.sub %}
+                <a href="{{ url('homepage') }}{{ v.path }}">{% if v.title != '' %} {{ v.title }} {% else %} [Узел без названия] {% endif %}</a> |
+                {% endfor %}                
+            </div><br>
+            {% block content %}{% endblock %}
+        </td>
+        <td width="250" style="vertical-align: top;">
+            <ul>
+                {% for key, v in menu.right %}
+                <li><a href="{{ url('homepage') }}{{ v.path }}">{{ v.title }}</a></li>
+                {% endfor %}
+            </ul>
+        </td>
+    </tr>
+</table>
+
 {% endblock %}

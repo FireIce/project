@@ -12,7 +12,7 @@ parameters:
     modules:
         sitetree: 
           name: FireiceNodeDefault
-          multilanguage: yes
+          multilanguage: no
         frontend: 
           name: News 
           multilanguage: yes

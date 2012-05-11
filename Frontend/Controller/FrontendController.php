@@ -53,7 +53,7 @@ class FrontendController extends \fireice\Frontend\Controller\FrontendController
             }
 
             foreach ($nodeModules as $key => $val) {
-                if (in_array($val, $comments)) {
+                if (in_array($val['name'], $comments)) {
                     $show = true;
                     break;
                 }
@@ -95,6 +95,7 @@ class FrontendController extends \fireice\Frontend\Controller\FrontendController
                     'navigation' => $navigation,
                     ));
 
+
                 if ($frontend->isRedirect()) return $frontend;
 
                 $modulesHtml[] = $frontend->getContent();
@@ -102,7 +103,7 @@ class FrontendController extends \fireice\Frontend\Controller\FrontendController
 
             // Хтмл комментариев (если нужно)
             if ($show) {
-                $modulesHtml[] = $tree->getNodeModule(395, $language, 7)->frontend($idNode, false)->getContent();
+                $modulesHtml[] = $tree->getNodeModule(17, $language, 1)->frontend($idNode, false)->getContent();
             }
         } else {
             $modulesHtml['main'] = 'Ошибка!<br>Вы не имеете доступа к этой странице!';

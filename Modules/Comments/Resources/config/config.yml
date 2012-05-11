@@ -11,7 +11,7 @@ parameters:
     modules:
         sitetree: 
           name: FireiceNodeDefault
-          multilanguage: yes
+          multilanguage: no
         frontend: 
           name: Comments 
           multilanguage: yes
