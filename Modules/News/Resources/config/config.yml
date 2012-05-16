@@ -16,5 +16,6 @@ parameters:
         frontend: 
           name: News 
           multilanguage: yes
-          
+         
     type: list
+    notnews: mini

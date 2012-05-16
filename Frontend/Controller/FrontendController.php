@@ -91,19 +91,23 @@ class FrontendController extends \fireice\Frontend\Controller\FrontendController
             // Собираем хтмл
             foreach ($nodeModules as $key => $val) {
 
-                $frontend = $tree->getNodeModule($idNode, $language, $key)->frontend($params, array (
+                $frontend = $tree->getNodeModule($idNode, $language, $key);
+
+                $frontend = $frontend->frontend($params, array (
                     'navigation' => $navigation,
+                    'language' => $language,
                     ));
 
 
                 if ($frontend->isRedirect()) return $frontend;
+                if ($frontend->isNotFound()) return $this->get404Page($language);
 
                 $modulesHtml[] = $frontend->getContent();
             }
 
             // Хтмл комментариев (если нужно)
             if ($show) {
-                $modulesHtml[] = $tree->getNodeModule(17, $language, 1)->frontend($idNode, false)->getContent();
+                // $modulesHtml[] = $tree->getNodeModule(14, $language, 1)->frontend($idNode, false)->getContent();
             }
         } else {
             $modulesHtml['main'] = 'Ошибка!<br>Вы не имеете доступа к этой странице!';

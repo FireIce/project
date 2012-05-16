@@ -13,7 +13,7 @@ class FrontendModel extends \fireice\Backend\Modules\Model\FrontendModel
 
         foreach ($this->getPlugins() as $plugin) {
             if (!isset($values[$plugin->getValue('type')])) {
-                $values[$plugin->getValue('type')] = $plugin->getData($sitetreeId, $moduleIid, $language, $this->getBundleName().':'.$this->getEntityName(),  self::TYPE_LIST);
+                $values[$plugin->getValue('type')] = $plugin->getData($sitetreeId, $moduleIid, $language, $this->getBundleName().':'.$this->getEntityName(), self::TYPE_LIST);
             }
         }
 
@@ -118,7 +118,11 @@ class FrontendModel extends \fireice\Backend\Modules\Model\FrontendModel
                     }
                 }
             } else {
-                $data = array ($data[$params['current']]);
+                if (isset($data[$params['current']])) {
+                    $data = array ($data[$params['current']]);
+                } else {
+                    $data = array ('error' => true);
+                }
             }
         }
 

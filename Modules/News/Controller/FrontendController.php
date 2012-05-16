@@ -3,6 +3,7 @@
 namespace project\Modules\News\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Response;
 
 class FrontendController extends \fireice\Backend\Modules\Controller\FrontendController
 {
@@ -10,7 +11,7 @@ class FrontendController extends \fireice\Backend\Modules\Controller\FrontendCon
     // Кол-во новостей на странице
     protected $pageLimit = 3;
 
-    public function frontend($param, $other=array ())
+    public function frontend($param, $other = array ())
     {
         $model = $this->getModel();
 
@@ -36,13 +37,26 @@ class FrontendController extends \fireice\Backend\Modules\Controller\FrontendCon
                         $parametres += array (
                             'current' => $matches[2],
                         );
+                        $load = $this->load($parametres);
 
-                        return $this->render($model->getBundleName().':Frontend:item.html.twig', array (
-                                'data' => $this->load($parametres),
-                                'url' => $url,
-                                'navigation' => $other['navigation'],        
-                                'current' => $this->idNode
-                            ));
+                        if (isset($load['data']['error']) && true == $load['data']['error']) {
+                            $configMain = $this->get('cache')->getModuleConfig($model->getModuleName());
+                            if ('mini' == $configMain['parameters']['notnews']) {
+                                return $this->render($model->getBundleName().':Frontend:notnews.html.twig', array ('language' => $other['language']));
+                            }
+                            if ('404' == $configMain['parameters']['notnews']) {
+                                $response = new Response(null, 404);
+                                $response->headers->set('Content-Type', 'text/html');
+                                return $response;
+                            }
+                        } else {
+                            return $this->render($model->getBundleName().':Frontend:item.html.twig', array (
+                                    'data' => $load,
+                                    'url' => $url,
+                                    'navigation' => $other['navigation'],
+                                    'current' => $this->idNode
+                                ));
+                        }
                     }
                     break;
                 }
@@ -62,7 +76,7 @@ class FrontendController extends \fireice\Backend\Modules\Controller\FrontendCon
                 'pager' => $pager,
                 'url' => $url,
                 'navigation' => $other['navigation'],
-                'current' => $this->idNode            
+                'current' => $this->idNode
             ));
     }
 

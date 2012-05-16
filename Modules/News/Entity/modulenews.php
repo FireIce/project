@@ -69,7 +69,22 @@ class modulenews
             3 => array ('type' => 'text', 'name' => 'test', 'title' => 'Тест'),
             4 => array ('type' => 'text', 'name' => 'test2', 'title' => 'Тест2'),
             5 => array ('type' => 'text', 'name' => 'fireice_order', 'title' => 'Порядок'),
+            6 => array ('type' => 'selectbox', 'name' => 'select', 'title' => 'Тестовый селектбокс'),
         );
+    }
+     public function configSelect()
+    {
+        // Источник - массив данных
+        
+          return array(
+          'type' => 'array',
+          'data' => array(
+          '0' => '--------',
+          '1' => 'Селект_1',
+          '2' => 'Селект_2',
+          '3' => 'Селект_3'
+          )
+          );
     }
 
     /*

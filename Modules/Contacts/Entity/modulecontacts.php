@@ -66,13 +66,14 @@ class modulecontacts
             4 => array ('type' => 'selectbox', 'name' => 'select', 'title' => 'Тестовый селектбокс'),
             5 => array ('type' => 'radiobutton', 'name' => 'radio', 'title' => 'Тестовый радиобаттон'),
             6 => array ('type' => 'text', 'name' => 'test2', 'title' => 'Добавочный'),
+            7 => array ('type' => 'text', 'name' => 'test3', 'title' => 'Добавочный'),
         );
     }
 
     public function configSelect()
     {
         // Источник - массив данных
-        /*
+        
           return array(
           'type' => 'array',
           'data' => array(
@@ -82,17 +83,17 @@ class modulecontacts
           '3' => 'Селект_3'
           )
           );
-         */
+         
 
         // Источник - другой узел
-        return array (
+        /*return array (
             'type' => 'node',
             'data' => array (
                 'id_node' => 150,
                 'id_module' => 4,
                 'plugin_id_for_title' => 1,
             )
-        );
+        );*/
     }
 
     public function configRadio()
