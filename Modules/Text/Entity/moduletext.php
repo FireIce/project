@@ -65,36 +65,67 @@ class moduletext
             3 => array ('type' => 'checkbox', 'name' => 'check2', 'title' => 'Тестовый чекбокс_2'),
             4 => array ('type' => 'ckeditor', 'name' => 'content', 'title' => 'Контент'),
             5 => array ('type' => 'uploadimage', 'name' => 'upload', 'title' => 'Загрузка картинки', 'show_add_button' => 1),
+            6 => array ('type' => 'selectbox', 'name' => 'select', 'title' => 'select'),
+            7 => array ('type' => 'selectbox', 'name' => 'select2', 'title' => 'select2'),
+        );
+    }
+
+    public function configSelect()
+    {
+        // Источник - массив данных
+
+        return array (
+            'type' => 'array',
+            'data' => array (
+                '0' => '--------',
+                '1' => 'Селект_1',
+                '2' => 'Селект_2',
+                '3' => 'Селект_3'
+            )
+        );
+    }
+
+    public function configSelect2()
+    {
+        // Источник - массив данных
+
+        return array (
+            'type' => 'array',
+            'data' => array (
+                '0' => '--------',
+                '1' => 'Селект_5',
+                '2' => 'Селект_6',
+                '3' => 'Селект_7'
+            )
         );
     }
 
     public function configCheck()
     {
         // Источник - массив данных
-        
-          return array(
-          'type' => 'array',
-          'data' => array(
-          '0' => 'Чекбокс_0',
-          '1' => 'Чекбокс_1',
-          '2' => 'Чекбокс_2'
-          )
-          );
-         
 
-        // Источник - другой узел
-        
-        /*  
-           return array (
-            'type' => 'node',
+        return array (
+            'type' => 'array',
             'data' => array (
-                'id_node' => 149,
-                'id_module' => 4,
-                'plugin_id_for_title' => 1,
+                '0' => 'Чекбокс_0',
+                '1' => 'Чекбокс_1',
+                '2' => 'Чекбокс_2'
             )
         );
+
+
+        // Источник - другой узел
+
+        /*
+          return array (
+          'type' => 'node',
+          'data' => array (
+          'id_node' => 149,
+          'id_module' => 4,
+          'plugin_id_for_title' => 1,
+          )
+          );
          */
-         
     }
 
     public function configCheck2()

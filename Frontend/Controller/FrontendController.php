@@ -107,7 +107,7 @@ class FrontendController extends \fireice\Frontend\Controller\FrontendController
 
             // Хтмл комментариев (если нужно)
             if ($show) {
-                // $modulesHtml[] = $tree->getNodeModule(14, $language, 1)->frontend($idNode, false)->getContent();
+                $modulesHtml[] = $tree->getNodeModule(16, $language, 1)->frontend($idNode, false)->getContent();
             }
         } else {
             $modulesHtml['main'] = 'Ошибка!<br>Вы не имеете доступа к этой странице!';

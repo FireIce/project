@@ -234,14 +234,14 @@ class BackendModel extends \project\Modules\News\Model\BackendModel
                         WHERE md.eid IS NULL            
                         AND m_l.up_tree = ".$this->request->get('id')."
                         AND m_l.up_module = ".$this->request->get('id_module')."
-                        AND m_l.language = ".$this->request->get('language')."
+                        AND m_l.language = :language
                         AND m_l.id = mp_l.up_link
                         AND mp_l.up_plugin = md.idd
                         AND md.final != 'N'
                         AND md.row_id = ".$this->request->get('id_row')."
                         AND md.plugin_name = '".$plugin->getValue('name')."'
                         AND md.plugin_type = '".$plugin->getValue('type')."'");
-
+                $query->setParameter('language', $this->request->get('language'));
                 $result = $query->getResult();
 
                 if ($result !== array ()) {
